@@ -1,6 +1,12 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const ContainerProperties: PropertiesTableProps = {
+  size: {
+    doc: 'Use `small` for compact rows with less vertical padding and smaller corners. Text size stays unchanged, and rows grow to fit their content. Nested containers default to the regular size. Individual items can override their container size.',
+    type: ['"default"', '"small"'],
+    defaultValue: '"default"',
+    status: 'optional',
+  },
   layoutEngine: {
     doc: 'Select the internal Flex layout engine. Defaults to `css`. Use `legacy` only as a temporary compatibility fallback while migrating an existing custom list integration.',
     type: ['"css"', '"legacy"'],
@@ -58,6 +64,11 @@ export const ContainerProperties: PropertiesTableProps = {
 }
 
 export const ItemContentProperties: PropertiesTableProps = {
+  size: {
+    doc: 'Use `small` for compact rows with less vertical padding and smaller corners. Text size stays unchanged, and rows grow to fit their content. Nested containers default to the regular size. Individual items can override their container size.',
+    type: ['"default"', '"small"'],
+    status: 'optional',
+  },
   selected: {
     doc: 'When provided, the row is treated as a selectable item for nested checkbox/radio controls. When `true`, it also applies the selected state styling (e.g. background).',
     type: 'boolean',

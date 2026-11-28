@@ -50,6 +50,36 @@ export const SimpleRows = () => {
   )
 }
 
+export const SmallRows = () => (
+  <ComponentBox>
+    <List.Container>
+      <List.Item.Accordion title="Account" open>
+        <List.Item.Accordion.Content innerSpace>
+          <Heading size="small" bottom="small">
+            Recent transactions
+          </Heading>
+          <List.Container size="small" aria-label="Recent transactions">
+            <List.Item.Action pending>
+              <List.Cell.Start>3 Oct.</List.Cell.Start>
+              <List.Cell.Title>Reserved: One Call AS</List.Cell.Title>
+              <List.Cell.End fontWeight="regular">
+                <NumberFormat.Currency value={-824} />
+              </List.Cell.End>
+            </List.Item.Action>
+            <List.Item.Action href="#transaction">
+              <List.Cell.Start>3 Oct.</List.Cell.Start>
+              <List.Cell.Title>One Call AS</List.Cell.Title>
+              <List.Cell.End fontWeight="regular">
+                <NumberFormat.Currency value={-824} />
+              </List.Cell.End>
+            </List.Item.Action>
+          </List.Container>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
+  </ComponentBox>
+)
+
 const NestedRow = ({
   overline,
   subline,

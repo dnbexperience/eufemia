@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { clsx } from 'clsx'
-import type { ListVariant } from './ListContext'
+import type { ListSize, ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
 import type { FlexContainerAllProps as FlexProps } from '../flex/Container'
 import FlexContainer from '../flex/Container'
@@ -13,6 +13,10 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 export type ItemContentProps = {
   id?: string
   variant?: ListVariant
+  /**
+   * Use `small` for compact rows with less vertical padding and smaller corners. Text size stays unchanged, and rows grow to fit their content. Nested containers default to the regular size. Individual items can override their container size.
+   */
+  size?: ListSize
   selected?: boolean
   pending?: boolean
   disabled?: boolean
@@ -29,6 +33,7 @@ function ItemContent(props: ItemContentProps) {
     className,
     children,
     variant,
+    size,
     selected,
     pending,
     disabled,
@@ -37,6 +42,8 @@ function ItemContent(props: ItemContentProps) {
     ...rest
   } = props
   const context = useContext(Context)
+  const inheritedSize = useContext(ListContext)?.size
+  const appliedSize = size ?? inheritedSize
   const inheritedVariant = useContext(ListContext)?.variant
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const inheritedDisabled = useContext(ListContext)?.disabled
@@ -55,6 +62,7 @@ function ItemContent(props: ItemContentProps) {
         'dnb-list__item',
         'dnb-t__size--basis',
         appliedVariant && `dnb-list--variant-${appliedVariant}`,
+        appliedSize && `dnb-list--size-${appliedSize}`,
         selected !== undefined && 'dnb-list__item--selection',
         selected && 'dnb-list__item--selected',
         pending && 'dnb-list__item--pending',

@@ -9,7 +9,7 @@ import {
 } from 'react'
 import type { HTMLAttributes } from 'react'
 import { clsx } from 'clsx'
-import type { ListVariant } from './ListContext'
+import type { ListSize, ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
 import type { StackProps as FlexProps } from '../flex/Stack'
 import FlexContainer from '../flex/Stack'
@@ -42,6 +42,11 @@ export type ListContainerProps = {
    */
   openOnFind?: boolean
   variant?: ListVariant
+  /**
+   * Use `small` for compact rows with less vertical padding and smaller corners. Text size stays unchanged, and rows grow to fit their content. Nested containers default to the regular size. Individual items can override their container size.
+   * Default: `"default"`
+   */
+  size?: ListSize
   separated?: boolean
   /**
    * Applies alternating row background colors to the list items. Use `true` or `odd` to color odd items, or `even` to color even items.
@@ -59,6 +64,7 @@ function ListContainer(props: ListContainerProps) {
     visibleCount,
     openOnFind = true,
     variant = 'basic',
+    size = 'default',
     separated = false,
     striped = false,
     skeleton,
@@ -160,6 +166,7 @@ function ListContainer(props: ListContainerProps) {
         'dnb-list',
         'dnb-list__container',
         variant && `dnb-list--variant-${variant}`,
+        `dnb-list--size-${size}`,
         separated && 'dnb-list--separated',
         striped && 'dnb-list--striped',
         striped === 'even' && 'dnb-list--striped-even',
@@ -175,6 +182,7 @@ function ListContainer(props: ListContainerProps) {
     <ListContext
       value={{
         variant,
+        size,
         separated,
         skeleton: appliedSkeleton,
         disabled: appliedDisabled,

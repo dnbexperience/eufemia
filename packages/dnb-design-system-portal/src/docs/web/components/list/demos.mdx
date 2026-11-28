@@ -14,6 +14,14 @@ Use plain text children or the `title` prop for a simple row. Both have horizont
 
 <Examples.PlainTextRows />
 
+### Small rows
+
+Use `size="small"` on a container or individual item for compact rows with smaller corners. The regular size remains the default, including in nested containers. Text size and responsive wrapping stay unchanged. Rows grow when content needs more room.
+
+This example uses the existing `pending` state on the reserved transaction. It shows diagonal stripes and disables the action.
+
+<Examples.SmallRows />
+
 ### Custom title spacing
 
 A title keeps its right padding when preceded by an icon or `List.Cell.Start`. Override the title's `innerSpace` to customize its padding.
