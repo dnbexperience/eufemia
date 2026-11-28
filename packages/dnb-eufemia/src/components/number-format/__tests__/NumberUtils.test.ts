@@ -140,11 +140,10 @@ describe('Decimals format', () => {
       '−12 345,6789 kr'
     )
     expect(
-      // more than 20 numbers
       formatNumber('-1.123456789123456789', {
         decimals: undefined,
       })
-    ).toBe('−1,1234567891234568')
+    ).toBe('−1,123456789123456789')
     expect(formatCurrency(null, { currency: 'non-valid value' })).toBe('–')
     expect(
       formatCurrency(undefined, { currency: 'non-valid value' })
@@ -183,6 +182,155 @@ describe('Decimals format', () => {
       number: 'invalid',
       type: 'number',
       value: 'invalid',
+    })
+  })
+
+  describe('exact decimal amounts', () => {
+    it.each([
+      [1.15, 'omit', '1.15'],
+      ['-1.15', 'omit', '−1.15'],
+      [1.015, 'half-even', '1.02'],
+      ['-1.015', 'half-even', '−1.02'],
+      ['9007199254740993', 'half-up', '9,007,199,254,740,993.00'],
+      ['9007199254740993.995', 'half-even', '9,007,199,254,740,994.00'],
+      ['9007199254740993.019', 'omit', '9,007,199,254,740,993.01'],
+    ] as const)('formats %s with %s', (value, rounding, expected) => {
+      const options = {
+        locale: 'en-GB',
+        decimals: 2,
+        rounding,
+        returnAria: true,
+        cleanCopyValue: true,
+      } as const
+      const cleanedValue = expected.replace(/,/g, '').replace('−', '-')
+      expect.soft(formatNumber(value, options)).toMatchObject({
+        number: expected,
+        aria: expected,
+        cleanedValue,
+      })
+      expect
+        .soft(
+          formatCurrency(value, {
+            ...options,
+            currency: 'GBP',
+            currencyDisplay: 'symbol',
+          })
+        )
+        .toMatchObject({
+          number: expected.replace(/^(−?)/, '$1£'),
+          aria: `${expected} British pounds`,
+          cleanedValue,
+        })
+    })
+
+    it('preserves the sign of an amount rounded to zero when requested', () => {
+      expect(
+        formatNumber(-0.005, {
+          locale: 'en-GB',
+          decimals: 2,
+          rounding: 'half-even',
+          returnAria: true,
+          cleanCopyValue: true,
+          signDisplay: 'always',
+        })
+      ).toMatchObject({
+        number: '−0.00',
+        aria: '−0.00',
+        cleanedValue: '-0.00',
+      })
+      expect(
+        formatNumber('-0', { locale: 'en-GB', signDisplay: 'always' })
+      ).toBe('−0')
+    })
+
+    it('formats a large decimal on engines that coerce strings to numbers', () => {
+      const prototype = Intl.NumberFormat.prototype
+      const original = prototype.formatToParts
+      const resolvedOptions = prototype.resolvedOptions
+      using _parts = vi
+        .spyOn(prototype, 'formatToParts')
+        .mockImplementation(function (this: Intl.NumberFormat, value) {
+          return original.call(
+            this,
+            typeof value === 'string' ? Number(value) : value
+          )
+        })
+      using _options = vi
+        .spyOn(prototype, 'resolvedOptions')
+        .mockImplementation(function (this: Intl.NumberFormat) {
+          const options = resolvedOptions.call(this)
+          Reflect.deleteProperty(options, 'roundingMode')
+          return options
+        })
+      expect(
+        formatCurrency('-9007199254740993.015', {
+          locale: 'en-GB',
+          currency: 'GBP',
+          currencyDisplay: 'symbol',
+          decimals: 2,
+          rounding: 'half-even',
+          cleanCopyValue: true,
+          returnAria: true,
+        })
+      ).toMatchObject({
+        number: '−£9,007,199,254,740,993.02',
+        aria: '−9,007,199,254,740,993.02 British pounds',
+        cleanedValue: '-9007199254740993.02',
+      })
+    })
+
+    it('keeps literal digits beyond the finite range of a double', () => {
+      const whole = '9'.repeat(310)
+      expect(
+        formatNumber(whole + '.15', {
+          locale: 'en-GB',
+          options: { useGrouping: false },
+        })
+      ).toBe(whole + '.15')
+    })
+
+    it('keeps the last digit of a large percentage string', () => {
+      expect(
+        formatPercent('9007199254740993', {
+          locale: 'en-GB',
+          returnAria: true,
+          cleanCopyValue: true,
+        })
+      ).toMatchObject({
+        number: '9,007,199,254,740,993%',
+        aria: '9,007,199,254,740,993 per cent',
+        cleanedValue: '9007199254740993',
+      })
+      expect(
+        formatPercent('-9007199254740993.5', {
+          locale: 'en-GB',
+          decimals: 1,
+          cleanCopyValue: true,
+          returnAria: true,
+        })
+      ).toMatchObject({
+        number: '−9,007,199,254,740,993.5%',
+        cleanedValue: '-9007199254740993.5',
+      })
+    })
+
+    it('rounds decimal ties in the shared helper and percent formatter', () => {
+      expect.soft(roundHalfEven(-1.015)).toBe(-1.02)
+      expect
+        .soft(
+          formatPercent(1.015, {
+            locale: 'en-US',
+            decimals: 2,
+            rounding: 'half-even',
+            cleanCopyValue: true,
+            returnAria: true,
+          })
+        )
+        .toMatchObject({
+          number: '1.02%',
+          aria: '1.02 percent',
+          cleanedValue: '1.02',
+        })
     })
   })
 

@@ -11,6 +11,7 @@ import {
   NUMBER_MINUS_SIGN,
 } from './constants'
 import { getFallbackCurrencyDisplay } from './currencyDisplay'
+import { parseDecimal, roundDecimal } from './decimalValue'
 import type {
   NumberFormatValue,
   FormatPartItem,
@@ -59,14 +60,97 @@ function getNumberFormat(
   return formatter
 }
 
+// The ES2022 Intl types do not include decimal string input.
+type DecimalNumberFormat = Intl.NumberFormat & {
+  formatToParts(value: string): Intl.NumberFormatPart[]
+}
+
+function decimalParts(
+  inst: DecimalNumberFormat,
+  input: string,
+  locale: string,
+  allowNumericPrefix: boolean
+) {
+  const decimal = parseDecimal(input)
+  if (!decimal) {
+    return inst.formatToParts(
+      allowNumericPrefix ? parseFloat(input) : Number(input)
+    )
+  }
+  const { sign, integer, fraction } = decimal
+  if (!fraction || !/[1-9]/.test(fraction)) {
+    // BigInt works even on engines that coerce string inputs to doubles.
+    return inst.formatToParts(
+      integer === '0' ? Number(sign + '0') : BigInt(sign + integer)
+    )
+  }
+  const opts = inst.resolvedOptions()
+  if (
+    ('roundingMode' in opts && integer.length < 309) ||
+    opts.notation !== 'standard' ||
+    opts.maximumFractionDigits === undefined ||
+    opts.style === 'percent'
+  ) {
+    return inst.formatToParts(input)
+  }
+
+  // Firefox 115 and Safari 14 cannot format decimal strings directly. Format
+  // the integer as BigInt and localize the rounded fraction independently.
+  const rounded = roundDecimal(
+    decimal,
+    opts.maximumFractionDigits,
+    'half-up'
+  )
+  const [whole, tail = ''] = rounded.split('.')
+  const digits = tail.padEnd(opts.minimumFractionDigits, '0')
+  const parts = inst.formatToParts(whole === '-0' ? -0 : BigInt(whole))
+  if (!tail) {
+    return parts
+  }
+  const localDigits = getNumberFormat(locale, {
+    numberingSystem: opts.numberingSystem,
+    useGrouping: false,
+    minimumIntegerDigits: 1,
+  })
+  // Format with a leading 1 to preserve leading zeros, even in non-Latin scripts.
+  const localizedFraction = Array.from(
+    localDigits.format(BigInt('1' + digits))
+  )
+    .slice(1)
+    .join('')
+  // Keep a nonzero fraction in the pattern even when the exact value is too
+  // precise for a double. Intl supplies the separators, sign and currency name.
+  const sample = inst.formatToParts(
+    Number(sign + integer.slice(-3) + '.1')
+  )
+  const start = sample.findIndex(isIntegerPart)
+  return [
+    ...sample.slice(0, start),
+    ...parts.filter(isIntegerPart),
+    ...sample
+      .slice(start + sample.filter(isIntegerPart).length)
+      .map((part) =>
+        part.type === 'fraction'
+          ? { ...part, value: localizedFraction }
+          : part
+      ),
+  ]
+}
+
+function isIntegerPart({ type }: Intl.NumberFormatPart) {
+  return type === 'integer' || type === 'group'
+}
+
 function getFormatParts({
   number,
   locale = null,
   options = null,
+  allowNumericPrefix = false,
 }: {
   number: NumberFormatValue
   locale?: string | null
   options?: InternalNumberFormatOptions | null
+  allowNumericPrefix?: boolean
 }): FormatPartItem[] {
   if (
     typeof Intl !== 'undefined' &&
@@ -77,7 +161,14 @@ function getFormatParts({
       toIntlOptions(options || {})
     )
     if (typeof inst.formatToParts === 'function') {
-      return inst.formatToParts(Number(number))
+      return typeof number === 'string'
+        ? decimalParts(
+            inst as DecimalNumberFormat,
+            number,
+            locale || LOCALE,
+            allowNumericPrefix
+          )
+        : inst.formatToParts(number)
     }
     return [{ value: inst.format(Number(number)), type: 'unknown' }]
   }
@@ -322,7 +413,8 @@ export const formatNumberCoreParts = (
     parts = normalizeMinusSign(
       removeMinusSignFromZero(
         getFormatParts({
-          number: formatter ? Number(number) : parseFloat(String(number)),
+          number,
+          allowNumericPrefix: !formatter,
           locale,
           options,
         }),
@@ -333,6 +425,7 @@ export const formatNumberCoreParts = (
     number = joinParts(parts)
 
     if (
+      (!options.signDisplay || options.signDisplay === 'auto') &&
       new RegExp(`^(${NUMBER_MINUS})(0|0[^\\d]|0\\s.*)$`).test(
         String(number)
       )
