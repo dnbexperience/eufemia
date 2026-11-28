@@ -23,8 +23,15 @@ export const UnstyledExample = () => (
         display: flex;
         justify-content: space-between;
         width: 100%;
-        &:hover {
-          color: var(--color-fire-red);
+        @media (any-hover: hover) {
+          &:hover:not(
+              :where(
+                html[data-whatintent='touch'] *,
+                html[data-whatintent='keyboard'] *
+              )
+            ) {
+            color: var(--color-fire-red);
+          }
         }
         &:active {
           opacity: 0.6;
