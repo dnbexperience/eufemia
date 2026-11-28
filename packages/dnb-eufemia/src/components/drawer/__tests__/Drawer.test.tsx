@@ -1063,15 +1063,22 @@ describe('Drawer reveal', () => {
       </>
     )
 
-  const swipe = (element: Element, distance: number, cancel = false) => {
+  const swipe = (
+    element: Element,
+    distance: number,
+    cancel = false,
+    from = 20
+  ) => {
     fireEvent.touchStart(element, {
-      touches: [{ clientX: 20, clientY: 100 }],
+      touches: [{ clientX: from, clientY: 100 }],
     })
     fireEvent.touchMove(element, {
-      touches: [{ clientX: 20 + Math.sign(distance) * 10, clientY: 100 }],
+      touches: [
+        { clientX: from + Math.sign(distance) * 10, clientY: 100 },
+      ],
     })
     fireEvent.touchMove(element, {
-      touches: [{ clientX: 20 + distance, clientY: 100 }],
+      touches: [{ clientX: from + distance, clientY: 100 }],
     })
     if (cancel) {
       fireEvent.touchCancel(element, { touches: [] })
@@ -1578,6 +1585,122 @@ describe('Drawer reveal', () => {
     ).toBe(true)
     fireEvent.touchEnd(heading, { touches: [] })
     expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+  })
+
+  it('leaves swipes from the screen edges to browser navigation while the menu is closed', () => {
+    renderReveal()
+    swipe(document.querySelector('#reveal-page p'), 220, false, 5)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+
+    // The exposed page next to the open menu reaches the screen edge
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    swipe(
+      document.querySelector('.dnb-drawer__content h1'),
+      -220,
+      false,
+      window.innerWidth - 5
+    )
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
+  it.each([
+    { distance: 40, cancel: true, open: false },
+    { distance: 40, cancel: false, open: false },
+    { distance: 600, cancel: false, open: true },
+  ])(
+    'settles a swipe that ends before the Drawer renders: %j',
+    ({ distance, cancel, open }) => {
+      renderReveal()
+
+      // Browsers can deliver the whole gesture before React renders.
+      act(() => {
+        swipe(document.querySelector('#reveal-page p'), distance, cancel)
+      })
+
+      expect(Boolean(document.querySelector('[role=dialog]'))).toBe(open)
+    }
+  )
+
+  it.each([
+    { distance: 40, open: false },
+    { distance: 250, open: true },
+  ])(
+    'uses maxWidth to settle a swipe that ends before the Drawer renders: %j',
+    ({ distance, open }) => {
+      const getBoundingClientRect = vi
+        .mocked(HTMLElement.prototype.getBoundingClientRect)
+        .getMockImplementation()
+      vi.mocked(
+        HTMLElement.prototype.getBoundingClientRect
+      ).mockImplementation(function (this: HTMLElement) {
+        const bounds = getBoundingClientRect.call(this)
+        return this.style.visibility === 'hidden'
+          ? { ...bounds, width: parseFloat(this.style.width) }
+          : bounds
+      })
+      renderReveal({ maxWidth: '300px' })
+
+      // Half of 300 px, not of 90% of the 1024 px window
+      act(() => {
+        swipe(document.querySelector('#reveal-page p'), distance)
+      })
+
+      expect(Boolean(document.querySelector('[role=dialog]'))).toBe(open)
+    }
+  )
+
+  it('settles a short drag when maxWidth changes during it', () => {
+    const { rerender } = renderReveal({ maxWidth: '300px' })
+    const page = document.querySelector('#reveal-page p')
+    fireEvent.touchStart(page, {
+      touches: [{ clientX: 40, clientY: 100 }],
+    })
+    fireEvent.touchMove(page, { touches: [{ clientX: 50, clientY: 100 }] })
+    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+
+    rerender(
+      <>
+        <main id="reveal-page">
+          <p>Page content</p>
+          <button>Page action</button>
+        </main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+          maxWidth="320px"
+        >
+          <h1>Menu</h1>
+          <button>Menu action</button>
+          <input type="range" aria-label="Menu setting" />
+        </Drawer>
+      </>
+    )
+    fireEvent.touchMove(page, { touches: [{ clientX: 60, clientY: 100 }] })
+    fireEvent.touchEnd(page, { touches: [] })
+
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
+  it('drops a drag whose end never reached the document', () => {
+    renderReveal()
+
+    // Touch events stay on a removed target, so the document misses them.
+    const item = document.createElement('span')
+    document.querySelector('#reveal-page').append(item)
+    fireEvent.touchStart(item, {
+      touches: [{ clientX: 40, clientY: 100 }],
+    })
+    fireEvent.touchMove(item, { touches: [{ clientX: 50, clientY: 100 }] })
+    item.remove()
+    fireEvent.touchEnd(item, { touches: [] })
+
+    swipe(document.querySelector('#reveal-page p'), 220, false, 5)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+    expect(
+      (document.querySelector('#reveal-page') as HTMLElement).style
+        .transform
+    ).toBe('')
   })
 
   it('keeps the normal Drawer behavior for other placements', () => {
