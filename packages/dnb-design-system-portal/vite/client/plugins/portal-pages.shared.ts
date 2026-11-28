@@ -45,6 +45,8 @@ export type KnownFrontmatter = {
   }
   /** Old URL fragments that now belong to other pages. */
   legacyFragments?: Record<string, string>
+  /** Old fragments of the removed Events tab, used by its redirects only. */
+  legacyEventsFragments?: Record<string, string>
   /** Former URL prefixes for all descendant pages, including TSX routes. */
   legacyPrefixes?: string[]
   /**
@@ -253,7 +255,11 @@ export function getPageRedirects(files: PageFileInfo[]) {
         // without a fragment opens the Events section of the Properties tab.
         fragments:
           file.slug.endsWith('/properties') && from.endsWith('/events')
-            ? { '': to + '#events', ...fragments }
+            ? {
+                '': to + '#events',
+                ...fragments,
+                ...file.frontmatter.legacyEventsFragments,
+              }
             : fragments,
       })
     }

@@ -275,6 +275,48 @@ legacyFragments:
       replace: true,
       to: '/web/components/button/properties/#events',
     })
+
+    // Old Events tab headings that are Properties headings now
+    for (const [from, to] of [
+      [
+        '/uilib/patterns-and-extensions/table-of-content/events#tableofcontentitem',
+        '/web/patterns-and-extensions/table-of-content/properties/#tableofcontentitem-events',
+      ],
+      [
+        '/web/components/search/events#searchinput',
+        '/web/components/search/properties/#searchinput-events',
+      ],
+    ]) {
+      const url = new URL(from, 'https://eufemia.dnb.no')
+      const routes = generated(
+        React,
+        'Navigate',
+        null,
+        () => ({ pathname: url.pathname, search: '', hash: url.hash }),
+        resolvePageRedirect,
+        {}
+      )
+      const route = routes.find(({ path }) => path === url.pathname)
+      expect(route.Component()).toMatchObject({ replace: true, to })
+    }
+
+    // The same fragments still open the Properties headings
+    const pages = toMdxNodes(
+      scanPageFiles(path.resolve(__dirname, '../../../src/docs'))
+    )
+    for (const [slug, key] of [
+      [
+        'web/patterns-and-extensions/table-of-content/properties',
+        'tableofcontentitem',
+      ],
+      ['web/components/search/properties', 'searchinput'],
+    ]) {
+      const page = pages.find(({ fields }) => fields.slug === slug)
+      expect(page).toBeDefined()
+      expect(page.frontmatter.legacyFragments ?? {}).not.toHaveProperty(
+        key
+      )
+    }
   })
   it('keeps TSX routes and first-tab aliases through MDX-defined prefixes', () => {
     const files = scanPageFiles(
