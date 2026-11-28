@@ -85,3 +85,22 @@
   // reset ePlatform css
   @include reset.resetLegacyStyles();
 }
+
+// Global reduced motion support for accessibility
+// Pass a $scope to limit the rule to a wrapper element and its content
+@mixin globalReducedMotion($scope: null) {
+  $selector: '*, *::before, *::after';
+
+  @if $scope {
+    $selector: '#{$scope}, #{$scope} *, #{$scope} *::before, #{$scope} *::after';
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #{$selector} {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
