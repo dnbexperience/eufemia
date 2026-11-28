@@ -1524,12 +1524,17 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--token-color-stroke-action-disabled);
 }
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-dropdown__status--error .dnb-button--tertiary:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-dropdown__status--error .dnb-button--tertiary:hover:not([disabled]):where(:not([aria-disabled=true]))::before {
+    --border-width: var(--dropdown-border-width--open);
+  }
+}
 .dnb-dropdown .dnb-button--tertiary[disabled] {
   --button-tertiary-focus-left: 0;
   --button-tertiary-focus-right: 0;
-}
-.dnb-dropdown__status--error .dnb-button--tertiary:not([disabled]):hover::before {
-  --border-width: var(--dropdown-border-width--open);
 }
 .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell, .dnb-dropdown--is-popup .dnb-dropdown__trigger {
   padding: 0;
@@ -1870,12 +1875,17 @@ html:not([data-whatinput=touch]) .dnb-dropdown__trigger.dnb-button--secondary:fo
 .dnb-dropdown__status--error .dnb-button--tertiary:disabled::before {
   --border-color: var(--token-color-stroke-action-disabled);
 }
+@media (any-hover: hover) {
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-dropdown__status--error .dnb-button--tertiary:hover[disabled] {
+    cursor: not-allowed;
+  }
+  html:not([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-dropdown__status--error .dnb-button--tertiary:hover:not([disabled]):where(:not([aria-disabled=true]))::before {
+    --border-width: var(--dropdown-border-width--open);
+  }
+}
 .dnb-dropdown .dnb-button--tertiary[disabled] {
   --button-tertiary-focus-left: 0;
   --button-tertiary-focus-right: 0;
-}
-.dnb-dropdown__status--error .dnb-button--tertiary:not([disabled]):hover::before {
-  --border-width: var(--dropdown-border-width--open);
 }
 .dnb-dropdown--default.dnb-dropdown--is-popup .dnb-dropdown__shell, .dnb-dropdown--is-popup .dnb-dropdown__trigger {
   padding: 0;

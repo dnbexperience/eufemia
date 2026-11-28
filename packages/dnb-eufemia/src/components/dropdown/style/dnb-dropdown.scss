@@ -281,15 +281,16 @@
     &:disabled::before {
       --border-color: var(--token-color-stroke-action-disabled);
     }
+
+    @include utilities.hover() {
+      &::before {
+        --border-width: var(--dropdown-border-width--open);
+      }
+    }
   }
   .dnb-button--tertiary[disabled] {
     --button-tertiary-focus-left: 0;
     --button-tertiary-focus-right: 0;
-  }
-  &__status--error .dnb-button--tertiary:not([disabled]) {
-    &:hover::before {
-      --border-width: var(--dropdown-border-width--open);
-    }
   }
 
   // Button only menu
