@@ -1,0 +1,50 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Badge, Button, VisuallyHidden } from '@dnb/eufemia/src'
+import { bell_medium } from '@dnb/eufemia/src/icons'
+
+<VisuallyHidden element="h1">Badge: Icon button corners</VisuallyHidden>
+
+<div
+  data-visual-test="badge-icon-buttons"
+  style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '3rem',
+    padding: '2rem',
+  }}
+>
+  {['small', 'medium', 'default', 'large'].map((size) => (
+    <div
+      key={size}
+      style={{ display: 'flex', alignItems: 'center', gap: '4rem' }}
+    >
+      {[
+        { horizontal: 'left', vertical: 'top', content: 3 },
+        { horizontal: 'right', vertical: 'top', content: '99+' },
+        { horizontal: 'left', vertical: 'bottom', content: 1234 },
+        { horizontal: 'right', vertical: 'bottom', content: 3 },
+      ].map(({ horizontal, vertical, content }) => (
+        <Badge
+          key={horizontal + vertical}
+          content={content}
+          label="Unread notifications"
+          variant="notification"
+          horizontal={horizontal}
+          vertical={vertical}
+        >
+          <Button
+            title="Open notifications"
+            icon={bell_medium}
+            size={size}
+            variant="tertiary"
+          />
+        </Badge>
+      ))}
+    </div>
+  ))}
+</div>

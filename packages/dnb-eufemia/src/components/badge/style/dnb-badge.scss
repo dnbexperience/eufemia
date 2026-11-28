@@ -37,6 +37,31 @@
       );
     }
 
+    // Keep notification counts outside the icon, centered on the button corner.
+    > .dnb-button--has-icon:not(.dnb-button--has-text)
+      + .dnb-badge--variant-notification:not(.dnb-badge--indicator) {
+      transform: translate(
+        var(--badge-button-offset-x, 0%),
+        var(--badge-button-offset-y, 0%)
+      );
+
+      &.dnb-badge--horizontal-left {
+        --badge-button-offset-x: calc(-100% + 0.75rem);
+      }
+
+      &.dnb-badge--horizontal-right {
+        --badge-button-offset-x: calc(100% - 0.75rem);
+      }
+
+      &.dnb-badge--vertical-top {
+        --badge-button-offset-y: -50%;
+      }
+
+      &.dnb-badge--vertical-bottom {
+        --badge-button-offset-y: 50%;
+      }
+    }
+
     .dnb-badge {
       display: flex;
       overflow: hidden;
