@@ -3,7 +3,7 @@
  *
  */
 
-import { act, useState } from 'react'
+import { act, useRef, useState } from 'react'
 import {
   axeComponent,
   loadScss,
@@ -65,6 +65,189 @@ describe('Tooltip', () => {
 
     await waitFor(() => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+  })
+
+  it('hides the tooltip when a touch is cancelled', async () => {
+    render(<Tooltip targetElement={<span id="touch-target">Text</span>} />)
+
+    const target = document.querySelector<HTMLElement>('#touch-target')
+    fireEvent.touchStart(target)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+
+    fireEvent.touchCancel(target)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+    })
+    expect(target.style.userSelect).toBe('')
+
+    // A later tap still shows the tooltip
+    fireEvent.touchStart(target)
+    fireEvent.touchEnd(target)
+    fireEvent.mouseEnter(target)
+    fireEvent.click(target)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+  })
+
+  it('does not show the tooltip when a touch is cancelled before the show delay', async () => {
+    render(
+      <Tooltip
+        noAnimation={false}
+        showDelay={50}
+        targetElement={<span id="touch-target">Text</span>}
+      />
+    )
+
+    const target = document.querySelector('#touch-target')
+    fireEvent.touchStart(target)
+    fireEvent.touchCancel(target)
+
+    await wait(70)
+
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+  })
+
+  it('keeps the inline user-select style of the target after a touch', () => {
+    render(
+      <Tooltip
+        targetElement={
+          <span id="touch-target" style={{ userSelect: 'all' }}>
+            Text
+          </span>
+        }
+      />
+    )
+
+    const target = document.querySelector<HTMLElement>('#touch-target')
+
+    fireEvent.touchStart(target)
+    expect(target.style.userSelect).toBe('none')
+    fireEvent.touchEnd(target)
+    expect(target.style.userSelect).toBe('all')
+
+    fireEvent.touchStart(target)
+    expect(target.style.userSelect).toBe('none')
+    fireEvent.touchCancel(target)
+    expect(target.style.userSelect).toBe('all')
+
+    // A second finger must not save 'none' as the original value
+    fireEvent.touchStart(target)
+    fireEvent.touchStart(target)
+    fireEvent.touchEnd(target)
+    expect(target.style.userSelect).toBe('all')
+
+    // An end or cancel without a matching start keeps the author's value
+    fireEvent.touchEnd(target)
+    expect(target.style.userSelect).toBe('all')
+    fireEvent.touchCancel(target)
+    expect(target.style.userSelect).toBe('all')
+  })
+
+  describe('when the Tooltip detaches during a touch', () => {
+    let setMounted: (mounted: boolean) => void
+    let setTarget: (id: 'a' | 'b') => void
+    let setOpen: (open: boolean | undefined) => void
+    let rerenderParent: () => void
+
+    const External = () => {
+      const refA = useRef<HTMLButtonElement>(null)
+      const refB = useRef<HTMLButtonElement>(null)
+      const [mounted, setMountedState] = useState(true)
+      const [which, setWhich] = useState<'a' | 'b'>('a')
+      const [open, setOpenState] = useState<boolean | undefined>(undefined)
+      const [, setCount] = useState(0)
+      setMounted = setMountedState
+      setTarget = setWhich
+      setOpen = setOpenState
+      rerenderParent = () => setCount((count) => count + 1)
+
+      return (
+        <>
+          <button id="a" ref={refA} style={{ userSelect: 'all' }}>
+            A
+          </button>
+          <button id="b" ref={refB} style={{ userSelect: 'text' }}>
+            B
+          </button>
+          {mounted && (
+            <OriginalTooltip
+              noAnimation
+              open={open}
+              targetElement={which === 'a' ? refA : refB}
+            >
+              Tooltip
+            </OriginalTooltip>
+          )}
+        </>
+      )
+    }
+
+    it('restores user-select on the target when the Tooltip unmounts', () => {
+      render(<External />)
+
+      const a = document.querySelector<HTMLElement>('#a')
+      fireEvent.touchStart(a)
+      expect(a.style.userSelect).toBe('none')
+
+      act(() => setMounted(false))
+      expect(a.style.userSelect).toBe('all')
+
+      act(() => setMounted(true))
+      fireEvent.touchStart(a)
+      fireEvent.touchCancel(a)
+      expect(a.style.userSelect).toBe('all')
+    })
+
+    it('restores user-select on the previous target when the target changes', () => {
+      render(<External />)
+
+      const a = document.querySelector<HTMLElement>('#a')
+      const b = document.querySelector<HTMLElement>('#b')
+      fireEvent.touchStart(a)
+
+      act(() => setTarget('b'))
+      expect(a.style.userSelect).toBe('all')
+
+      fireEvent.touchStart(b)
+      expect(b.style.userSelect).toBe('none')
+      fireEvent.touchEnd(b)
+      expect(b.style.userSelect).toBe('text')
+    })
+
+    it('restores user-select when the Tooltip becomes controlled', () => {
+      render(<External />)
+
+      const a = document.querySelector<HTMLElement>('#a')
+      fireEvent.touchStart(a)
+
+      act(() => setOpen(true))
+      expect(a.style.userSelect).toBe('all')
+
+      act(() => setOpen(undefined))
+      fireEvent.touchStart(a)
+      expect(a.style.userSelect).toBe('none')
+      fireEvent.touchEnd(a)
+      expect(a.style.userSelect).toBe('all')
+    })
+
+    it('keeps user-select disabled during a touch when the parent re-renders', () => {
+      render(<External />)
+
+      const a = document.querySelector<HTMLElement>('#a')
+      fireEvent.touchStart(a)
+
+      act(() => rerenderParent())
+      expect(a.style.userSelect).toBe('none')
+
+      fireEvent.touchEnd(a)
+      expect(a.style.userSelect).toBe('all')
     })
   })
 
