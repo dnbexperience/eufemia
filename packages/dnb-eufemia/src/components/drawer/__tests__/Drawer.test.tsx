@@ -1649,6 +1649,39 @@ describe('Drawer reveal', () => {
     }
   )
 
+  it('settles a short drag when maxWidth changes during it', () => {
+    const { rerender } = renderReveal({ maxWidth: '300px' })
+    const page = document.querySelector('#reveal-page p')
+    fireEvent.touchStart(page, {
+      touches: [{ clientX: 40, clientY: 100 }],
+    })
+    fireEvent.touchMove(page, { touches: [{ clientX: 50, clientY: 100 }] })
+    expect(document.querySelector('[role=dialog]')).toBeInTheDocument()
+
+    rerender(
+      <>
+        <main id="reveal-page">
+          <p>Page content</p>
+          <button>Page action</button>
+        </main>
+        <Drawer
+          {...props}
+          renderDriver={renderDriver}
+          containerPlacement="left"
+          maxWidth="320px"
+        >
+          <h1>Menu</h1>
+          <button>Menu action</button>
+          <input type="range" aria-label="Menu setting" />
+        </Drawer>
+      </>
+    )
+    fireEvent.touchMove(page, { touches: [{ clientX: 60, clientY: 100 }] })
+    fireEvent.touchEnd(page, { touches: [] })
+
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+  })
+
   it('keeps the normal Drawer behavior for other placements', () => {
     renderReveal({ containerPlacement: 'right' })
     swipe(document.querySelector('#reveal-page p'), 220)

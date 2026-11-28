@@ -95,6 +95,8 @@ function useDrawerReveal(
     width: 0,
     dialog: null,
   })
+  const maxWidthRef = useRef(maxWidth)
+  maxWidthRef.current = maxWidth
 
   useEffect(() => {
     if (open) {
@@ -116,6 +118,7 @@ function useDrawerReveal(
     let estimate: number
     const estimateWidth = () => {
       const fallback = window.innerWidth * 0.9
+      const maxWidth = maxWidthRef.current
       if (!maxWidth) {
         return fallback
       }
@@ -282,7 +285,7 @@ function useDrawerReveal(
       document.removeEventListener('touchend', end, true)
       document.removeEventListener('touchcancel', end, true)
     }
-  }, [target, maxWidth])
+  }, [target])
 
   return {
     enabled: Boolean(target),
