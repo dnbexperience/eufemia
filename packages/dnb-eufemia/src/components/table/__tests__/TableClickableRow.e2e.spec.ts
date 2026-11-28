@@ -20,7 +20,10 @@ const setIntent = (page: Page, whatinput: string, whatintent: string) =>
 test.beforeEach(async ({ page }) => {
   await page.setContent(`
     <style>
-      :root { --token-color-stroke-action-focus: ${focusColor}; }
+      :root {
+        --token-color-stroke-action-focus: ${focusColor};
+        --focus-outline-width: 3px;
+      }
       ${css}
     </style>
     <table class="dnb-table">
@@ -58,4 +61,35 @@ test('keeps the keyboard focus border when the mouse moves onto a clickable row'
   await row.hover()
   await setIntent(page, 'keyboard', 'mouse')
   await expect.poll(borderColor).toBe(focusColor)
+})
+
+// After Enter or a click, an expanded row under the mouse gets the
+// dnb-table__tr--hover class. Its hover rule must not remove the focus border.
+test('keeps the keyboard focus border on an expanded row with the hover class', async ({
+  page,
+}) => {
+  const row = page.locator('.dnb-table__tr--clickable')
+  await row.evaluate((element) => {
+    element.classList.add(
+      'dnb-table__tr--expanded',
+      'dnb-table__tr--hover'
+    )
+  })
+  const paintedBorder = () =>
+    row
+      .locator('td')
+      .first()
+      .evaluate((cell) => {
+        const style = getComputedStyle(cell, '::before')
+        return `${style.borderLeftWidth} ${style.borderLeftColor}`
+      })
+
+  await page.keyboard.press('Tab')
+  await setIntent(page, 'keyboard', 'keyboard')
+  await expect(row).toBeFocused()
+  await expect.poll(paintedBorder).toBe(`3px ${focusColor}`)
+
+  await row.hover()
+  await setIntent(page, 'keyboard', 'mouse')
+  await expect.poll(paintedBorder).toBe(`3px ${focusColor}`)
 })

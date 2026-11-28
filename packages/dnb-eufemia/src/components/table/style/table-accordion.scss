@@ -215,7 +215,8 @@
       )#{&}__tr--hover:not(:active):hover:not(
         :where(
           html[data-whatintent='touch'] *,
-          html[data-whatintent='keyboard'] *
+          html[data-whatintent='keyboard'] *,
+          html[data-whatinput='keyboard'] :focus
         )
       )
       &__td {

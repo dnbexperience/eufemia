@@ -1410,11 +1410,13 @@ html:not([data-whatintent=touch]) .dnb-table__tr--clickable.dnb-table__tr:not(.d
 
 @media (any-hover: hover) {
   .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover:not(:where(html[data-whatintent=touch] *,
-  html[data-whatintent=keyboard] *)) .dnb-table__td {
+  html[data-whatintent=keyboard] *,
+  html[data-whatinput=keyboard] :focus)) .dnb-table__td {
     --table-td-background: var(--table-accordion-header-background);
   }
   .dnb-table__tr--clickable.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover:not(:where(html[data-whatintent=touch] *,
-  html[data-whatintent=keyboard] *)) .dnb-table__td::before {
+  html[data-whatintent=keyboard] *,
+  html[data-whatinput=keyboard] :focus)) .dnb-table__td::before {
     border: none;
     border-top: var(--table-accordion-border);
   }
