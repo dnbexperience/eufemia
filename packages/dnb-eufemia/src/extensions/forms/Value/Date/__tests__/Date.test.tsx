@@ -247,6 +247,63 @@ describe('Value.Date', () => {
         ).toHaveTextContent('16/01/yy')
       })
 
+      describe('in a time zone west of UTC', () => {
+        // Test files run in worker threads, where changing process.env.TZ
+        // has no effect. So read the local date eight hours behind UTC.
+        const spies: Array<{ mockRestore: () => void }> = []
+
+        beforeEach(() => {
+          const behindUtc = (date: Date) =>
+            new Date(date.getTime() - 8 * 60 * 60 * 1000)
+          spies.push(
+            vi
+              .spyOn(Date.prototype, 'getFullYear')
+              .mockImplementation(function (this: Date) {
+                return behindUtc(this).getUTCFullYear()
+              })
+          )
+          spies.push(
+            vi
+              .spyOn(Date.prototype, 'getMonth')
+              .mockImplementation(function (this: Date) {
+                return behindUtc(this).getUTCMonth()
+              })
+          )
+          spies.push(
+            vi
+              .spyOn(Date.prototype, 'getDate')
+              .mockImplementation(function (this: Date) {
+                return behindUtc(this).getUTCDate()
+              })
+          )
+        })
+
+        afterEach(() => {
+          spies.splice(0).forEach((spy) => spy.mockRestore())
+        })
+
+        it('keeps a date-only value on the same calendar day', () => {
+          render(<Value.Date value="2028-02-29" dateFormat="dd/MM/yyyy" />)
+
+          expect(
+            document.querySelector('.dnb-forms-value-block__content')
+          ).toHaveTextContent('29/02/2028')
+        })
+
+        it('shows a timestamp on its local calendar day', () => {
+          render(
+            <Value.Date
+              value="2028-02-29T00:30:00Z"
+              dateFormat="dd/MM/yyyy"
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-forms-value-block__content')
+          ).toHaveTextContent('28/02/2028')
+        })
+      })
+
       it('handles invalid date gracefully', () => {
         render(<Value.Date value="invalid-date" dateFormat="dd/MM/yyyy" />)
 
