@@ -106,7 +106,8 @@
 
     // Keep the outline under the mouse, so keyboard focus stays visible.
     @include utilities.focusVisible() {
-      &:not(:active) {
+      // :where() keeps the forced-colors rule below in front.
+      &:where(:not(:active)) {
         @include utilities.focusOutline();
       }
 
