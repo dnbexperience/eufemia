@@ -4320,6 +4320,98 @@ describe('DatePicker component', () => {
     ).toContain('dnb-date-picker__day--within-selection')
   })
 
+  describe('restarting a range on the previous start date', () => {
+    const getDay = (date: string) =>
+      document.querySelector(`td[data-date="${date}"]`)
+    const getPreviewDates = () =>
+      Array.from(
+        document.querySelectorAll('td.dnb-date-picker__day--preview')
+      ).map((td) => td.getAttribute('data-date'))
+
+    // A tap emits mouseover before click, without hovering the days in between
+    const tapDay = (date: string) => {
+      const button = getDay(date).querySelector('button')
+      fireEvent.mouseOver(button)
+      fireEvent.click(button)
+    }
+
+    it('shows only the new start date after a pointer restart', () => {
+      const onChange = vi.fn()
+      render(
+        <DatePicker
+          inline
+          range
+          startDate="2019-05-05"
+          endDate="2019-06-05"
+          onChange={onChange}
+        />
+      )
+
+      tapDay('2019-05-10')
+      tapDay('2019-05-20')
+      tapDay('2019-05-10')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          startDate: '2019-05-10',
+          endDate: null,
+        })
+      )
+      expect(getDay('2019-05-20')).not.toHaveClass(
+        'dnb-date-picker__day--end-date'
+      )
+      expect(getPreviewDates()).toEqual(['2019-05-10'])
+
+      // A genuine hover still previews the range
+      fireEvent.mouseOver(getDay('2019-05-15').querySelector('button'))
+      expect(getPreviewDates()).toEqual([
+        '2019-05-10',
+        '2019-05-11',
+        '2019-05-12',
+        '2019-05-13',
+        '2019-05-14',
+        '2019-05-15',
+      ])
+
+      tapDay('2019-05-25')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          startDate: '2019-05-10',
+          endDate: '2019-05-25',
+        })
+      )
+    })
+
+    it('shows only the new start date after a keyboard restart', async () => {
+      const onChange = vi.fn()
+      render(
+        <DatePicker
+          inline
+          range
+          startDate="2019-05-10"
+          endDate="2019-05-12"
+          onChange={onChange}
+        />
+      )
+
+      const button = getDay('2019-05-12').querySelector('button')
+      button.focus()
+      await userEvent.keyboard('{ArrowLeft}{ArrowLeft}{Enter}')
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          startDate: '2019-05-10',
+          endDate: null,
+        })
+      )
+      expect(getDay('2019-05-11')).not.toHaveClass(
+        'dnb-date-picker__day--end-date'
+      )
+      expect(getPreviewDates()).toEqual(['2019-05-10'])
+    })
+  })
+
   it('resets date correctly between interactions', async () => {
     let outerState
     const onChange = vi.fn(({ date }) => (outerState = date))
