@@ -419,8 +419,11 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     (state: HeightAnimationOnEnd) => {
       switch (state) {
         case 'opened':
-          // Keep focus where the user went with a link during the opening.
-          if (!hasFollowedItemRef.current) {
+          // Keep focus where the user went with a link during the opening,
+          // and return to it when the summary closes.
+          if (hasFollowedItemRef.current) {
+            initialActiveElementRef.current = document.activeElement
+          } else {
             setFocus()
           }
 

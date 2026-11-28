@@ -1578,6 +1578,44 @@ describe('GlobalStatus component', () => {
       ).toHaveFocus()
     })
 
+    it('should return focus to a followed link target when closed', () => {
+      const renderStatus = (show: boolean) => (
+        <>
+          <input id="answer" />
+          <GlobalStatus
+            show={show}
+            autoScroll={false}
+            items={[
+              {
+                itemId: 'message',
+                text: 'Error',
+                statusAnchorUrl: true,
+                statusAnchorLabel: 'answer',
+                focusAnswer: () => {
+                  const answer = document.getElementById('answer')
+                  answer.focus()
+                  return answer
+                },
+              },
+            ]}
+          />
+        </>
+      )
+      const { rerender } = render(renderStatus(false))
+      rerender(renderStatus(true))
+      const answer = document.getElementById('answer')
+
+      fireEvent.click(document.querySelector('.dnb-global-status a'))
+      simulateAnimationEnd()
+
+      const closeButton = document.querySelector<HTMLButtonElement>(
+        'button.dnb-global-status__close-button'
+      )
+      closeButton.focus()
+      fireEvent.click(closeButton)
+      expect(answer).toHaveFocus()
+    })
+
     it('should focus the target and restore it when it loses focus', () => {
       const link = renderWithTarget(<span id="target">Target</span>)
       const target = document.getElementById('target')
