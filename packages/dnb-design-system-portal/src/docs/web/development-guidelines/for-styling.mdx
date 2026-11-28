@@ -128,7 +128,9 @@ For custom selectors that cannot use the mixin, put the rule inside `@media (any
 }
 ```
 
-The check is inside `:where()`, so the rule keeps the specificity of a plain `:hover` rule, and later pressed, disabled and error rules still win. A check in front of the selector, such as `html:not(…) &:hover`, adds specificity and can hide those states.
+The check is inside `:where()`, so the rule keeps the specificity of a plain `:hover` rule, and later pressed, disabled and error rules still win.
+
+The mixin puts its check in front of the selector instead (`html:not(…) &:hover`) and also excludes disabled elements with `:not([disabled])`. Together this adds the specificity of `html` and two attributes (0,2,1) to a plain `:hover` rule, so a plain state rule, such as `.my-toggle[aria-invalid='true']`, loses to the hover style. Write state rules that must win over a hover style after it and with at least the same specificity, for example with `utilities.active()`, or exclude the state inside the mixin, as `&:not(:active)` does above.
 
 ## CSS Units
 
