@@ -6,7 +6,6 @@ import type {
 export const stepIndicatorDefaultProps: Omit<StepIndicatorProps, 'mode'> =
   {
     data: [] as StepIndicatorData,
-    skeleton: false,
     currentStep: 0,
     hideNumbers: false,
     noAnimation: false,
