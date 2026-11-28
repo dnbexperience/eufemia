@@ -3,6 +3,15 @@
 import { structuredClone } from '../structuredClone'
 
 describe('structuredClone', () => {
+  it('should transfer buffers when native structuredClone is available', () => {
+    const bytes = new Uint8Array([42])
+
+    const cloned = structuredClone(bytes, { transfer: [bytes.buffer] })
+
+    expect(bytes.buffer.byteLength).toBe(0)
+    expect(cloned[0]).toBe(42)
+  })
+
   it('should clone primitive values', () => {
     expect(structuredClone(42)).toBe(42)
     expect(structuredClone('test')).toBe('test')
