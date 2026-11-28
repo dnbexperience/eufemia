@@ -22,7 +22,9 @@ import { Tabs } from '@dnb/eufemia'
 
 ### Accessibility
 
-The Tabs component follows the [WAI-ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). It uses `role="tablist"`, `role="tab"`, and `role="tabpanel"` with proper ARIA attributes. Keyboard navigation includes arrow keys to move between tabs and Tab key to navigate into the active panel content.
+The [WAI-ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) separates focus from selection. Tab enters the list on the selected tab. Left and Right Arrow move focus without changing the panel. Home and End move to the first and last available tabs. Up and Down Arrow and Page Up and Page Down keep their usual scrolling behavior.
+
+With the default tab buttons, Space selects the focused tab and keeps focus there. Enter selects it and moves focus to its panel, if present. Tab reaches the panel itself when text comes first, or the first control when the panel starts with a link or another tab stop. Link tabs keep their native Enter behavior.
 
 When `openOnFind` is enabled, find-in-page support is powered by [HeightAnimation](/web/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.
 

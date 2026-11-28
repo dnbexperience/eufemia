@@ -61,6 +61,8 @@
       }
 
       @include utilities.scrollX(auto);
+      // Contain horizontal scrolling, but let vertical keys scroll the page.
+      overscroll-behavior-y: auto;
       @include utilities.hideScrollbar();
       // scroll-snap-type: x mandatory; // gives not the wanted extra UX yet
 

@@ -27,6 +27,86 @@ async function expectAlignedSelection(tablist: Locator) {
     .toBeLessThan(1)
 }
 
+test('enters the selected tab and follows the active panel in reading order', async ({
+  page,
+}) => {
+  await page.goto('/web/components/tabs/visual-tests/keyboard/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  const overview = page.getByRole('tab', { name: 'Overview' })
+  const links = page.getByRole('tab', { name: 'Links' })
+  const details = page.getByRole('tab', { name: 'Details' })
+  const panel = page.getByTestId('keyboard-tabs').getByRole('tabpanel')
+
+  await page.getByRole('button', { name: 'Before tabs' }).press('Tab')
+  await expect(overview).toBeFocused()
+  await page.keyboard.press('ArrowLeft')
+  await expect(links).toBeFocused()
+  await expect(panel).toHaveAccessibleName('Overview')
+  await page.keyboard.press('Tab')
+  await expect(panel).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(
+    panel.getByRole('link', { name: 'More information' })
+  ).toBeFocused()
+  await page.keyboard.press('Shift+Tab')
+  await page.keyboard.press('Shift+Tab')
+  await expect(overview).toBeFocused()
+  await page.keyboard.press('ArrowRight')
+  await expect(details).toBeFocused()
+  await page.keyboard.press('Space')
+  await expect(panel).toHaveAccessibleName('Details')
+  await page.keyboard.press('ArrowLeft')
+  await page.keyboard.press('Enter')
+  await expect(panel).toHaveAccessibleName('Overview')
+  await expect(panel).toBeFocused()
+
+  await links.click()
+  await page.keyboard.press('Tab')
+  await expect(
+    panel.getByRole('link', { name: 'Read details' })
+  ).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(
+    page.getByRole('button', { name: 'After tabs' })
+  ).toBeFocused()
+})
+
+test('leaves vertical scrolling keys to the page', async ({ page }) => {
+  await page.goto('/web/components/tabs/visual-tests/keyboard/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  const tab = page.getByRole('tab', { name: 'Overview' })
+  await tab.focus()
+  const scrollY = () => page.evaluate(() => window.scrollY)
+  for (const [down, up] of [
+    ['ArrowDown', 'ArrowUp'],
+    ['PageDown', 'PageUp'],
+  ]) {
+    await page.evaluate(() =>
+      window.scrollTo({ top: 0, behavior: 'instant' })
+    )
+    await page.keyboard.press(down)
+    await expect.poll(scrollY).toBeGreaterThan(0)
+    await expect(tab).toBeFocused()
+
+    const bottom = await page.evaluate(() => {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'instant',
+      })
+      return window.scrollY
+    })
+    await page.keyboard.press(up)
+    await expect.poll(scrollY).toBeLessThan(bottom)
+    await expect(tab).toBeFocused()
+  }
+})
+
 for (const width of [480, 1440]) {
   test(`keeps the selection aligned during keyboard navigation at ${width}px`, async ({
     page,

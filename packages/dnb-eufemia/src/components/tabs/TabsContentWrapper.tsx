@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import type { HTMLProps, ReactNode, RefObject } from 'react'
+import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import type { DynamicElement, InnerSpaceType } from '../../shared/types'
 import {
@@ -15,6 +15,7 @@ import {
   type SharedStateReturn,
 } from '../../shared/helpers/useSharedState'
 import { warnOnServer } from '../../shared/helpers/warnOnServer'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import HeightAnimation from '../height-animation/HeightAnimation'
 
 type ContentWrapperState = {
@@ -24,6 +25,45 @@ type ContentWrapperState = {
 type SharedState = SharedStateReturn<ContentWrapperState> & {
   subscribe: (subscriber: () => void) => void
   unsubscribe: (subscriber: () => void) => void
+}
+
+// Look in reading order, through layout wrappers and past inactive cached panels.
+function startsWithTabStop(root: Element): boolean {
+  const walker = root.ownerDocument.createTreeWalker(
+    root,
+    NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
+    (node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return node.textContent.trim()
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_SKIP
+      }
+      const element = node as HTMLElement
+      if (
+        element.matches(
+          '[hidden], [inert], [aria-hidden="true"], input[type="hidden"], style, script'
+        )
+      ) {
+        return NodeFilter.FILTER_REJECT
+      }
+      const style = getComputedStyle(element)
+      if (style.display === 'none' || style.visibility === 'hidden') {
+        return NodeFilter.FILTER_REJECT
+      }
+      return element.matches(
+        'a[href], button, input, select, textarea, summary, iframe, [tabindex], [contenteditable]:not([contenteditable="false"]), img[alt]:not([alt=""])'
+      )
+        ? NodeFilter.FILTER_ACCEPT
+        : NodeFilter.FILTER_SKIP
+    }
+  )
+  const first = walker.nextNode()
+  return (
+    first instanceof HTMLElement &&
+    (first.tabIndex >= 0 ||
+      (!first.hasAttribute('tabindex') && first.isContentEditable)) &&
+    !first.matches(':disabled')
+  )
 }
 
 export default function ContentWrapper({
@@ -36,6 +76,7 @@ export default function ContentWrapper({
   nested = false,
   className,
   style,
+  tabIndex,
   ...rest
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
@@ -136,6 +177,49 @@ export default function ContentWrapper({
     }
   )
 
+  const panelRef = useRef<HTMLElement>(null)
+  useIsomorphicLayoutEffect(() => {
+    const panel = panelRef.current
+    if (!panel || tabIndex != null) {
+      return undefined
+    }
+    const updateTabIndex = () => {
+      const next = startsWithTabStop(panel) ? -1 : 0
+      if (panel.tabIndex !== next) {
+        panel.tabIndex = next
+      }
+    }
+    updateTabIndex()
+
+    // Children can change their own content without re-rendering Tabs.
+    const observer = new MutationObserver((records) => {
+      if (
+        records.some(
+          ({ type, target }) => type !== 'attributes' || target !== panel
+        )
+      ) {
+        updateTabIndex()
+      }
+    })
+    observer.observe(panel, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: [
+        'hidden',
+        'inert',
+        'aria-hidden',
+        'tabindex',
+        'disabled',
+        'href',
+        'type',
+        'contenteditable',
+      ],
+    })
+    return () => observer.disconnect()
+  }, [tabIndex, hasPanel, contentStyle])
+
   if (!children) {
     return null
   }
@@ -144,9 +228,9 @@ export default function ContentWrapper({
 
   // Use state.key if available (when linked with shared state),
   // otherwise fall back to selectedKey prop
-  const activeKey = state.key !== null ? state.key : selectedKey
+  const activeKey = nested ? selectedKey : (state.key ?? selectedKey)
 
-  if (activeKey) {
+  if (activeKey != null) {
     params['aria-labelledby'] = combineLabelledBy(
       params,
       `${id}-tab-${activeKey}`
@@ -177,32 +261,18 @@ export default function ContentWrapper({
   return (
     <HeightAnimation
       role="tabpanel"
-      tabIndex={-1}
+      tabIndex={tabIndex ?? 0}
       id={`${id}-content`}
-      element={
-        (contentStyle
-          ? ({
-              ref,
-              ...props
-            }: {
-              ref: RefObject<HTMLElement>
-              [key: string]: unknown
-            }) => {
-              return (
-                <Section
-                  variant={contentStyle ? contentStyle : undefined}
-                  innerSpace={resolvedInnerSpace || undefined}
-                  ref={ref}
-                  {...props}
-                />
-              )
-            }
-          : 'div') as DynamicElement
-      }
+      element={contentStyle ? (Section as DynamicElement) : 'div'}
+      {...(contentStyle && {
+        variant: contentStyle,
+        innerSpace: resolvedInnerSpace || undefined,
+      })}
       {...spacingProps}
       duration={600}
       animate={animate === true}
       {...params}
+      ref={panelRef}
     >
       {content}
     </HeightAnimation>
