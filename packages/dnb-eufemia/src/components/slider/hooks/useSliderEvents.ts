@@ -123,6 +123,7 @@ export function useSliderEvents() {
     }
 
     drag.removeEvents = undefined
+    drag.hasPressedButton = false
   }
 
   const onBodyMouseUpHandler = (event: MouseEvent | TouchEvent) => {
@@ -139,7 +140,19 @@ export function useSliderEvents() {
   }
 
   const onBodyMouseMoveHandler = (event: MouseEvent | TouchEvent) => {
-    if (dragRef.current.isDisabled) {
+    const drag = dragRef.current
+
+    // A release over an iframe or outside the window may never reach the page
+    if (event.type === 'mousemove') {
+      if ((event as MouseEvent).buttons) {
+        drag.hasPressedButton = true
+      } else if (drag.hasPressedButton) {
+        onBodyMouseUpHandler(event)
+        return // stop here
+      }
+    }
+
+    if (drag.isDisabled) {
       return // stop here
     }
 

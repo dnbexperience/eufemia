@@ -43,6 +43,7 @@ type SliderDragState = {
   removeEvents?: () => void
   isTouch?: boolean
   isDisabled?: boolean
+  hasPressedButton?: boolean
 }
 
 // Keeps the drag storage out of the exported SliderContextValue type

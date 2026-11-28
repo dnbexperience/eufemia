@@ -1229,6 +1229,34 @@ describe('Slider component', () => {
       }
     )
 
+    it('should end a drag when a mouse move reports that no button is held', () => {
+      const { onChange, onDragEnd } = renderSlider({ value: 70 })
+      const move = (pageX: number, buttons: number) => {
+        const event = new MouseEvent('mousemove', {
+          bubbles: true,
+          cancelable: true,
+          buttons,
+        })
+        Object.defineProperty(event, 'pageX', { value: pageX })
+        return dispatch(document.body, event)
+      }
+
+      pointerDown(getThumbButton(0), 'mouse')
+      mouse(getThumbButton(0), 'mousedown', 70)
+      move(90, 1)
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      // A release over an iframe or outside the window may never reach the page
+      const hover = move(10, 0)
+      expect(hover.defaultPrevented).toBe(false)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+      expect(getRangeElement(0).value).toBe('90')
+
+      mouse(document.body, 'mouseup', 10)
+      expect(onDragEnd).toHaveBeenCalledTimes(1)
+    })
+
     it.each([
       ['single', 70, 0],
       ['range', [20, 70], 1],
