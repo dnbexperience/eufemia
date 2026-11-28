@@ -998,6 +998,54 @@ describe('MultiSelection', () => {
     expect(document.activeElement).toBe(secondCheckbox)
   })
 
+  it('marks arrow key navigation until the pointer moves or presses', async () => {
+    const data = [
+      { value: 'option1', title: 'Option 1' },
+      { value: 'option2', title: 'Option 2' },
+    ]
+
+    render(<Field.MultiSelection data={data} />)
+
+    fireEvent.click(document.querySelector('button'))
+
+    await waitFor(
+      () => {
+        expect(screen.getByText('Option 1')).toBeInTheDocument()
+      },
+      { timeout: 3000 }
+    )
+
+    const popoverContent = document.querySelector(
+      '.dnb-forms-field-multi-selection__popover-content'
+    )
+    const [firstCheckbox, secondCheckbox] = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        '.dnb-forms-field-multi-selection__items .dnb-checkbox__input'
+      )
+    )
+
+    fireEvent.click(firstCheckbox)
+    firstCheckbox.focus()
+    expect(popoverContent).not.toHaveAttribute('data-arrow-navigation')
+
+    fireEvent.keyDown(firstCheckbox, { key: 'ArrowDown' })
+    expect(document.activeElement).toBe(secondCheckbox)
+    expect(popoverContent).toHaveAttribute('data-arrow-navigation')
+
+    // WebKit sends pointermove without movement while the list scrolls
+    fireEvent.pointerMove(secondCheckbox, { movementX: 0, movementY: 0 })
+    expect(popoverContent).toHaveAttribute('data-arrow-navigation')
+
+    fireEvent.pointerMove(secondCheckbox, { movementX: 1, movementY: 0 })
+    expect(popoverContent).not.toHaveAttribute('data-arrow-navigation')
+
+    fireEvent.keyDown(secondCheckbox, { key: 'ArrowUp' })
+    expect(popoverContent).toHaveAttribute('data-arrow-navigation')
+
+    fireEvent.pointerDown(firstCheckbox)
+    expect(popoverContent).not.toHaveAttribute('data-arrow-navigation')
+  })
+
   it('wraps keyboard navigation from last item to first and back', async () => {
     const data = [
       { value: 'option1', title: 'Option 1' },

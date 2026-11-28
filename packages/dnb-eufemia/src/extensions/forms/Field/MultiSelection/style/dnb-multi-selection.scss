@@ -159,7 +159,9 @@
       &:hover:not(
           :where(
             html[data-whatintent='touch'] *,
-            html[data-whatintent='keyboard'] *
+            html[data-whatintent='keyboard'] *,
+            .dnb-forms-field-multi-selection__popover-content[data-arrow-navigation]
+              *
           )
         ):not(&--disabled) {
         --item-outline-color: var(--token-color-stroke-action);
@@ -185,8 +187,11 @@
       --item-outline-width: var(--item-outline-width--focus);
     }
 
-    // A tapped row keeps :hover, so do not exclude it on touch devices
+    // A tapped row keeps :hover, so do not exclude it on touch devices.
+    // Arrow keys can also move focus to the row under the mouse.
     html:not([data-whatintent='mouse'])[data-whatinput='keyboard']
+      &:not(:active):has(.dnb-checkbox__input:focus),
+    .dnb-forms-field-multi-selection__popover-content[data-arrow-navigation]
       &:not(:active):has(.dnb-checkbox__input:focus) {
       --item-outline-color: var(--token-color-stroke-action-focus);
       --item-outline-width: var(--item-outline-width--focus);

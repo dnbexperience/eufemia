@@ -769,6 +769,8 @@ function MultiSelection(props: FieldMultiSelectionProps) {
         return
       }
 
+      event.currentTarget.setAttribute('data-arrow-navigation', '')
+
       const checkboxes = getCheckboxes()
       const searchInput = getSearchInput()
       const listDriver = listDriverRef.current
@@ -843,6 +845,23 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       }
     },
     [disabled, getCheckboxes, getSearchInput]
+  )
+
+  // Arrow keys keep the mouse intent while a checkbox has focus, so the
+  // focus style is shown until the mouse moves or presses.
+  const handlePopoverPointer = useCallback(
+    (event: React.PointerEvent<HTMLElement>) => {
+      if (
+        event.type === 'pointermove' &&
+        !event.movementX &&
+        !event.movementY
+      ) {
+        return // stop here
+      }
+
+      event.currentTarget.removeAttribute('data-arrow-navigation')
+    },
+    []
   )
 
   const resolveFocusOnOpenElement = useCallback(() => {
@@ -1054,6 +1073,8 @@ function MultiSelection(props: FieldMultiSelectionProps) {
             ref={handlePopoverContentRef}
             tabIndex={-1}
             onKeyDownCapture={handlePopoverKeyDown}
+            onPointerMove={handlePopoverPointer}
+            onPointerDown={handlePopoverPointer}
           >
             {selectedTagsContent}
 
