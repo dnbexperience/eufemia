@@ -18,7 +18,14 @@ import { clsx } from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import SharedContext from '../../../../shared/Context'
-import { parseISO, isValid, isBefore, isAfter, startOfDay } from 'date-fns'
+import {
+  format,
+  parseISO,
+  isValid,
+  isBefore,
+  isAfter,
+  startOfDay,
+} from 'date-fns'
 import useTranslation from '../../hooks/useTranslation'
 import type {
   DatePickerEvent,
@@ -83,7 +90,18 @@ export type DateProps = Omit<
 
 function DateComponent(props: DateProps): ReactElement {
   const { errorRequired, label: defaultLabel } = useTranslation().Date
-  const { locale } = useContext(SharedContext)
+  const { locale, translation } = useContext(SharedContext)
+  const returnFormat =
+    props.returnFormat || translation.DatePicker.returnFormat
+  const dateFormat = props.dateFormat ?? translation.DatePicker.dateFormat
+  const parseValue = useCallback(
+    (value: string) =>
+      parseFieldDate(value, returnFormat) ??
+      (dateFormat !== returnFormat
+        ? parseFieldDate(value, dateFormat)
+        : null),
+    [dateFormat, returnFormat]
+  )
 
   const { invalidDatesRef, setInvalidDates } = useInvalidDates()
   const lastEditedRangeDateRef = useRef<'start' | 'end'>('start')
@@ -136,17 +154,25 @@ function DateComponent(props: DateProps): ReactElement {
         return new FormError('Date.errorRequiredRange')
       }
 
-      return !value || !isValid(parseISO(value)) ? error : undefined
+      return parseValue(value) ? undefined : error
     },
-    [props.range]
+    [props.range, parseValue]
   )
 
   const dateValidator = useCallback(
     (value: string) => {
       const invalidDateErrors = validateDate(invalidDatesRef.current)
 
+      if (!value || (!props.range && !props.minDate && !props.maxDate)) {
+        return invalidDateErrors
+      }
+
+      const [start, end] = parseRangeValue(value)
+      const startDate = toDay(parseValue(start))
+      const endDate = toDay(parseValue(end))
       const rangeOrderErrors = validateRangeOrder({
-        value,
+        startDate,
+        endDate,
         isRange: props.range,
         lastEditedDate: lastEditedRangeDateRef.current,
         locale,
@@ -158,10 +184,11 @@ function DateComponent(props: DateProps): ReactElement {
       }
 
       const dateLimitErrors = validateDateLimit({
-        value,
+        startDate,
+        endDate,
         locale,
-        minDate: props.minDate,
-        maxDate: props.maxDate,
+        minDate: toDay(convertStringToDate(props.minDate, { dateFormat })),
+        maxDate: toDay(convertStringToDate(props.maxDate, { dateFormat })),
         isRange: props.range,
       })
 
@@ -173,7 +200,15 @@ function DateComponent(props: DateProps): ReactElement {
         ...(dateLimitErrors.length > 0 ? [] : rangeOrderErrors),
       ]
     },
-    [props.maxDate, props.minDate, props.range, invalidDatesRef, locale]
+    [
+      props.maxDate,
+      props.minDate,
+      dateFormat,
+      props.range,
+      invalidDatesRef,
+      locale,
+      parseValue,
+    ]
   )
 
   const {
@@ -351,29 +386,31 @@ function DateComponent(props: DateProps): ReactElement {
       const { date, startDate, endDate, ...rest } = event
 
       if (props.range) {
+        const start = getTypedDate(
+          startDate,
+          rest.isValidStartDate,
+          returnFormat
+        )
+        const end = getTypedDate(
+          endDate,
+          rest.isValidEndDate,
+          returnFormat
+        )
+
         // Track which date the user last edited for range order error messages
         const [prevStart, prevEnd] = parseRangeValue(internalValue)
-        if (startDate !== prevStart) {
+        if (start !== (prevStart ?? undefined)) {
           lastEditedRangeDateRef.current = 'start'
-        } else if (endDate !== prevEnd) {
+        } else if (end !== (prevEnd ?? undefined)) {
           lastEditedRangeDateRef.current = 'end'
         }
 
-        const parsedStartDate = parseISO(startDate)
-        const parsedEndDate = parseISO(endDate)
-        if (isValid(parsedStartDate) || isValid(parsedEndDate)) {
-          handleChange({
-            ...(isValid(parsedStartDate) && { startDate }),
-            ...(isValid(parsedEndDate) && { endDate }),
-            ...rest,
-          })
-        } else {
-          handleChange(rest)
-        }
-      } else if (isValid(parseISO(date))) {
-        handleChange({ date, ...rest })
+        handleChange({ startDate: start, endDate: end, ...rest })
       } else {
-        handleChange(rest)
+        handleChange({
+          date: getTypedDate(date, rest.isValid, returnFormat),
+          ...rest,
+        })
       }
 
       // To ensure that the form can show the required error message while typing and blurring
@@ -386,15 +423,23 @@ function DateComponent(props: DateProps): ReactElement {
       props.range,
       setChanged,
       internalValue,
+      returnFormat,
       datePickerProps.onType,
     ]
   )
 
   const { value, startDate, endDate } = useMemo(() => {
+    // The picker reads strings in its date format, so pass the stored
+    // return-format value as an ISO date.
+    const toPickerDate = (value: string) => {
+      const date = parseValue(value)
+      return date ? format(date, 'yyyy-MM-dd') : value
+    }
+
     if (!range || !internalValue) {
       return {
         // Assign to null if falsy value, to properly clear input values
-        value: internalValue ?? null,
+        value: internalValue ? toPickerDate(internalValue) : null,
         startDate: undefined,
         endDate: undefined,
       }
@@ -404,16 +449,19 @@ function DateComponent(props: DateProps): ReactElement {
 
     return {
       value: undefined,
-      startDate,
-      endDate,
+      startDate: toPickerDate(startDate),
+      endDate: toPickerDate(endDate),
     }
-  }, [range, internalValue])
+  }, [range, internalValue, parseValue])
 
   useMemo(() => {
     if ((path || itemPath) && value) {
-      setDisplayValue(formatDate(value, { locale }))
+      const date = parseValue(value)
+      if (date) {
+        setDisplayValue(formatDate(date, { locale }))
+      }
     }
-  }, [itemPath, locale, path, setDisplayValue, value])
+  }, [itemPath, locale, path, setDisplayValue, value, parseValue])
 
   const fieldBlockProps: FieldBlockProps = {
     ...sharedFieldBlockProps,
@@ -478,55 +526,51 @@ export function parseRangeValue(
   )
 }
 
+function parseFieldDate(value: string, dateFormat: string) {
+  if (!value) {
+    return null
+  }
+  if (dateFormat === 'yyyy-MM-dd') {
+    const date = parseISO(value)
+    return isValid(date) ? date : null
+  }
+  return convertStringToDate(value, { dateFormat, strictDateFormat: true })
+}
+
+// The picker returns formatted dates when valid, but raw ISO input for
+// out-of-bounds or reversed dates. Keep those dates for field validation.
+function getTypedDate(
+  value: string,
+  isPickerValid: boolean,
+  returnFormat: string
+) {
+  if (isPickerValid) {
+    return value
+  }
+  const date = value && parseISO(value)
+  return isValid(date) ? format(date, returnFormat) : undefined
+}
+
+function toDay(date: Date) {
+  return date ? startOfDay(date) : undefined
+}
+
 // Validators
 function validateDateLimit({
-  value,
+  startDate,
+  endDate,
+  minDate,
+  maxDate,
   isRange,
   locale,
-  ...dates
 }: {
-  value: DateProps['value']
-  minDate: DateProps['minDate']
-  maxDate: DateProps['maxDate']
+  startDate: Date
+  endDate: Date
+  minDate: Date
+  maxDate: Date
   isRange: DateProps['range']
   locale: ProviderProps['locale']
 }): Array<FormError> {
-  if ((!dates.minDate && !dates.maxDate) || !value) {
-    return []
-  }
-
-  const [startDateParsed, endDateParsed] = parseRangeValue(value)
-
-  const convertedMinDate = convertStringToDate(dates.minDate)
-  const convertedMaxDate = convertStringToDate(dates.maxDate)
-  const convertedStartDate = convertStringToDate(startDateParsed)
-  const convertedEndDate = convertStringToDate(endDateParsed)
-
-  // Set dates to the start of the day to compare the actual days, and not day and time
-  const minDate = convertedMinDate
-    ? startOfDay(convertedMinDate)
-    : undefined
-  const maxDate = convertedMaxDate
-    ? startOfDay(convertedMaxDate)
-    : undefined
-  const startDate = convertedStartDate
-    ? startOfDay(convertedStartDate)
-    : undefined
-  const endDate = convertedEndDate
-    ? startOfDay(convertedEndDate)
-    : undefined
-
-  const isoDates = {
-    minDate:
-      dates.minDate instanceof Date
-        ? dates.minDate.toISOString()
-        : dates.minDate,
-    maxDate:
-      dates.maxDate instanceof Date
-        ? dates.maxDate.toISOString()
-        : dates.maxDate,
-  }
-
   const options: DateFormatOptions = {
     locale,
     options: { dateStyle: 'long' },
@@ -539,7 +583,7 @@ function validateDateLimit({
     if (isBefore(startDate, minDate)) {
       messages.push(
         new FormError('Date.errorMinDate', {
-          messageValues: { date: formatDate(isoDates.minDate, options) },
+          messageValues: { date: formatDate(minDate, options) },
         })
       )
     }
@@ -547,7 +591,7 @@ function validateDateLimit({
     if (isAfter(startDate, maxDate)) {
       messages.push(
         new FormError('Date.errorMaxDate', {
-          messageValues: { date: formatDate(isoDates.maxDate, options) },
+          messageValues: { date: formatDate(maxDate, options) },
         })
       )
     }
@@ -559,7 +603,7 @@ function validateDateLimit({
   if (isBefore(startDate, minDate)) {
     messages.push(
       new FormError('Date.errorStartDateMinDate', {
-        messageValues: { date: formatDate(isoDates.minDate, options) },
+        messageValues: { date: formatDate(minDate, options) },
       })
     )
   }
@@ -567,7 +611,7 @@ function validateDateLimit({
   if (isAfter(startDate, maxDate)) {
     messages.push(
       new FormError('Date.errorStartDateMaxDate', {
-        messageValues: { date: formatDate(isoDates.maxDate, options) },
+        messageValues: { date: formatDate(maxDate, options) },
       })
     )
   }
@@ -576,7 +620,7 @@ function validateDateLimit({
   if (isBefore(endDate, minDate)) {
     messages.push(
       new FormError('Date.errorEndDateMinDate', {
-        messageValues: { date: formatDate(isoDates.minDate, options) },
+        messageValues: { date: formatDate(minDate, options) },
       })
     )
   }
@@ -584,7 +628,7 @@ function validateDateLimit({
   if (isAfter(endDate, maxDate)) {
     messages.push(
       new FormError('Date.errorEndDateMaxDate', {
-        messageValues: { date: formatDate(isoDates.maxDate, options) },
+        messageValues: { date: formatDate(maxDate, options) },
       })
     )
   }
@@ -593,33 +637,19 @@ function validateDateLimit({
 }
 
 function validateRangeOrder({
-  value,
+  startDate,
+  endDate,
   isRange,
   lastEditedDate,
   locale,
 }: {
-  value: DateProps['value']
+  startDate: Date
+  endDate: Date
   isRange: DateProps['range']
   lastEditedDate: 'start' | 'end'
   locale: ProviderProps['locale']
 }): Array<FormError> {
-  if (!isRange || !value) {
-    return []
-  }
-
-  const [startDateParsed, endDateParsed] = parseRangeValue(value)
-
-  const convertedStartDate = convertStringToDate(startDateParsed)
-  const convertedEndDate = convertStringToDate(endDateParsed)
-
-  const startDate = convertedStartDate
-    ? startOfDay(convertedStartDate)
-    : undefined
-  const endDate = convertedEndDate
-    ? startOfDay(convertedEndDate)
-    : undefined
-
-  if (startDate && endDate && isAfter(startDate, endDate)) {
+  if (isRange && startDate && endDate && isAfter(startDate, endDate)) {
     const options: DateFormatOptions = {
       locale,
       options: { dateStyle: 'long' },
@@ -629,7 +659,7 @@ function validateRangeOrder({
       return [
         new FormError('Date.errorEndDateMinDate', {
           messageValues: {
-            date: formatDate(startDateParsed, options),
+            date: formatDate(startDate, options),
           },
         }),
       ]
@@ -638,7 +668,7 @@ function validateRangeOrder({
     return [
       new FormError('Date.errorStartDateMaxDate', {
         messageValues: {
-          date: formatDate(endDateParsed, options),
+          date: formatDate(endDate, options),
         },
       }),
     ]
