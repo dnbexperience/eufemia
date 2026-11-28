@@ -60,6 +60,7 @@ it('keeps every existing menu page in the navigation draft', () => {
   expect(collections.subheadings.map(({ path }) => path)).toEqual([
     'collections/icons',
     'collections/logos',
+    'collections/illustrations',
   ])
   expect(parentOf('web/forms')).toBe('web')
   expect(parentOf('web/layout-and-typography/typography')).toBe(

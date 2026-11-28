@@ -1,0 +1,69 @@
+---
+title: Illustrations
+description: Find brand illustrations, SVG files and optional Lottie animations for DNB applications.
+navigation:
+  parent: collections
+  title: Illustrations
+  order: 3
+---
+
+Eufemia maintains a shared library of brand illustrations as SVG files, with optional Lottie animations and a matching SVG still for each animation.
+
+[Browse the Eufemia Illustrations gallery](https://eufemia-illustrations.pages.dnb.ghe.com/) (DNB sign-in required) to search in English or Norwegian, filter by brand and category, preview animations, and copy import paths or download files.
+
+Sbanken is the default collection. Choose artwork for the brand you are working with; other brands become available as their artwork is added.
+
+## Artwork and colors
+
+The library uses approved artwork from [DNB Brand Centre](https://bc.dnb.no/). Each collection's source is linked in the gallery. Original colors, proportions and drawing paths are preserved. Choosing a brand selects that brand's artwork; it does not recolor illustrations with the application's theme. Categories and search tags help you find artwork and do not define color roles.
+
+## Developers
+
+Use the `@eufemia/illustrations` package or public, versioned CDN URLs. The package is published to DNB Nexus. Follow the [installation guidance](https://dnb.ghe.com/eufemia/illustrations#install) to configure your registry and authentication, then install it:
+
+```bash
+yarn add --exact @eufemia/illustrations
+```
+
+### SVG illustrations
+
+Import an SVG directly from its asset path. For example, in a React application using Vite:
+
+```tsx
+import illustrationUrl from '@eufemia/illustrations/assets/sbanken/bank-account.svg?url'
+
+export function BankAccountIllustration() {
+  return <img src={illustrationUrl} alt="" />
+}
+```
+
+Use `alt=""` for decorative artwork. If the illustration conveys information, describe its meaning in context.
+
+Paths follow `assets/<brand>/<slug>.svg`. Copy the path from the gallery. Installing the package downloads the collection, but application builds include only the assets you import. The package has no runtime dependencies and includes no gallery or animation player code in your application.
+
+For public URLs without package installation or authentication, use the [Asset CDN](/web/ai-tools-and-resources/asset-cdn/#illustrations). Pin a release version so updates cannot change your artwork unexpectedly.
+
+### Animations
+
+Animations are separate Lottie JSON files at `animations/<brand>/<slug>.json`. Install a player separately, such as `lottie-react` for React or `lottie-web` for other frameworks. For example, with `lottie-react`:
+
+```tsx
+import Lottie from 'lottie-react'
+import animationData from '@eufemia/illustrations/animations/sbanken/confetti.json'
+
+export function ConfettiAnimation() {
+  return (
+    <Lottie animationData={animationData} autoplay={false} loop={false} />
+  )
+}
+```
+
+This configures the player without starting playback. Connect accessible Play and Pause controls through the player's `lottieRef`. Start with the SVG still, respect `prefers-reduced-motion`, and keep the still available if loading fails. Play once unless the product context calls for repetition.
+
+Hide decorative motion from assistive technology. If the motion conveys information, provide an accessible name that explains its meaning.
+
+A direct JSON import includes the animation data in that module's bundle. Load the player and data on demand when motion should only load after Play. See the [animation integration guide](https://dnb.ghe.com/eufemia/illustrations#use-an-animation) for loading, controls and cleanup.
+
+### Metadata
+
+The optional `@eufemia/illustrations/manifest` export contains brands, names, categories, Norwegian aliases, search tags and asset paths. Reading metadata does not load the artwork. See the [metadata guide](https://dnb.ghe.com/eufemia/illustrations#read-illustration-metadata) for usage and TypeScript types.
