@@ -145,6 +145,8 @@ describe('Dropdown component', () => {
       document.querySelector('.dnb-drawer-list__option--focus')
     ).toBeInTheDocument()
 
+    const now = vi.spyOn(Date, 'now').mockReturnValue(1000)
+
     keydown('s')
 
     // force rerender
@@ -154,6 +156,9 @@ describe('Dropdown component', () => {
       document.querySelectorAll('.dnb-drawer-list__option')[1].classList
     ).toContain('dnb-drawer-list__option--focus')
 
+    // pause, so the next key starts a new search
+    now.mockReturnValue(3000)
+
     keydown('f')
 
     // force rerender
@@ -162,6 +167,8 @@ describe('Dropdown component', () => {
     expect(
       document.querySelectorAll('.dnb-drawer-list__option')[2].classList
     ).toContain('dnb-drawer-list__option--focus')
+
+    now.mockRestore()
   })
 
   it('has correct state when opened prop is given', () => {
@@ -2501,6 +2508,119 @@ describe('Dropdown key handling', () => {
     )
 
     expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
+
+  describe('type-ahead', () => {
+    const days = Array.from({ length: 31 }, (_, i) => String(i + 1))
+    const countries = [
+      'Danmark',
+      'Nederland',
+      'Nepal',
+      'New Zealand',
+      'Norge',
+      'Sverige',
+    ]
+
+    const getFocusedOption = () =>
+      document.querySelector('li.dnb-drawer-list__option--focus')
+        ?.textContent
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('should focus the item that starts with the characters typed in quick succession', () => {
+      render(<Dropdown data={days} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('2')
+      keydown('1')
+
+      expect(getFocusedOption()).toBe('21')
+    })
+
+    it('should match the typed characters case-insensitively', () => {
+      render(<Dropdown data={countries} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('Shift')
+      keydown('N')
+      keydown('o')
+
+      expect(getFocusedOption()).toBe('Norge')
+
+      vi.useFakeTimers()
+      vi.advanceTimersByTime(1100)
+
+      keydown('n')
+      keydown('e')
+      keydown('w')
+
+      expect(getFocusedOption()).toBe('New Zealand')
+    })
+
+    it('should start a new search after a pause', () => {
+      vi.useFakeTimers()
+      render(<Dropdown data={days} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('2')
+      vi.advanceTimersByTime(1100)
+      keydown('1')
+
+      expect(getFocusedOption()).toBe('1')
+    })
+
+    it('should cycle through the items when the same character repeats', () => {
+      render(<Dropdown data={countries} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('n')
+
+      expect(getFocusedOption()).toBe('Nederland')
+
+      keydown('n')
+
+      expect(getFocusedOption()).toBe('Nepal')
+    })
+
+    it('should start the cycling from the first match after a search of several characters', () => {
+      vi.useFakeTimers()
+      render(<Dropdown data={countries} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('n')
+      keydown('o')
+
+      expect(getFocusedOption()).toBe('Norge')
+
+      vi.advanceTimersByTime(1100)
+      keydown('n')
+
+      expect(getFocusedOption()).toBe('Nederland')
+    })
+
+    it('should start a new search when the list opens again', () => {
+      render(<Dropdown data={days} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('2')
+      keydown('Escape')
+      keydown('ArrowDown')
+      keydown('1')
+
+      expect(getFocusedOption()).toBe('1')
+    })
+
+    it('should keep the focused item when no item matches', () => {
+      render(<Dropdown data={countries} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('n')
+      keydown('x')
+
+      expect(getFocusedOption()).toBe('Nederland')
+    })
   })
 })
 
