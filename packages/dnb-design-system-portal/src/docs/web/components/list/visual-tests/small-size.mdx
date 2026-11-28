@@ -1,0 +1,57 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Checkbox, List, VisuallyHidden } from '@dnb/eufemia/src'
+
+<VisuallyHidden element="h1">List: Small rows</VisuallyHidden>
+
+<div
+  data-visual-test="list-small-size"
+  style={{
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'start',
+    padding: '1rem',
+  }}
+>
+  {['default', 'small'].map((size) => (
+    <List.Container
+      key={size}
+      size={size}
+      data-testid={size}
+      style={{ width: '22rem' }}
+    >
+      <List.Item.Basic>Plain text</List.Item.Basic>
+      <List.Item.Basic title="Title prop" />
+      <List.Item.Basic>
+        <List.Cell.Title>Title cell</List.Cell.Title>
+      </List.Item.Basic>
+      <List.Item.Action
+        title="Left chevron"
+        chevronPosition="left"
+        onClick={() => null}
+      />
+      <List.Item.Basic>
+        <List.Cell.Title>
+          <Checkbox label="Checkbox label" />
+        </List.Cell.Title>
+      </List.Item.Basic>
+      <List.Item.Action
+        title="Footer row"
+        onClick={() => null}
+        footer={<List.Cell.Footer>Footer content</List.Cell.Footer>}
+      />
+      <List.Item.Basic>
+        <List.Cell.Title>
+          Title with subline
+          <List.Cell.Title.Subline>
+            A second line of text
+          </List.Cell.Title.Subline>
+        </List.Cell.Title>
+      </List.Item.Basic>
+    </List.Container>
+  ))}
+</div>
