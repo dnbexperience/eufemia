@@ -608,21 +608,12 @@ html:where([data-whatintent=touch], [data-whatintent=keyboard]) .dnb-table > the
   right: 0;
 }
 
-.dnb-table__td__button:not(:active):not(:hover):focus-visible::before, .dnb-table__td--selected .dnb-table__td__button:not(:active):not(:hover):focus-visible::before {
+.dnb-table__td__button:not([disabled]):not(:active):focus:focus-visible::before, .dnb-table__td--selected .dnb-table__td__button:not([disabled]):not(:active):focus:focus-visible::before {
   --border-width: var(--focus-outline-width);
   --border-color: var(--token-color-stroke-action-focus);
 }
 
-.dnb-table__td__button:not(:active):not(:hover):focus-visible .dnb-table__td__button__icon {
-  opacity: 1;
-}
-
-html:where(:not([data-whatintent=mouse])) .dnb-table__td__button:not(:active):focus-visible::before, html:where(:not([data-whatintent=mouse])) .dnb-table__td--selected .dnb-table__td__button:not(:active):focus-visible::before {
-  --border-width: var(--focus-outline-width);
-  --border-color: var(--token-color-stroke-action-focus);
-}
-
-html:where(:not([data-whatintent=mouse])) .dnb-table__td__button:not(:active):focus-visible .dnb-table__td__button__icon {
+.dnb-table__td__button:not([disabled]):not(:active):focus:focus-visible .dnb-table__td__button__icon {
   opacity: 1;
 }
 
