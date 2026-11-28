@@ -1,0 +1,68 @@
+.dnb-chart-reference {
+  padding: 1rem;
+  color: var(--token-color-text-neutral);
+  background-color: var(--token-color-background-neutral);
+  border-radius: 0.25rem;
+}
+
+.dnb-chart-palette {
+  margin-bottom: 1.5rem;
+
+  section + section {
+    margin-top: 1.5rem;
+  }
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr));
+    gap: 0.25rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+
+    > span:first-child {
+      forced-color-adjust: none;
+      height: 3rem;
+      border: 1px solid rgb(0 0 0 / 10%);
+      border-radius: 0.25rem;
+    }
+  }
+}
+
+.dnb-chart-roles {
+  tbody tr > td {
+    vertical-align: middle;
+  }
+
+  th,
+  td,
+  code {
+    white-space: nowrap;
+  }
+
+  tbody th[scope='rowgroup'] {
+    vertical-align: top;
+  }
+
+  &__property {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__swatch {
+    forced-color-adjust: none;
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 1px solid;
+  }
+}

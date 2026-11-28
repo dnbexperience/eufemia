@@ -194,6 +194,7 @@ describe('findMissingEntryPoints', () => {
     'style/dnb-ui-basis.min.css',
     'style/dnb-ui-core.min.css',
     'style/dnb-ui-components.min.css',
+    'style/dnb-ui-charts.min.css',
   ]
 
   it('returns no violations when entry points and CSS bundles are present', () => {

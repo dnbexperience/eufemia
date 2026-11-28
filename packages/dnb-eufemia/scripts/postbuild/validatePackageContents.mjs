@@ -52,6 +52,7 @@ export const REQUIRED_CSS_FILES = [
   'style/dnb-ui-basis.min.css',
   'style/dnb-ui-core.min.css',
   'style/dnb-ui-components.min.css',
+  'style/dnb-ui-charts.min.css',
 ]
 
 // Patterns that must never appear in a published tarball.

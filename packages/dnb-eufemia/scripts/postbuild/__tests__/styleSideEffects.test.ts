@@ -24,6 +24,9 @@ describe.each([
     it.each([
       'style/index.js',
       'style/isolated.js',
+      'style/charts.js',
+      'style/dnb-ui-charts.min.css',
+      'style/dnb-ui-charts--isolated.min.css',
       'style/themes/ui/ui-theme-components.min.css',
       'components/button/style.js',
       'components/input/style.js',

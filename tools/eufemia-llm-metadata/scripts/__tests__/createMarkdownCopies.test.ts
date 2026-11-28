@@ -9,8 +9,80 @@ vi.mock('prettier', () => ({
 }))
 
 import { createMarkdownCopies } from '../../src/convertHelpers.ts'
+import propertiesModule from '@dnb/eufemia/src/style/themes/ui/properties.ts'
 
 describe('createMarkdownCopies', () => {
+  it('includes every chart color and role as Markdown alongside the guidance', async () => {
+    const repoRoot = path.resolve(process.cwd(), '../..')
+    const siteDir = path.join(
+      repoRoot,
+      'packages/dnb-design-system-portal'
+    )
+    const docsRoot = path.join(siteDir, 'src/docs')
+    const route = 'web/patterns-and-extensions/getting-started-with-charts'
+    const outputRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'llm-chart-colors-')
+    )
+
+    try {
+      await createMarkdownCopies({
+        siteDir,
+        docsRoot,
+        outputRoot,
+        entryFiles: [path.join(docsRoot, `${route}.mdx`)],
+        slugBase: '',
+      })
+      const output = fs.readFileSync(
+        path.join(outputRoot, `${route}.md`),
+        'utf-8'
+      )
+      const rows = Array.from(
+        output.matchAll(
+          /\| `(--chart-color-[^`]+)` \| `?(#[a-f0-9]+)`? \|/g
+        ),
+        ([, name, value]) => [name, value]
+      )
+      const properties =
+        'default' in propertiesModule
+          ? propertiesModule.default
+          : propertiesModule
+      const chartProperties = Object.entries(properties).filter(([name]) =>
+        name.startsWith('--chart-color-')
+      )
+
+      expect(rows).toHaveLength(chartProperties.length)
+      expect(Object.fromEntries(rows)).toEqual(
+        Object.fromEntries(
+          chartProperties.map(([name, value]) => [
+            name,
+            value.replace(
+              /^#([a-f0-9])([a-f0-9])([a-f0-9])$/i,
+              '#$1$1$2$2$3$3'
+            ),
+          ])
+        )
+      )
+      expect(output).toContain(
+        '| Role | CSS custom property | Hex value |'
+      )
+      expect(output).toContain('#### Gray')
+      expect(output).toContain('#### Purple')
+      expect(output).not.toMatch(/<Chart(?:Role)?Colors\b|from 'Docs\//)
+      expect(output).toContain('**Alpha:**')
+      expect(output).toContain('## Financial chart patterns')
+      expect(output).toContain('## Make the information accessible')
+      expect(output).toContain(
+        "import '@dnb/eufemia/style/dnb-ui-charts.min.css'"
+      )
+      expect(output).toContain(
+        "import '@dnb/eufemia/style/dnb-ui-charts--isolated.min.css'"
+      )
+      expect(output).toContain('getComputedStyle(chartElement)')
+    } finally {
+      fs.rmSync(outputRoot, { recursive: true, force: true })
+    }
+  })
+
   it('marks every generated Chat page once, including appended properties and events', async () => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-ai-notice-'))
     const docsRoot = path.join(root, 'docs')
