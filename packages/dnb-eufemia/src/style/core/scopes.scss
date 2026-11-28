@@ -87,11 +87,16 @@
 }
 
 // Global reduced motion support for accessibility
-@mixin globalReducedMotion() {
+// Pass a $scope to limit the rule to a wrapper element and its content
+@mixin globalReducedMotion($scope: null) {
+  $selector: '*, *::before, *::after';
+
+  @if $scope {
+    $selector: '#{$scope}, #{$scope} *, #{$scope} *::before, #{$scope} *::after';
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    #{$selector} {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
