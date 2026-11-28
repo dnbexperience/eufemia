@@ -103,7 +103,8 @@
     @include utilities.whatInput('keyboard') {
       &:focus:not([disabled]):not(.dnb-menu__action--disabled) {
         // Keep the outline under the mouse, so keyboard focus stays visible.
-        &:not(:active) {
+        // :where() keeps the specificity low, so the forced-colors rule wins.
+        &:where(:not(:active)) {
           @include utilities.focusOutline(
             $offset: calc(-1 * var(--focus-outline-width))
           );
