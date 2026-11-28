@@ -9,6 +9,7 @@ import Provider from '../../shared/Provider'
 import {
   validateDOMAttributes,
   extendExistingPropsWithContext,
+  extendPropsWithContext,
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import { useSpacing } from '../../components/space/SpacingUtils'
@@ -136,7 +137,7 @@ const paymentCardDefaultProps: Partial<PaymentCardProps> = {
 function PaymentCard(props: PaymentCardProps) {
   const context = useContext(Context)
 
-  const extendedProps = extendExistingPropsWithContext(
+  const extendedProps = extendPropsWithContext(
     {
       ...paymentCardDefaultProps,
       ...removeUndefinedProps({ ...props }),
