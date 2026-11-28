@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { act, useState } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Chip from '../Chip'
@@ -311,6 +313,48 @@ describe('Chip.Group', () => {
     )
     expect(savings).not.toBeChecked()
     expect(funds).not.toBeChecked()
+  })
+
+  it('keeps all chips checked before hydration in multiple selection', () => {
+    const onChange = vi.fn()
+    const element = (
+      <Chip.Group
+        label="Filters"
+        selectionMode="multiple"
+        onChange={onChange}
+      >
+        <Chip value="a">A</Chip>
+        <Chip value="b">B</Chip>
+        <Chip value="c">C</Chip>
+      </Chip.Group>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+
+    const [a, , c] = Array.from(container.querySelectorAll('input'))
+    a.checked = true
+    c.checked = true
+
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element)
+    })
+
+    expect(a.checked).toBe(true)
+    expect(c.checked).toBe(true)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({ value: 'a', values: ['a'] })
+    )
+    expect(onChange).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({ value: 'c', values: ['a', 'c'] })
+    )
+
+    act(() => root.unmount())
+    container.remove()
   })
 
   it.each(['default', 'addable'] as const)(

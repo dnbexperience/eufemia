@@ -65,6 +65,10 @@ function ChipGroup(localProps: ChipGroupProps) {
   const [previousValue, setPreviousValue] = useState(valueProp)
   const previousValuesRef = useRef(valuesProp)
 
+  // Several chips can change before a re-render, for example after hydration
+  const valuesRef = useRef(values)
+  valuesRef.current = values
+
   if (valueProp !== previousValue) {
     setPreviousValue(valueProp)
     setValue(valueProp)
@@ -88,11 +92,13 @@ function ChipGroup(localProps: ChipGroupProps) {
   )
 
   const handleChange = (change: ChipChangeEvent) => {
+    const currentValues = valuesRef.current
     const nextValues = multipleSelection
       ? change.checked
-        ? Array.from(new Set([...values, change.value]))
-        : values.filter((value) => value !== change.value)
+        ? Array.from(new Set([...currentValues, change.value]))
+        : currentValues.filter((value) => value !== change.value)
       : [change.value]
+    valuesRef.current = nextValues
 
     setValue(change.value)
     setValues(nextValues)
