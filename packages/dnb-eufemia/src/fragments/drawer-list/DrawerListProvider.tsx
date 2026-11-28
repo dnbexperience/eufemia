@@ -1063,6 +1063,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     clearTimeout(hideTimeoutRef.current)
 
     searchCacheRef.current = null
+    typeaheadRef.current.query = ''
 
     const handleSingleComponentCheck = () => {
       mergeState({
