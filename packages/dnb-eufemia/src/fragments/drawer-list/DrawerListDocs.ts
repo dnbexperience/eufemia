@@ -67,7 +67,7 @@ export const DrawerListProperties: PropertiesTableProps = {
     status: 'optional',
   },
   skipKeysearch: {
-    doc: 'If set to `true`, search items by the first key will be ignored.',
+    doc: 'If set to `true`, typing will not search the items, neither by the first character nor by several characters typed in quick succession.',
     type: 'boolean',
     status: 'optional',
   },

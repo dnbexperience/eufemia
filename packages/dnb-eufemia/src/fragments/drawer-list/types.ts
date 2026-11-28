@@ -263,7 +263,7 @@ export type DrawerListProps = {
   keepOpen?: boolean
   preventFocus?: boolean
   /**
-   * If set to `true`, search items by the first key will be ignored.
+   * If set to `true`, typing will not search the items, neither by the first character nor by several characters typed in quick succession.
    */
   skipKeysearch?: boolean
   /**
