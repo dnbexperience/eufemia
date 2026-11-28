@@ -15,6 +15,7 @@ import {
   P,
 } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { bell_medium as bell } from '@dnb/eufemia/src/icons'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
@@ -177,6 +178,28 @@ export const BadgeButtonSizes = () => (
         </Flex.Container>
       ))}
     </Flex.Stack>
+  </ComponentBox>
+)
+
+export const BadgeIconButton = () => (
+  <ComponentBox scope={{ bell }}>
+    <Flex.Container gap="large" align="center">
+      <Badge
+        content={3}
+        label="Unread notifications"
+        variant="notification"
+        horizontal="right"
+        vertical="top"
+      >
+        <Button
+          title="Open notifications"
+          icon={bell}
+          iconSize="medium"
+          size="medium"
+          variant="tertiary"
+        />
+      </Badge>
+    </Flex.Container>
   </ComponentBox>
 )
 
