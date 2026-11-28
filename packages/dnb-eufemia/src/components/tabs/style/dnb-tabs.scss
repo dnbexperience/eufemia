@@ -203,7 +203,10 @@
       text-align: center;
 
       display: block;
-      color: var(--tab-title-font-color);
+      color: var(
+        --tab-title-font-color--surface,
+        var(--tab-title-font-color)
+      );
       padding: 0.5rem 0 0.25rem;
 
       .dnb-icon {
@@ -579,4 +582,17 @@
       content: none;
     }
   }
+}
+
+// The label color follows the nearest Section that paints a background.
+.dnb-section:not(.dnb-section--transparent) {
+  --tab-title-font-color--surface: initial;
+}
+
+.dnb-section:is(
+  .dnb-section--information,
+  .dnb-section--error,
+  .dnb-section--success
+) {
+  --tab-title-font-color--surface: var(--token-color-text-neutral);
 }
