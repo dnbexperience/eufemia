@@ -4,11 +4,13 @@ import path from 'node:path'
 import { log } from '../../lib'
 import {
   CI_ALWAYS_RUN_BRANCHES,
+  MAX_SCREENSHOT_SHARDS,
   NON_VISUAL_SOURCE_FILES,
   NON_VISUAL_SOURCE_PATH_PREFIXES,
   PORTAL_DOCS_REPO_PREFIX,
   RUN_ALL_COMMIT_FLAG,
   RUN_ALL_ENV_VAR,
+  SCREENSHOT_FILES_PER_SHARD,
 } from './config'
 import { createContext } from './context'
 import { loadScssDependencyMap } from './dependencyMaps'
@@ -74,13 +76,35 @@ export function shouldRunAllByEnvironment(
   return env[RUN_ALL_ENV_VAR] === 'true'
 }
 
-// Lets the CI workflow skip the portal build when no screenshot test can be affected
-export function writeSkipPlan(
+export function getShardCount(testCount: number): number {
+  return Math.min(
+    MAX_SCREENSHOT_SHARDS,
+    Math.max(1, Math.ceil(testCount / SCREENSHOT_FILES_PER_SHARD))
+  )
+}
+
+// Lets the CI workflow split the run into parallel shards. No tests means all of them.
+export function writeRunPlan(
+  testCount: number,
+  tests: string[] = [],
   outputFile: string | undefined = process.env.GITHUB_OUTPUT
 ) {
-  if (outputFile) {
-    appendFileSync(outputFile, 'skip=true\n')
+  if (!outputFile) {
+    return
   }
+
+  const shardTotal = getShardCount(testCount)
+  const shards = Array.from({ length: shardTotal }, (_, i) => i + 1)
+
+  appendFileSync(
+    outputFile,
+    [
+      `tests=${tests.join(',')}`,
+      `shard-total=${shardTotal}`,
+      `shards=${JSON.stringify(shards)}`,
+      '',
+    ].join('\n')
+  )
 }
 
 export function resolveCliOptions(argv: string[]): CliOptions {
@@ -271,6 +295,9 @@ export async function runScreenshotsTests() {
         : `because CI could not list all changed files (${RUN_ALL_ENV_VAR})`
 
     log.info(logWithLabel(`Running all screenshot tests ${reason}.`))
+    if (isPlan) {
+      writeRunPlan(collectScreenshotTests(context).length)
+    }
     if (!isDryRun) {
       runCommand(context.packageRoot, commandTokens)
     }
@@ -286,10 +313,6 @@ export async function runScreenshotsTests() {
 
     if (shouldExplain) {
       printExplainOutput(changedFilesMode, [], [], {})
-    }
-
-    if (isPlan) {
-      writeSkipPlan()
     }
 
     return
@@ -349,6 +372,10 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
+    if (isPlan) {
+      writeRunPlan(collectScreenshotTests(context).length)
+    }
+
     if (isDryRun) {
       return
     }
@@ -366,10 +393,6 @@ export async function runScreenshotsTests() {
 
     if (shouldExplain) {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
-    }
-
-    if (isPlan) {
-      writeSkipPlan()
     }
 
     return
@@ -395,20 +418,6 @@ export async function runScreenshotsTests() {
       printExplainOutput(changedFilesMode, changedFiles, [], {})
     }
 
-    if (isPlan) {
-      writeSkipPlan()
-    }
-
-    return
-  }
-
-  // Stop before the dependency graphs, which the test run builds anyway
-  if (isPlan) {
-    log.info(
-      logWithLabel(
-        'Visual changes found. The test run selects the screenshot tests.'
-      )
-    )
     return
   }
 
@@ -450,6 +459,15 @@ export async function runScreenshotsTests() {
       selection.tests,
       details.testCauses
     )
+  }
+
+  // Writes no shards when no screenshot test can be affected
+  if (isPlan && selection.mode !== 'skip') {
+    if (selection.mode === 'all') {
+      writeRunPlan(allScreenshotTests.length)
+    } else {
+      writeRunPlan(selection.tests.length, selection.tests)
+    }
   }
 
   if (isDryRun || selection.mode === 'skip') {

@@ -2,9 +2,11 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import {
+  getShardCount,
   resolveCliOptions,
+  runScreenshotsTests,
   shouldRunAllByEnvironment,
-  writeSkipPlan,
+  writeRunPlan,
 } from '../runScreenshotsConditionally/runner'
 
 describe('runScreenshotsConditionally runner cli options', () => {
@@ -55,17 +57,69 @@ describe('runScreenshotsConditionally runner cli options', () => {
 })
 
 describe('runScreenshotsConditionally runner plan', () => {
-  it('writes the skip output for the CI workflow', () => {
+  it('writes the selected tests and shards for the CI workflow', () => {
     const directory = mkdtempSync(path.join(tmpdir(), 'visual-plan-'))
     const outputFile = path.join(directory, 'output')
 
     try {
-      writeSkipPlan(outputFile)
+      writeRunPlan(
+        2,
+        ['src/a.screenshot.test.ts', 'src/b.screenshot.test.ts'],
+        outputFile
+      )
 
-      expect(readFileSync(outputFile, 'utf8')).toBe('skip=true\n')
+      expect(readFileSync(outputFile, 'utf8')).toBe(
+        'tests=src/a.screenshot.test.ts,src/b.screenshot.test.ts\nshard-total=1\nshards=[1]\n'
+      )
     } finally {
       rmSync(directory, { recursive: true, force: true })
     }
+  })
+
+  it('writes empty tests to run all of them', () => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'visual-plan-'))
+    const outputFile = path.join(directory, 'output')
+
+    try {
+      writeRunPlan(118, [], outputFile)
+
+      expect(readFileSync(outputFile, 'utf8')).toBe(
+        'tests=\nshard-total=4\nshards=[1,2,3,4]\n'
+      )
+    } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  // Without a plan, the shard job is skipped and the required check still passes.
+  it('plans all shards when the branch always runs all tests', async () => {
+    const directory = mkdtempSync(path.join(tmpdir(), 'visual-plan-'))
+    const outputFile = path.join(directory, 'output')
+    const argv = process.argv
+    vi.stubEnv('GITHUB_REF_NAME', 'main')
+    vi.stubEnv('GITHUB_OUTPUT', outputFile)
+    process.argv = ['node', 'runner', '--plan']
+
+    try {
+      await runScreenshotsTests()
+
+      expect(readFileSync(outputFile, 'utf8')).toBe(
+        'tests=\nshard-total=4\nshards=[1,2,3,4]\n'
+      )
+    } finally {
+      process.argv = argv
+      vi.unstubAllEnvs()
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  it('adds a shard per 15 test files, up to four', () => {
+    expect(getShardCount(0)).toBe(1)
+    expect(getShardCount(15)).toBe(1)
+    expect(getShardCount(16)).toBe(2)
+    expect(getShardCount(45)).toBe(3)
+    expect(getShardCount(46)).toBe(4)
+    expect(getShardCount(500)).toBe(4)
   })
 })
 
