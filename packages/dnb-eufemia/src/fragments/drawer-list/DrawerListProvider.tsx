@@ -267,6 +267,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const setDirectionFnRef = useRef<(() => void) | null>(null)
   const rootElemRef = useRef<Window | Element>(null)
   const changedOrderForRef = useRef<string | null>(null)
+  const typeaheadRef = useRef({ query: '', time: 0 })
   const searchCacheRef = useRef<Record<string, { i: number }[]> | null>(
     null
   )
@@ -545,6 +546,30 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
     try {
       value = String(value).toLowerCase()
+
+      // Characters typed in quick succession search together, so "21" finds "21"
+      if (value.length === 1) {
+        const now = Date.now()
+        const typeahead = typeaheadRef.current
+        typeahead.query =
+          now - typeahead.time > 500 ? value : typeahead.query + value
+        typeahead.time = now
+
+        // A repeated character keeps cycling through the items that start with it
+        const query = typeahead.query
+        if (query.length > 1 && query !== value.repeat(query.length)) {
+          return stateRef.current.data.findIndex((itemData) =>
+            String(
+              parseContentTitle(itemData, {
+                separator: ' ',
+                removeNumericOnlyValues: true,
+              })
+            )
+              .toLowerCase()
+              .startsWith(query)
+          )
+        }
+      }
 
       if (changedOrderForRef.current !== value) {
         searchCacheRef.current = null

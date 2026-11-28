@@ -435,11 +435,16 @@ describe('DrawerList component', () => {
       document.querySelector('.dnb-drawer-list__option--focus')
     ).toBeInTheDocument()
 
+    const now = vi.spyOn(Date, 'now').mockReturnValue(1000)
+
     keydown('s')
 
     await waitFor(() => {
       expect(getFocusedItemIndex()).toBe(1)
     })
+
+    // pause, so the next key starts a new search
+    now.mockReturnValue(2000)
 
     keydown('f')
 
@@ -447,6 +452,8 @@ describe('DrawerList component', () => {
       expect(getFocusedItemIndex()).toBe(2)
       expect(getSelectedItemIndex()).toBe(2)
     })
+
+    now.mockRestore()
   })
 
   it('does not change focus with no search results', async () => {
