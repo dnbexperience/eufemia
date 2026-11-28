@@ -45,7 +45,7 @@ export type * from './types'
 const toggleButtonDefaultProps: Partial<ToggleButtonProps> = {
   text: null,
   label: null,
-  labelDirection: 'vertical',
+  labelDirection: undefined,
   labelSrOnly: null,
   title: null,
   checked: undefined,
@@ -249,7 +249,7 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     globalStatus,
     suffix,
     label,
-    labelDirection,
+    labelDirection = 'vertical',
     labelSrOnly,
     text,
     title,

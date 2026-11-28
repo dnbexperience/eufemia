@@ -181,7 +181,6 @@ export type DropdownAllProps = DropdownProps &
 
 const dropdownDefaultProps: Partial<DropdownAllProps> = {
   variant: 'secondary',
-  labelDirection: 'vertical',
   statusState: 'error',
   scrollable: true,
   focusable: false,
@@ -425,7 +424,7 @@ const DropdownComponent = memo(function DropdownComponent({
 
   const {
     label,
-    labelDirection,
+    labelDirection = 'vertical',
     labelSrOnly,
     iconSize,
     size,

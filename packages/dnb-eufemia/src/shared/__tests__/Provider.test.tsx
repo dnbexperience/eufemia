@@ -8,6 +8,14 @@ import HelpButton from '../../components/help-button/HelpButton'
 import Chip from '../../components/chip/Chip'
 import GlobalError from '../../components/global-error/GlobalError'
 import CardCloseButton from '../../components/card/CardCloseButton'
+import Input from '../../components/input/Input'
+import Textarea from '../../components/textarea/Textarea'
+import Dropdown from '../../components/dropdown/Dropdown'
+import Autocomplete from '../../components/autocomplete/Autocomplete'
+import DatePicker from '../../components/date-picker/DatePicker'
+import Slider from '../../components/slider/Slider'
+import ToggleButton from '../../components/toggle-button/ToggleButton'
+import Radio from '../../components/radio/Radio'
 
 import type {
   ContextProps,
@@ -1140,5 +1148,186 @@ describe('Provider', () => {
         )
       })
     })
+  })
+  describe('formElement', () => {
+    it.each([
+      [
+        'Input',
+        <Input key="input" label="Label" labelDirection="vertical" />,
+        '.dnb-input',
+        'dnb-input--vertical',
+      ],
+      [
+        'Textarea',
+        <Textarea
+          key="textarea"
+          label="Label"
+          labelDirection="vertical"
+        />,
+        '.dnb-textarea',
+        'dnb-textarea--vertical',
+      ],
+      [
+        'Dropdown',
+        <Dropdown
+          key="dropdown"
+          label="Label"
+          data={['A']}
+          labelDirection="vertical"
+        />,
+        '.dnb-dropdown',
+        'dnb-dropdown--vertical',
+      ],
+      [
+        'Autocomplete',
+        <Autocomplete
+          key="autocomplete"
+          label="Label"
+          data={['A']}
+          labelDirection="vertical"
+        />,
+        '.dnb-autocomplete',
+        'dnb-autocomplete--vertical',
+      ],
+      [
+        'DatePicker',
+        <DatePicker
+          key="date-picker"
+          label="Label"
+          labelDirection="vertical"
+        />,
+        '.dnb-date-picker',
+        'dnb-date-picker--vertical',
+      ],
+      [
+        'Slider',
+        <Slider
+          key="slider"
+          label="Label"
+          value={1}
+          labelDirection="vertical"
+        />,
+        '.dnb-slider',
+        'dnb-slider__label--vertical',
+      ],
+      [
+        'ToggleButton',
+        <ToggleButton
+          key="toggle-button"
+          label="Label"
+          text="Text"
+          labelDirection="vertical"
+        />,
+        '.dnb-toggle-button',
+        'dnb-toggle-button--vertical',
+      ],
+      [
+        'ToggleButton.Group',
+        <ToggleButton.Group
+          key="toggle-button-group"
+          label="Label"
+          labelDirection="vertical"
+        >
+          <ToggleButton text="A" value="a" />
+        </ToggleButton.Group>,
+        '.dnb-toggle-button-group .dnb-flex-container',
+        'dnb-flex-container--direction-vertical',
+      ],
+      [
+        'Radio.Group',
+        <Radio.Group
+          key="radio-group"
+          label="Label"
+          labelDirection="vertical"
+        >
+          <Radio label="A" value="a" />
+        </Radio.Group>,
+        '.dnb-radio-group .dnb-flex-container',
+        'dnb-flex-container--direction-vertical',
+      ],
+    ])(
+      'lets labelDirection on %s override formElement.labelDirection',
+      (_, element, selector, className) => {
+        render(
+          <Provider formElement={{ labelDirection: 'horizontal' }}>
+            {element}
+          </Provider>
+        )
+
+        expect(document.querySelector(selector)).toHaveClass(className)
+      }
+    )
+
+    it.each([
+      [
+        'Input',
+        <Input key="input" label="Label" />,
+        '.dnb-input',
+        'dnb-input--horizontal',
+      ],
+      [
+        'Textarea',
+        <Textarea key="textarea" label="Label" />,
+        '.dnb-textarea',
+        'dnb-textarea--horizontal',
+      ],
+      [
+        'Dropdown',
+        <Dropdown key="dropdown" label="Label" data={['A']} />,
+        '.dnb-dropdown',
+        'dnb-dropdown--horizontal',
+      ],
+      [
+        'Autocomplete',
+        <Autocomplete key="autocomplete" label="Label" data={['A']} />,
+        '.dnb-autocomplete',
+        'dnb-autocomplete--horizontal',
+      ],
+      [
+        'DatePicker',
+        <DatePicker key="date-picker" label="Label" />,
+        '.dnb-date-picker',
+        'dnb-date-picker--horizontal',
+      ],
+      [
+        'Slider',
+        <Slider key="slider" label="Label" value={1} />,
+        '.dnb-slider',
+        'dnb-slider__label--horizontal',
+      ],
+      [
+        'ToggleButton',
+        <ToggleButton key="toggle-button" label="Label" text="Text" />,
+        '.dnb-toggle-button',
+        'dnb-toggle-button--horizontal',
+      ],
+      [
+        'ToggleButton.Group',
+        <ToggleButton.Group key="toggle-button-group" label="Label">
+          <ToggleButton text="A" value="a" />
+        </ToggleButton.Group>,
+        '.dnb-toggle-button-group .dnb-flex-container',
+        'dnb-flex-container--direction-horizontal',
+      ],
+      [
+        'Radio.Group',
+        <Radio.Group key="radio-group" label="Label">
+          <Radio label="A" value="a" />
+        </Radio.Group>,
+        '.dnb-radio-group .dnb-flex-container',
+        'dnb-flex-container--direction-horizontal',
+      ],
+    ])(
+      'lets %s inherit formElement.labelDirection when labelDirection is not set',
+      (_, element, selector, className) => {
+        render(
+          <Provider formElement={{ labelDirection: 'horizontal' }}>
+            {element}
+          </Provider>
+        )
+
+        expect(document.querySelector(selector)).toHaveClass(className)
+      }
+    )
   })
 })

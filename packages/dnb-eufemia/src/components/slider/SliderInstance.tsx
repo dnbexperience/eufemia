@@ -45,7 +45,7 @@ export function SliderInstance() {
     id,
     label,
     labelSrOnly,
-    labelDirection,
+    labelDirection = 'vertical',
     status,
     statusProps,
     statusState,

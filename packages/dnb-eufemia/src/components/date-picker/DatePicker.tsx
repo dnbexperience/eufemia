@@ -398,7 +398,6 @@ const datePickerDefaultProps: Partial<DatePickerAllProps> = {
   direction: 'auto',
   skipPortal: false,
   yearNavigation: false,
-  labelDirection: 'vertical',
 }
 
 function DatePicker(externalProps: DatePickerAllProps) {
@@ -587,7 +586,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const {
     label,
     title,
-    labelDirection,
+    labelDirection = 'vertical',
     labelSrOnly,
     hideAdjacentMonthDates,
     onlyMonth,
