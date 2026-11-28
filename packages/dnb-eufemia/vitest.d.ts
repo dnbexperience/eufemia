@@ -15,6 +15,7 @@ declare module 'vitest' {
       timeout?: number;
       interval?: number;
     }): Promise<T>;
+    toMatchImageSnapshot(): Promise<T>;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -26,5 +27,6 @@ declare module 'vitest' {
       timeout?: number;
       interval?: number;
     }): void;
+    toMatchImageSnapshot(): void;
   }
 }

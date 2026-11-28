@@ -31,7 +31,8 @@
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
   "devDependencies": {
-    "prettier": "3.8.1"
+    "prettier": "3.8.1",
+    "typescript-native": "patch:typescript@npm%3A7.0.2#~/.yarn/patches/typescript-npm-7.0.2-tsgo-bin.patch"
   },
   "resolutions": {
     "sharp": "0.35.5",
