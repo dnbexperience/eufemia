@@ -629,6 +629,7 @@ const DropdownComponent = memo(function DropdownComponent({
                 statusState={statusState}
                 icon={false} // only to suppress the warning about the icon when tertiary variant is used
                 size={(size === 'default' ? 'medium' : size) as ButtonSize}
+                skeleton={skeleton}
                 ref={setButtonRef}
                 customContent={
                   <>
@@ -650,6 +651,7 @@ const DropdownComponent = memo(function DropdownComponent({
                       {icon !== false && (
                         <Icon
                           icon={icon || 'chevron_down'}
+                          skeleton={skeleton}
                           size={
                             iconSize ||
                             (size === 'large' ? 'medium' : 'default')
