@@ -24,7 +24,7 @@ function getReducedMotionSelectors(css: string) {
 
 describe('Reduced motion CSS', () => {
   it('reduces motion on the whole page in the core styles', () => {
-    const css = loadScss(require.resolve('../dnb-ui-core.scss'))
+    const css = String(loadScss(require.resolve('../dnb-ui-core.scss')))
 
     expect(getReducedMotionSelectors(css)).toEqual([
       '*',
@@ -34,7 +34,7 @@ describe('Reduced motion CSS', () => {
   })
 
   it('reduces motion only inside the wrapper in the basis styles', () => {
-    const css = loadScss(require.resolve('../dnb-ui-basis.scss'))
+    const css = String(loadScss(require.resolve('../dnb-ui-basis.scss')))
 
     expect(getReducedMotionSelectors(css)).toEqual([
       '.dnb-core-style',
@@ -45,7 +45,7 @@ describe('Reduced motion CSS', () => {
   })
 
   it('reduces motion only inside the scope in the isolated basis styles', async () => {
-    const css = loadScss(require.resolve('../dnb-ui-basis.scss'))
+    const css = String(loadScss(require.resolve('../dnb-ui-basis.scss')))
     const isolated = await postcss([
       isolatedStyleScopePlugin({
         scopeHash: 'test-scope',
