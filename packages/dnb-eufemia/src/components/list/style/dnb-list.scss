@@ -805,7 +805,7 @@
         cursor: not-allowed;
       }
 
-      a {
+      a[aria-disabled='true'] {
         cursor: not-allowed;
       }
     }

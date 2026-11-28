@@ -462,7 +462,7 @@ for (const width of [400, 1024]) {
       }
     })
 
-    test('keeps disabled footer content available to screen readers', async ({
+    test('keeps disabled footer content available to screen readers, and links with disabled={false} usable', async ({
       page,
     }) => {
       await page.goto('/uilib/components/list/visual-tests/action-footer/')
@@ -486,11 +486,24 @@ for (const width of [400, 1024]) {
         expect(snapshot).toContain('Footer details')
         expect(snapshot).toContain('Unavailable action')
         expect(snapshot).toContain('Footer help')
-        await expect(item.locator('a')).not.toHaveAttribute('href')
+        const disabledLink = item.getByRole('link', {
+          name: 'Footer help',
+        })
+        await expect(disabledLink).not.toHaveAttribute('href')
+        await expect(disabledLink).toHaveCSS('cursor', 'not-allowed')
         await expect(item.locator('[role="button"]')).toHaveAttribute(
           'tabindex',
           '-1'
         )
+
+        const enabledLink = item.getByRole('link', {
+          name: 'Why unavailable',
+        })
+        await expect(enabledLink).toHaveAttribute(
+          'href',
+          '/web/components/list/'
+        )
+        await expect(enabledLink).toHaveCSS('cursor', 'pointer')
       }
     })
 
