@@ -13,6 +13,7 @@ type Options = {
   skipClassNames?: string[]
   defaultScopeHash?: string
   runAsCssModule?: boolean
+  useWhere?: boolean
   verbose?: boolean
   replaceClassNames?: Record<string, string>
   postcssOptions?: postcss.ProcessOptions
@@ -41,6 +42,312 @@ async function run(
 }
 
 describe('isolated-style-scope-plugin', () => {
+  describe('Scope specificity', () => {
+    it.each([undefined, false])(
+      'should recognize existing scopes and skipped classes inside :where() when useWhere is %s',
+      async (useWhere) => {
+        const css =
+          ':where(.eufemia-scope--custom) .x, :where(.skip-class) .x { color: red; }'
+
+        await run(css, css, { skipClassNames: ['skip-class'], useWhere })
+      }
+    )
+
+    it.each([undefined, false])(
+      'should preserve matching scope placement when useWhere is %s',
+      async (useWhere) => {
+        const css =
+          '.x .eufemia-scope--custom, .eufemia-scope--custom.x, :global(.eufemia-scope--custom .y) { color: red; }'
+
+        await run(css, css, {
+          scopeHash: 'eufemia-scope--custom',
+          useWhere,
+        })
+      }
+    )
+
+    it.each([undefined, false])(
+      'should keep plain CSS scopes local after a global ancestor when useWhere is %s',
+      async (useWhere) => {
+        await run(
+          ':global(html) .eufemia-scope--old .x { color: red; }',
+          'html .custom-scope .x { color: red; }',
+          { scopeHash: 'custom-scope', useWhere }
+        )
+      }
+    )
+
+    it.each([undefined, false, true])(
+      'should keep an existing bare scope global in CSS Modules when useWhere is %s',
+      async (useWhere) => {
+        const scope = useWhere
+          ? ':global(:where(.eufemia-scope--test))'
+          : ':global(.eufemia-scope--test)'
+
+        await run(
+          '.eufemia-scope--test .dnb-button { color: red; }',
+          `${scope} .dnb-button { color: red; }`,
+          {
+            scopeHash: 'eufemia-scope--test',
+            runAsCssModule: true,
+            useWhere,
+          }
+        )
+      }
+    )
+
+    it.each([undefined, false])(
+      'should retain attribute skip behavior inside globals when useWhere is %s',
+      async (useWhere) => {
+        await run(
+          ':global([data-skip]) .dnb-button { color: red; }',
+          '.test-scope :global([data-skip]) .dnb-button { color: red; }',
+          {
+            scopeHash: 'test-scope',
+            skipClassNames: ['data-skip'],
+            useWhere,
+          }
+        )
+      }
+    )
+
+    it.each([undefined, false])(
+      'should retain class replacement behavior inside globals when useWhere is %s',
+      async (useWhere) => {
+        await run(
+          ':global(.old-class) .old-class { color: red; }',
+          ':global(.test-scope) :global(.old-class) .new-class { color: red; }',
+          {
+            scopeHash: 'test-scope',
+            runAsCssModule: true,
+            replaceClassNames: { 'old-class': 'new-class' },
+            useWhere,
+          }
+        )
+      }
+    )
+
+    it.each([undefined, false])(
+      'should retain the existing specificity when useWhere is %s',
+      async (useWhere) => {
+        await run(
+          '.dnb-button, .dnb-button:hover::before { color: red; }',
+          '.test-scope .dnb-button, .test-scope .dnb-button:hover::before { color: red; }',
+          { scopeHash: 'test-scope', useWhere }
+        )
+      }
+    )
+
+    it.each([false, true])(
+      'should use zero-specificity prefixes when opted in with CSS Modules set to %s',
+      async (runAsCssModule) => {
+        const scope = runAsCssModule
+          ? ':global(:where(.test-scope))'
+          : ':where(.test-scope)'
+
+        await run(
+          '.dnb-button, .dnb-button:hover::before { color: red; }',
+          `${scope} .dnb-button, ${scope} .dnb-button:hover::before { color: red; }`,
+          { scopeHash: 'test-scope', runAsCssModule, useWhere: true }
+        )
+      }
+    )
+
+    it.each([
+      [
+        '.parent > .child + .sibling',
+        ':where(.test-scope) .parent > .child + .sibling',
+      ],
+      [
+        'html body .dnb-button::after',
+        'html body :where(.test-scope) .dnb-button::after',
+      ],
+      [
+        '*, ::before, ::after',
+        ':where(.test-scope) *, :where(.test-scope) ::before, :where(.test-scope) ::after',
+      ],
+      [
+        ':is(.first, .second):not([hidden])',
+        ':where(.test-scope) :is(.first, .second):not([hidden])',
+      ],
+      [
+        ':where(.first, .second)',
+        ':where(.test-scope) :where(.first, .second)',
+      ],
+      [
+        ':root, .dnb-button',
+        '.test-scope, :where(.test-scope) .dnb-button',
+      ],
+      ['[scope-placeholder] .dnb-button', '.test-scope .dnb-button'],
+      ['[skip-isolation] .external', '.external'],
+      [
+        '.eufemia-scope--old .dnb-button',
+        ':where(.test-scope) .dnb-button',
+      ],
+    ])('should scope %s when opted in', async (input, expected) => {
+      await run(
+        `${input} { color: red; }`,
+        `${expected} { color: red; }`,
+        {
+          scopeHash: 'test-scope',
+          useWhere: true,
+        }
+      )
+    })
+
+    it('should use the automatic scope hash when opted in', async () => {
+      await run(
+        '.dnb-button { color: red; }',
+        ':where(.eufemia-scope--default) .dnb-button { color: red; }',
+        { useWhere: true }
+      )
+    })
+
+    it.each([false, true])(
+      'should scope shared hashes with CSS Modules set to %s when opted in',
+      async (runAsCssModule) => {
+        const scope = (hash: string) =>
+          runAsCssModule ? `:global(:where(.${hash}))` : `:where(.${hash})`
+
+        await run(
+          '.dnb-button { color: red; }',
+          `${scope('main-scope')} .dnb-button, ${scope('shared-scope')} .dnb-button { color: red; }`,
+          {
+            scopeHash: 'main-scope',
+            sharedScopeHash: () => ['shared-scope'],
+            runAsCssModule,
+            useWhere: true,
+          }
+        )
+      }
+    )
+
+    it.each([false, true])(
+      'should preserve grouped global scopes with useWhere set to %s',
+      async (useWhere) => {
+        const css =
+          ':global(.eufemia-scope--default, .eufemia-scope--shared) { color: red; }'
+
+        await run(css, css, { useWhere })
+      }
+    )
+
+    it.each([false, true])(
+      'should replace grouped global scopes with useWhere set to %s',
+      async (useWhere) => {
+        const scope = useWhere
+          ? ':global(:where(.custom-scope))'
+          : ':global(.custom-scope)'
+
+        await run(
+          ':global(.eufemia-scope--old, .eufemia-scope--shared) .dnb-button { color: red; }',
+          `${scope} .dnb-button { color: red; }`,
+          { scopeHash: 'custom-scope', useWhere }
+        )
+        await run(
+          ':global(.eufemia-scope--old.eufemia-scope--shared.dnb-button) { color: red; }',
+          `${scope} :global(.dnb-button) { color: red; }`,
+          { scopeHash: 'custom-scope', useWhere }
+        )
+        await run(
+          ':global(.eufemia-scope--old.dnb-button, .eufemia-scope--shared.dnb-input) { color: red; }',
+          `${scope} :global(.dnb-button,.dnb-input) { color: red; }`,
+          { scopeHash: 'custom-scope', useWhere }
+        )
+      }
+    )
+
+    it.each([
+      { scopeHash: 'test-scope', runAsCssModule: false },
+      { scopeHash: 'test-scope', runAsCssModule: true },
+      { scopeHash: 'eufemia-scope--test', runAsCssModule: false },
+      { scopeHash: 'eufemia-scope--test', runAsCssModule: true },
+    ])(
+      'should keep $scopeHash unchanged on a second pass with CSS Modules set to $runAsCssModule',
+      async (options) => {
+        const css = await run(
+          ':root, .dnb-button, html body .dnb-button::before { color: red; }',
+          undefined,
+          { ...options, useWhere: true }
+        )
+
+        await run(css, css, { ...options, useWhere: true })
+        await run(css, css, options)
+      }
+    )
+
+    it.each([
+      ':where(.eufemia-scope--old)',
+      ':global(:where(.eufemia-scope--old))',
+      ':where(:global(.eufemia-scope--old))',
+    ])('should replace a scope inside %s when opted in', async (scope) => {
+      const expectedScope = scope.includes(':global')
+        ? ':global(:where(.custom-scope))'
+        : ':where(.custom-scope)'
+
+      await run(
+        `html ${scope} .dnb-button::before { content: ""; }`,
+        `html ${expectedScope} .dnb-button::before { content: ""; }`,
+        { scopeHash: 'custom-scope', useWhere: true }
+      )
+    })
+
+    it('should replace class names inside a generated scope', async () => {
+      await run(
+        ':where(.eufemia-scope--old) .dnb-button { color: red; }',
+        ':where(.eufemia-scope--new) .dnb-button { color: red; }',
+        {
+          replaceClassNames: {
+            'eufemia-scope--old': 'eufemia-scope--new',
+          },
+          useWhere: true,
+        }
+      )
+    })
+
+    it('should preserve explicitly skipped scopes inside :where()', async () => {
+      await run(
+        ':where(.eufemia-scope--old) .dnb-button { color: red; }',
+        ':where(.eufemia-scope--old) .dnb-button { color: red; }',
+        { skipClassNames: ['eufemia-scope--old'], useWhere: true }
+      )
+    })
+
+    it.each([false, true])(
+      'should preserve scope-element specificity with CSS Modules set to %s when opted in',
+      async (runAsCssModule) => {
+        const scope = runAsCssModule
+          ? ':global(.test-scope)'
+          : '.test-scope'
+
+        await run(
+          'body[data-theme], html[data-x] body[data-theme] { color: red; }',
+          `body[data-theme] ${scope}, html[data-x] body[data-theme] ${scope} { color: red; }`,
+          { scopeHash: 'test-scope', runAsCssModule, useWhere: true }
+        )
+      }
+    )
+
+    it.each([false, true])(
+      'should preserve explicit placeholder and root specificity with CSS Modules set to %s when opted in',
+      async (runAsCssModule) => {
+        const scope = runAsCssModule
+          ? ':global(.eufemia-scope--test)'
+          : '.eufemia-scope--test'
+
+        await run(
+          ':root, [scope-placeholder] .dnb-button { color: red; }',
+          `${scope}, ${scope} .dnb-button { color: red; }`,
+          {
+            scopeHash: 'eufemia-scope--test',
+            runAsCssModule,
+            useWhere: true,
+          }
+        )
+      }
+    )
+  })
+
   describe('Basic Selector Scoping', () => {
     it('should add scope class to simple selectors', async () => {
       return await run(

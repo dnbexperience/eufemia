@@ -26,6 +26,7 @@ const postcssIsolateStyle = (opts = {}) => {
     replaceClassNames = undefined,
     verbose = false,
     runAsCssModule = false,
+    useWhere = false,
     warnOnDeprecatedColorVariables = true,
   } = opts
 
@@ -186,7 +187,9 @@ const postcssIsolateStyle = (opts = {}) => {
               }
 
               // 2. Replace class names if matched
-              group.nodes.forEach((n) => {
+              const scopeNodes = group.nodes.flatMap(getScopeNodes)
+              const replacementNodes = useWhere ? scopeNodes : group.nodes
+              replacementNodes.forEach((n) => {
                 if (
                   n.type === 'class' &&
                   replaceClassNamesMap?.has(n.value)
@@ -196,22 +199,14 @@ const postcssIsolateStyle = (opts = {}) => {
               })
 
               // 3. detect already scoped or nodes to skip
-              const alreadyWrappedOrShouldSkip = group.nodes.some((n) => {
-                if (n.type === 'pseudo' && n.value === ':global') {
-                  return n.nodes?.[0]?.nodes?.some(
-                    (sub) =>
-                      sub.type === 'class' &&
-                      (sub.value === scope ||
-                        sub.value.startsWith(defaultScopeHash) ||
-                        skipClassNamesSet.has(sub.value))
-                  )
-                }
+              const alreadyWrappedOrShouldSkip = scopeNodes.some((n) => {
                 return (
                   (n.type === 'class' &&
                     (n.value === scope ||
                       n.value.startsWith(defaultScopeHash) ||
                       skipClassNamesSet.has(n.value))) ||
                   (n.type === 'attribute' &&
+                    n.parent === group &&
                     skipClassNamesSet.has(n.attribute))
                 )
               })
@@ -222,37 +217,50 @@ const postcssIsolateStyle = (opts = {}) => {
               // 4. remove default scope if we intend to replace it
               if (alreadyWrappedOrShouldSkip) {
                 if (scopeHash !== 'auto' && givenScope) {
-                  for (let i = 0; i < group.nodes.length; i++) {
-                    const n = group.nodes[i]
-
-                    if (n.type === 'pseudo' && n.value === ':global') {
-                      hadGlobalWrapper = true
-                      n.nodes?.forEach((sel) => {
-                        sel.nodes = sel.nodes?.filter((sub) => {
-                          const match =
-                            sub.type === 'class' &&
-                            sub.value.startsWith(defaultScopeHash)
-                          if (match) {
-                            didRemoveExistingScope = true
-                          }
-                          return !match
-                        })
-                      })
-
-                      const isEmpty =
-                        n.nodes?.every((sel) => sel.nodes?.length === 0) ??
-                        false
-                      if (didRemoveExistingScope) {
-                        if (isEmpty) group.nodes.splice(i, 1)
-                        break
-                      }
-                    }
-
+                  for (const n of scopeNodes) {
                     if (
                       n.type === 'class' &&
+                      (n.value !== scope ||
+                        (isCssModule && n.parent === group)) &&
                       n.value.startsWith(defaultScopeHash)
                     ) {
-                      group.nodes.splice(i, 1)
+                      let scopeNode = n
+                      while (scopeNode.parent !== group) {
+                        const wrapper = scopeNode.parent.parent
+                        if (wrapper.value === ':global') {
+                          hadGlobalWrapper = true
+                        }
+                        if (
+                          wrapper.value === ':global' &&
+                          scopeNode === n
+                        ) {
+                          wrapper.nodes.forEach((selector) => {
+                            selector.nodes = selector.nodes.filter(
+                              (sub) =>
+                                sub.type !== 'class' ||
+                                !sub.value.startsWith(defaultScopeHash)
+                            )
+                          })
+                          if (
+                            wrapper.nodes.every(
+                              (selector) => selector.nodes.length === 0
+                            )
+                          ) {
+                            scopeNode = wrapper
+                            continue
+                          }
+                          scopeNode = null
+                          break
+                        }
+                        if (
+                          scopeNode.parent.nodes.length !== 1 ||
+                          wrapper.nodes.length !== 1
+                        ) {
+                          break
+                        }
+                        scopeNode = wrapper
+                      }
+                      scopeNode?.remove()
                       didRemoveExistingScope = true
                       break
                     }
@@ -391,17 +399,29 @@ const postcssIsolateStyle = (opts = {}) => {
               // 6. build the scope node
               const space = selectorParser.combinator({ value: ' ' })
               const scopeClass = selectorParser.className({ value: scope })
+              let scopeNode = scopeClass
+              if (
+                useWhere &&
+                group.nodes
+                  .slice(insertIndex)
+                  .some((n) => n.type !== 'combinator')
+              ) {
+                const inner = selectorParser.selector()
+                inner.append(scopeClass)
+                scopeNode = selectorParser.pseudo({
+                  value: ':where',
+                  nodes: [inner],
+                })
+              }
               const asGlobal = hadGlobalWrapper || isCssModule
 
               if (asGlobal) {
-                // <…> we want ":global(.scope)"
                 const inner = selectorParser.selector()
-                inner.append(scopeClass)
+                inner.append(scopeNode)
                 const globalPseudo = selectorParser.pseudo({
                   value: ':global',
                   nodes: [inner],
                 })
-                // inject " <global(.scope)> " at insertIndex
                 group.nodes.splice(
                   insertIndex,
                   0,
@@ -410,14 +430,7 @@ const postcssIsolateStyle = (opts = {}) => {
                   space
                 )
               } else {
-                // plain " .scope "
-                group.nodes.splice(
-                  insertIndex,
-                  0,
-                  space,
-                  scopeClass,
-                  space
-                )
+                group.nodes.splice(insertIndex, 0, space, scopeNode, space)
               }
             })
           })
@@ -520,6 +533,20 @@ Settings: ${JSON.stringify({ isCssModule }, null, 2)}
 
 postcssIsolateStyle.postcss = true
 module.exports = postcssIsolateStyle
+
+function getScopeNodes(node) {
+  if (
+    node.type === 'pseudo' &&
+    node.nodes?.[0] &&
+    (node.value === ':global' ||
+      (node.value === ':where' &&
+        node.nodes.length === 1 &&
+        node.nodes[0].nodes.length === 1))
+  ) {
+    return node.nodes[0].nodes.flatMap(getScopeNodes)
+  }
+  return [node]
+}
 
 // Helper to check if a selector is html, body, html body, html *, body *, or html body *
 function isGlobalSelector(nodes) {
