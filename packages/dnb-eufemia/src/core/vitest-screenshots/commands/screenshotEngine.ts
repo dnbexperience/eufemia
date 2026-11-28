@@ -54,6 +54,7 @@ export type MakeScreenshotPayload = {
   themeName?: string | null
   colorScheme?: ScreenshotColorScheme | null
   media?: 'screen' | 'print'
+  forcedColors?: 'active' | 'none'
   fullscreen?: boolean
   pageViewport?: { width?: number; height?: number } | null
   headers?: Record<string, string> | null
@@ -1595,7 +1596,10 @@ async function performScreenshot(
   try {
     await makePageReady(state, payload)
     page = state.page
-    await page.emulateMedia({ media: payload.media ?? 'screen' })
+    await page.emulateMedia({
+      media: payload.media ?? 'screen',
+      forcedColors: payload.forcedColors ?? 'none',
+    })
     await page.waitForFunction(() =>
       document.documentElement.hasAttribute('data-portal-ready')
     )

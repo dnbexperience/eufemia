@@ -183,6 +183,10 @@ export default {
       removeIconTitle: 'Remove',
       addIconTitle: 'Add',
     },
+    ScrollIndicator: {
+      label: 'Scroll position',
+      inView: 'In view',
+    },
     Table: {
       accordionToggleButtonSR: 'Show more content',
       accordionMoreContentSR: 'More content in the next row',

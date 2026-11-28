@@ -1,0 +1,104 @@
+import { test, expect } from '@playwright/test'
+
+test('provides large targets without an interactive empty area or touch hover', async ({
+  page,
+}) => {
+  await page.goto(
+    '/web/components/scroll-indicator/demos/?data-visual-test'
+  )
+  const toolbar = page.locator(
+    '[data-visual-test="scroll-indicator-multiple"] .dnb-scroll-indicator'
+  )
+  const button = toolbar.getByRole('button').first()
+  const dot = button.locator('span')
+
+  await test.step('target size and empty space', async () => {
+    const target = await button.boundingBox()
+    expect(target.width).toBeGreaterThanOrEqual(24)
+    expect(target.height).toBeGreaterThanOrEqual(24)
+    await expect(toolbar).not.toHaveCSS('cursor', 'pointer')
+  })
+
+  await test.step('pressing overrides mouse hover', async () => {
+    await button.hover()
+    await expect(dot).toHaveCSS('width', '14px')
+    await page.mouse.down()
+    await expect(dot).toHaveCSS('width', '8px')
+    await page.mouse.up()
+    await expect(dot).toHaveCSS('width', '14px')
+  })
+
+  await test.step('touch intent does not leave an enlarged dot', async () => {
+    await button.hover()
+    await expect(dot).toHaveCSS('width', '14px')
+    await page.evaluate(() => {
+      document.documentElement.setAttribute('data-whatintent', 'touch')
+    })
+    await expect(dot).toHaveCSS('width', '10px')
+  })
+})
+
+for (const direction of ['ltr', 'rtl']) {
+  test(`supports one tab stop and explicit activation in ${direction}`, async ({
+    page,
+  }) => {
+    await page.goto(
+      '/web/components/scroll-indicator/demos/?data-visual-test'
+    )
+    const example = page.locator(
+      '[data-visual-test="scroll-indicator-gallery"]'
+    )
+    const toolbar = example.getByRole('toolbar', { name: 'Gallery' })
+    const buttons = toolbar.getByRole('button')
+    const images = example.locator('img')
+    await expect(buttons).toHaveCount(3)
+    await expect(images).toHaveCount(3)
+    await toolbar.evaluate((element, dir) => {
+      element.setAttribute('dir', dir)
+    }, direction)
+    await buttons.first().focus()
+    await page.keyboard.press(
+      direction === 'ltr' ? 'ArrowRight' : 'ArrowLeft'
+    )
+    await expect(buttons.nth(1)).toBeFocused()
+    await expect(images.first()).toBeInViewport({ ratio: 0.9 })
+    await page.keyboard.press('Enter')
+    await expect(images.nth(1)).toBeInViewport({ ratio: 0.9 })
+    await expect(buttons.nth(1)).toBeFocused()
+    await page.keyboard.press('End')
+    await expect(buttons.last()).toBeFocused()
+    await page.keyboard.press('Space')
+    await expect(images.last()).toBeInViewport({ ratio: 0.9 })
+    await expect(buttons.last()).toBeFocused()
+    await page.keyboard.press('Tab')
+    await expect(buttons.last()).not.toBeFocused()
+    await page.keyboard.press('Shift+Tab')
+    await expect(buttons.last()).toBeFocused()
+    await page.keyboard.press('Home')
+    await expect(buttons.first()).toBeFocused()
+    await expect(toolbar.locator('button[tabindex="0"]')).toHaveCount(1)
+  })
+}
+
+test('keeps gallery dots in sync with native scrolling', async ({
+  page,
+}) => {
+  await page.goto(
+    '/web/components/scroll-indicator/demos/?data-visual-test'
+  )
+  const example = page.locator(
+    '[data-visual-test="scroll-indicator-gallery"]'
+  )
+  const images = example.locator('img')
+  const buttons = example
+    .getByRole('toolbar', { name: 'Gallery' })
+    .getByRole('button')
+  await expect(images).toHaveCount(3)
+  await images.first().hover()
+  await page.mouse.wheel(160, 0)
+  await expect(buttons.nth(1)).toHaveAttribute('data-active', 'true')
+  await expect(images.nth(1)).toBeInViewport({ ratio: 0.9 })
+  await buttons.first().click()
+  await expect(images.first()).toBeInViewport({ ratio: 0.9 })
+  await expect(buttons.first()).toHaveAttribute('data-active', 'true')
+})

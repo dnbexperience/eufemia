@@ -130,6 +130,7 @@ export type MakeScreenshotOptions = {
   themeName?: string
   colorScheme?: ScreenshotColorScheme
   media?: 'screen' | 'print'
+  forcedColors?: 'active' | 'none'
   pageViewport?: { width?: number; height?: number }
   headers?: Record<string, string>
   fullscreen?: boolean
@@ -296,6 +297,7 @@ export const makeScreenshot = async (
     themeName: opts.themeName ?? describeDefaults.themeName,
     colorScheme: opts.colorScheme ?? describeDefaults.colorScheme,
     media: opts.media ?? 'screen',
+    forcedColors: opts.forcedColors ?? 'none',
     fullscreen: Boolean(opts.fullscreen || describeDefaults.fullscreen),
     pageViewport:
       opts.pageViewport ?? describeDefaults.pageViewport ?? null,
