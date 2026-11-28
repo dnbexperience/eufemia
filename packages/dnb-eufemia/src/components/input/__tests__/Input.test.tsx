@@ -1511,3 +1511,27 @@ describe('Input scss', () => {
     expect(css).toMatchSnapshot()
   })
 })
+
+describe('Input skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <Input skeleton={false} type="search" icon="bell" />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <Input type="search" icon="bell" />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-input__icon')).toHaveClass(
+      'dnb-skeleton'
+    )
+  })
+})

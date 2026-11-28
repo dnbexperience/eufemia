@@ -374,6 +374,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                 className="dnb-pagination__dots"
                 icon="more"
                 size="medium"
+                skeleton={skeleton}
               />
 
               {numbersList.map((pageNumber) =>

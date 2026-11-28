@@ -16,6 +16,7 @@ import type {
   StepIndicatorProps,
 } from '../StepIndicator'
 import StepIndicator from '../StepIndicator'
+import Provider from '../../../shared/Provider'
 import '../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 
@@ -857,5 +858,29 @@ describe('StepIndicator scss', () => {
     } finally {
       style.remove()
     }
+  })
+})
+
+describe('StepIndicator skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <StepIndicator skeleton={false} mode="static" data={['A', 'B']} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <StepIndicator mode="static" data={['A', 'B']} />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-step-indicator__trigger__button')
+    ).toHaveClass('dnb-skeleton')
   })
 })

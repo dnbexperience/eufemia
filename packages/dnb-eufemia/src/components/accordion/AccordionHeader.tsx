@@ -89,6 +89,7 @@ function AccordionHeaderIcon({
   expanded,
   size = 'medium',
   iconPosition,
+  skeleton,
 }: AccordionHeaderIconProps) {
   const hasExplicitExpandedIcon =
     iconProp &&
@@ -112,6 +113,7 @@ function AccordionHeaderIcon({
       <IconPrimary
         size={size}
         icon={icon}
+        skeleton={skeleton}
         transitionState={
           hasExplicitExpandedIcon
             ? undefined
@@ -225,6 +227,7 @@ export const AccordionHeader = ({
       size={iconSize}
       expanded={context.expanded}
       iconPosition={iconPosition}
+      skeleton={skeleton}
     />,
     <AccordionHeaderContainer key="container">
       {leftComponent as ReactNode}

@@ -582,6 +582,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                 className="dnb-input__icon"
                 icon={usedIcon}
                 size={iconSize}
+                skeleton={skeleton}
               />
             )}
 
@@ -670,7 +671,6 @@ const inputSubmitButtonDefaultProps: Partial<InputSubmitButtonProps> = {
   value: null,
   title: null,
   disabled: false,
-  skeleton: false,
   variant: 'secondary',
   icon: 'loupe',
   iconSize: null,
@@ -800,6 +800,7 @@ function InputSubmitButton({
         status={status}
         statusState={statusState}
         statusProps={statusProps}
+        skeleton={skeleton}
         onClick={onClick ?? onSubmitHandler}
         onFocus={onFocus ?? onSubmitFocusHandler}
         onBlur={onBlur ?? onSubmitBlurHandler}

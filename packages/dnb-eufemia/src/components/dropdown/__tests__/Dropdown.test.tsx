@@ -2536,3 +2536,27 @@ const dispatchKeyDown = (key) => {
     })
   )
 }
+
+describe('Dropdown skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <Dropdown skeleton={false} data={['A']} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <Dropdown data={['A']} />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-dropdown__icon .dnb-icon')
+    ).toHaveClass('dnb-skeleton')
+  })
+})

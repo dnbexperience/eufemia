@@ -1013,3 +1013,27 @@ function StateChanges({
     </Heading.Level>
   )
 }
+
+describe('Heading skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <Heading skeleton={false}>Title</Heading>
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <Heading>Title</Heading>
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-heading')).toHaveClass(
+      'dnb-skeleton'
+    )
+  })
+})

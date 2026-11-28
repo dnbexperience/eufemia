@@ -10,6 +10,7 @@ import { hydrateRoot } from 'react-dom/client'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
+import Provider from '../../../shared/Provider'
 import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
@@ -1585,5 +1586,29 @@ describe('Accordion scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('Accordion skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <Accordion skeleton={false} title="Title" />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <Accordion title="Title" />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-accordion__header__icon .dnb-icon')
+    ).toHaveClass('dnb-skeleton')
   })
 })

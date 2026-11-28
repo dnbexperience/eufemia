@@ -40,6 +40,7 @@ export type AccordionHeaderIconProps = {
   size?: IconSize
   expanded?: boolean
   iconPosition?: AccordionIconPosition
+  skeleton?: SkeletonShow
 }
 
 export type AccordionHeaderTitle = string | ReactNode | (() => ReactNode)

@@ -1280,3 +1280,27 @@ describe('Pagination scss', () => {
     )
   })
 })
+
+describe('Pagination skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <Pagination skeleton={false} pageCount={20} currentPage={10} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <Pagination pageCount={20} currentPage={10} />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-pagination__dots')).toHaveClass(
+      'dnb-skeleton'
+    )
+  })
+})

@@ -113,6 +113,7 @@ function StepIndicatorTriggerButton({
             className="dnb-step-indicator__label"
             vertical={false}
             right="x-small"
+            skeleton={skeleton}
           >
             {label}
           </FormLabel>
@@ -128,10 +129,12 @@ function StepIndicatorTriggerButton({
             aria-expanded={open}
             wrap
             variant="tertiary"
+            skeleton={skeleton}
             icon={
               <IconPrimary
                 icon={chevronIcon}
                 transitionState={open ? 'expanded' : 'collapsed'}
+                skeleton={skeleton}
               />
             }
             iconPosition="right"

@@ -248,8 +248,8 @@ export default function Heading(props: HeadingAllProps) {
 
   validateDOMAttributes(props, attributes)
 
-  if (typeof context?.skeleton !== 'undefined') {
-    skeleton = context.skeleton
+  if (skeleton == null) {
+    skeleton = context?.skeleton
   }
 
   const Element = element as

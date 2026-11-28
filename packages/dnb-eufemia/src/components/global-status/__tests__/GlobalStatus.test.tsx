@@ -1747,3 +1747,27 @@ const keydown = (key: string) => {
     eventInit
   )
 }
+
+describe('GlobalStatus skeleton', () => {
+  it('lets skeleton={false} override a skeleton Provider', () => {
+    render(
+      <Provider skeleton>
+        <GlobalStatus skeleton={false} show text="Text" noAnimation />
+      </Provider>
+    )
+
+    expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+
+  it('inherits the skeleton from the Provider', () => {
+    render(
+      <Provider skeleton>
+        <GlobalStatus show text="Text" noAnimation />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-global-status__close-button')
+    ).toHaveClass('dnb-skeleton')
+  })
+})
