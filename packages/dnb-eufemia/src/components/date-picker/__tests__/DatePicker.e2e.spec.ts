@@ -213,4 +213,44 @@ for (const colorScheme of ['light', 'dark'] as const) {
       .poll(async () => (await getColors(calendar, 17)).outline)
       .not.toBe(withinRangeColor)
   })
+
+  test(`the today marker stays visible in forced colors (${colorScheme} palette)`, async ({
+    page,
+    browserName,
+  }) => {
+    test.skip(
+      browserName === 'webkit',
+      'WebKit does not support forced colors emulation.'
+    )
+    await page.emulateMedia({
+      forcedColors: 'active',
+      colorScheme,
+      reducedMotion: 'reduce',
+    })
+    await page.goto('/web/components/date-picker/demos/?fullscreen')
+    const opener = page.locator(
+      '[data-visual-test="date-picker-input"] button[aria-expanded]'
+    )
+    await opener.scrollIntoViewIfNeeded()
+    await opener.click()
+    const today = page.locator('td.dnb-date-picker__day--today button')
+    await expect(today).toBeVisible()
+
+    // The dot has the color of the number
+    const getDotColors = () =>
+      today.evaluate((element) => ({
+        dot: getComputedStyle(element, '::after').backgroundColor,
+        number: getComputedStyle(element).color,
+      }))
+
+    const unselected = await getDotColors()
+    expect(unselected.dot).toBe(unselected.number)
+
+    await today.click()
+    await page.mouse.move(0, 0)
+    await expect(today).toHaveAttribute('aria-current', 'date')
+    const selected = await getDotColors()
+    expect(selected.number).not.toBe(unselected.number)
+    expect(selected.dot).toBe(selected.number)
+  })
 }

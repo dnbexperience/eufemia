@@ -410,6 +410,12 @@
 
         border-radius: 50%;
         background-color: currentcolor;
+
+        // Else Chromium paints the dot in the canvas color in forced
+        // colors mode, which hides it
+        @media (forced-colors: active) {
+          forced-color-adjust: preserve-parent-color;
+        }
       }
     }
 
