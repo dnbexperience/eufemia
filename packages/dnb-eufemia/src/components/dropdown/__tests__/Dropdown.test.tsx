@@ -157,7 +157,7 @@ describe('Dropdown component', () => {
     ).toContain('dnb-drawer-list__option--focus')
 
     // pause, so the next key starts a new search
-    now.mockReturnValue(2000)
+    now.mockReturnValue(3000)
 
     keydown('f')
 
@@ -2550,7 +2550,7 @@ describe('Dropdown key handling', () => {
       expect(getFocusedOption()).toBe('Norge')
 
       vi.useFakeTimers()
-      vi.advanceTimersByTime(1000)
+      vi.advanceTimersByTime(1100)
 
       keydown('n')
       keydown('e')
@@ -2565,7 +2565,7 @@ describe('Dropdown key handling', () => {
 
       keydown('ArrowDown')
       keydown('2')
-      vi.advanceTimersByTime(600)
+      vi.advanceTimersByTime(1100)
       keydown('1')
 
       expect(getFocusedOption()).toBe('1')

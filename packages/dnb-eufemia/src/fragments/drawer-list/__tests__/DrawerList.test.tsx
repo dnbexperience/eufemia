@@ -444,7 +444,7 @@ describe('DrawerList component', () => {
     })
 
     // pause, so the next key starts a new search
-    now.mockReturnValue(2000)
+    now.mockReturnValue(3000)
 
     keydown('f')
 

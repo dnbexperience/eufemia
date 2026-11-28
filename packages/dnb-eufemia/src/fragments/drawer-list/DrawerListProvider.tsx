@@ -552,7 +552,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         const now = Date.now()
         const typeahead = typeaheadRef.current
         typeahead.query =
-          now - typeahead.time > 500 ? value : typeahead.query + value
+          now - typeahead.time > 1000 ? value : typeahead.query + value
         typeahead.time = now
 
         // A repeated character keeps cycling through the items that start with it
