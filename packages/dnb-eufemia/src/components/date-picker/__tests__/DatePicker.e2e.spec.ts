@@ -233,7 +233,11 @@ for (const colorScheme of ['light', 'dark'] as const) {
     )
     await opener.scrollIntoViewIfNeeded()
     await opener.click()
-    const today = page.locator('td.dnb-date-picker__day--today button')
+    // The second calendar can show a disabled copy of today at the start
+    // of the next month
+    const today = page.locator(
+      'td.dnb-date-picker__day--today:not(.dnb-date-picker__day--outside-month) button'
+    )
     await expect(today).toBeVisible()
 
     // The dot has the color of the number
