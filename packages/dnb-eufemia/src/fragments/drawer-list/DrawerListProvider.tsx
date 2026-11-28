@@ -558,6 +558,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         // A repeated character keeps cycling through the items that start with it
         const query = typeahead.query
         if (query.length > 1 && query !== value.repeat(query.length)) {
+          searchCacheRef.current = null
+          changedOrderForRef.current = null
+
           return stateRef.current.data.findIndex((itemData) =>
             String(
               parseContentTitle(itemData, {
