@@ -202,6 +202,41 @@ describe('Pagination bar', () => {
     }
   )
 
+  it('keeps the selection when a late page arrives through onChange', () => {
+    const requests: Record<number, () => void> = {}
+    const { getByRole } = render(
+      <Pagination
+        pageCount={5}
+        onChange={({ pageNumber, setContent }) => {
+          requests[pageNumber] = () =>
+            setContent(pageNumber, <p>Page {pageNumber}</p>)
+        }}
+      />
+    )
+    const pageButton = (page: number) =>
+      getByRole('button', {
+        name: nb.buttonTitle.replace('%s', String(page)),
+      })
+
+    fireEvent.click(pageButton(4))
+    fireEvent.click(pageButton(1))
+    act(requests[1])
+    act(requests[4])
+
+    expect(
+      document.querySelector('.dnb-pagination__content')
+    ).toHaveTextContent('Page 1')
+    expect(
+      document.querySelector('[aria-current="page"]')
+    ).toHaveTextContent('1')
+
+    fireEvent.click(pageButton(4))
+
+    expect(
+      document.querySelector('.dnb-pagination__content')
+    ).toHaveTextContent('Page 4')
+  })
+
   it('updates the controlled page without a known count', () => {
     const renderPage = vi.fn(({ pageNumber }) => <p>Page {pageNumber}</p>)
     const { rerender } = render(

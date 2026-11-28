@@ -410,6 +410,8 @@ const PaginationProviderComponent = (props: any) => {
       if (potentialElement && isValidElement(potentialElement)) {
         setRequestContent([pn, potentialElement])
       }
+
+      return setRequestContent
     },
     [
       applyContent,
