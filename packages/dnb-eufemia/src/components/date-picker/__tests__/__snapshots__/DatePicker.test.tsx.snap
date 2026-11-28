@@ -2146,6 +2146,11 @@ html:not([data-whatinput=touch]) .dnb-date-picker__container table.dnb-no-focus:
   border-radius: 50%;
   background-color: currentcolor;
 }
+@media (forced-colors: active) {
+  .dnb-date-picker__day--today .dnb-button::after {
+    forced-color-adjust: preserve-parent-color;
+  }
+}
 .dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--outside-month .dnb-button {
   background-color: transparent;
 }
