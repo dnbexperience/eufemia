@@ -307,6 +307,9 @@ describe('Slider component', () => {
     { min: 0, max: 1, step: 0.1, percent: 30, expected: 0.3 },
     { min: 0, max: 1e-5, step: 1.2e-7, percent: 3.6, expected: 3.6e-7 },
     { min: 0, max: 96, step: 10, percent: 99.8, expected: 96 },
+    { min: 5, max: 31, step: 10, percent: 85, expected: 25 },
+    { min: 5, max: 31, step: 10, percent: 95, expected: 31 },
+    { min: 0, max: 5, step: 10, percent: 70, expected: 5 },
   ])(
     'should snap $percent% to $expected with min=$min and step=$step',
     ({ min, max, step, percent, expected }) => {

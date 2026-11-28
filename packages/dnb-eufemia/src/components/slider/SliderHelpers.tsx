@@ -91,7 +91,14 @@ export const roundValue = (
     if (value >= max) {
       return max
     }
-    return clamp(snapToStep(value, min, step), min, max)
+    const snappedValue = snapToStep(value, min, step)
+
+    // An off-step maximum is a valid stop too, so pick it when it is closer.
+    if (max - value < Math.abs(value - snappedValue)) {
+      return max
+    }
+
+    return clamp(snappedValue, min, max)
   }
 
   return parseFloat(parseFloat(String(value)).toFixed(3))
