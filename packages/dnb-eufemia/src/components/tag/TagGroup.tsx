@@ -42,9 +42,7 @@ export type TagGroupProps = {
   skeleton?: SkeletonShow
 }
 
-const tagGroupDefaultProps: Partial<TagGroupProps> = {
-  skeleton: false,
-}
+const tagGroupDefaultProps: Partial<TagGroupProps> = {}
 
 const TagGroup = (
   localProps: TagGroupProps &

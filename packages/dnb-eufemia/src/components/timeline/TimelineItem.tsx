@@ -66,9 +66,7 @@ export type TimelineItemProps = {
 export type TimelineItemAllProps = TimelineItemProps &
   Omit<AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
 
-const timelineItemDefaultProps: Partial<TimelineItemAllProps> = {
-  skeleton: false,
-}
+const timelineItemDefaultProps: Partial<TimelineItemAllProps> = {}
 
 const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
@@ -120,7 +118,11 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
           context.translation.TimelineItem as TimeLineIconAltTranslations
         }
       />
-      <TimelineItemContent subtitle={subtitle} infoMessage={infoMessage} />
+      <TimelineItemContent
+        subtitle={subtitle}
+        infoMessage={infoMessage}
+        skeleton={skeleton}
+      />
     </li>
   )
 }
@@ -185,6 +187,7 @@ const TimelineItemIcon = ({
           icon={currentIcon}
           alt={currentAltLabel}
           size={state === 'completed' ? 'small' : undefined}
+          skeleton={skeleton}
         />
       )}
     </span>
@@ -201,12 +204,13 @@ const TimelineItemTitle = ({ title }: TimelineItemTitleProps) => {
 
 type TimeLineItemContentProps = Pick<
   TimelineItemProps,
-  'subtitle' | 'infoMessage'
+  'subtitle' | 'infoMessage' | 'skeleton'
 >
 
 const TimelineItemContent = ({
   subtitle,
   infoMessage,
+  skeleton,
 }: TimeLineItemContentProps) => {
   const renderSubtitles = () => {
     if (!subtitle) {
@@ -230,6 +234,7 @@ const TimelineItemContent = ({
           state="information"
           className="dnb-timeline__item__content__info"
           stretch
+          skeleton={skeleton}
         />
       )}
     </div>

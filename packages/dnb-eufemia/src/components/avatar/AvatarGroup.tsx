@@ -78,7 +78,6 @@ const avatarGroupDefaultProps: Partial<AvatarGroupAllProps> = {
   maxElements: 4,
   size: 'medium',
   variant: 'primary',
-  skeleton: false,
 }
 
 export const AvatarGroupContext = createContext(null)

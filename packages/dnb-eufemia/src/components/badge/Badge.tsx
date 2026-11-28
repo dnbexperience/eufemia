@@ -96,7 +96,6 @@ export type BadgeAllProps = BadgeProps &
 type BadgeElemProps = BadgeAllProps & { context: ContextProps }
 
 export const badgeDefaultProps: BadgeAllProps = {
-  skeleton: false,
   variant: 'information',
   status: 'default',
   subtle: false,
@@ -317,7 +316,7 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
       {...restProps}
     >
       {label && <span className="dnb-sr-only">{label} </span>}
-      {icon && <BadgeIcon icon={icon} />}
+      {icon && <BadgeIcon icon={icon} skeleton={skeleton} />}
       {variant === 'information' &&
       content &&
       typeof content !== 'string' &&
@@ -331,14 +330,27 @@ const BadgeElem = propGuard((props: BadgeElemProps) => {
   )
 })
 
-function BadgeIcon({ icon }: { icon: IconIcon }) {
+function BadgeIcon({
+  icon,
+  skeleton,
+}: {
+  icon: IconIcon
+  skeleton: SkeletonShow
+}) {
   if (isIconElement(icon)) {
     return cloneElement(icon, {
       className: clsx('dnb-badge__icon', icon.props.className),
+      skeleton: icon.props.skeleton ?? skeleton,
     })
   }
 
-  return <IconPrimary icon={icon} className="dnb-badge__icon" />
+  return (
+    <IconPrimary
+      icon={icon}
+      className="dnb-badge__icon"
+      skeleton={skeleton}
+    />
+  )
 }
 
 function isIconElement(
