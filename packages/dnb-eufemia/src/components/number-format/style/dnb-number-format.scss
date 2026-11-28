@@ -4,6 +4,7 @@
  */
 
 @use '../../../style/core/utilities.scss' as utilities;
+@use '../../../fragments/animated-digits/style/dnb-animated-digits.scss';
 
 .dnb-number-format {
   display: inline-block;
@@ -39,6 +40,11 @@
   &__visible {
     position: relative;
     z-index: 2;
+  }
+
+  &__symbol {
+    display: inline-block;
+    white-space: pre;
   }
 
   &--selected &__visible {

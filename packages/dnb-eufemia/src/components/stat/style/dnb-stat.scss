@@ -4,6 +4,7 @@
  */
 
 @use '../../../style/core/utilities.scss' as utilities;
+@use '../../../fragments/animated-digits/style/dnb-animated-digits.scss';
 
 .dnb-stat {
   &--tone-positive {
@@ -110,6 +111,7 @@
   &__sign {
     margin-inline-end: 0.2em;
   }
+
   &__currency:has(~ .dnb-stat__amount) {
     margin-inline-end: 0.2em;
   }

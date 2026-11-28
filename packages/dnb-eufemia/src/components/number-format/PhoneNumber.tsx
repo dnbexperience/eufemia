@@ -10,6 +10,7 @@ import { convertJsxToString } from '../../shared/component-helper'
 
 export type NumberFormatPhoneNumberProps = Omit<
   NumberFormatAllProps,
+  | 'animate'
   | 'currency'
   | 'currencyDisplay'
   | 'currencyPosition'

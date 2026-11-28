@@ -70,6 +70,198 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
  * NumberFormat Component
  *
  */
+.dnb-animated-digits {
+  position: relative;
+  display: inline-block;
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: inherit;
+  font-variant-numeric: tabular-nums;
+  white-space: pre;
+}
+.dnb-animated-digits__text::before, .dnb-animated-digits__formatted-literal::before {
+  content: attr(data-text);
+}
+.dnb-animated-digits__visual {
+  position: absolute;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+}
+.dnb-animated-digits__visual > span:first-child {
+  position: relative;
+  display: inline-block;
+  width: 0;
+  vertical-align: top;
+}
+.dnb-animated-digits__visual > span:first-child::before {
+  position: absolute;
+  left: 0;
+  content: attr(data-text);
+}
+.dnb-animated-digits__viewport {
+  display: inline-block;
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+  overflow: clip;
+}
+.dnb-animated-digits--reserved .dnb-animated-digits__viewport {
+  width: auto;
+  max-width: 100%;
+}
+.dnb-animated-digits__content {
+  position: relative;
+  left: 100%;
+  display: inline-block;
+  transform: translateX(-100%);
+}
+.dnb-animated-digits__prefix {
+  visibility: hidden;
+}
+.dnb-animated-digits__prefix::before {
+  content: attr(data-text);
+}
+.dnb-animated-digits__character {
+  position: relative;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  overflow: clip;
+}
+.dnb-animated-digits__removed {
+  position: absolute;
+  transform: translateX(-100%);
+  display: none;
+  overflow: hidden;
+  overflow: clip;
+}
+.dnb-animated-digits__removed > span {
+  display: inline-block;
+}
+.dnb-animated-digits__removed > span::before {
+  content: attr(data-previous);
+}
+.dnb-animated-digits__previous {
+  position: absolute;
+  inset: 0;
+  display: none;
+  visibility: hidden;
+}
+.dnb-animated-digits__previous::before {
+  content: attr(data-previous);
+}
+.dnb-animated-digits__value {
+  display: inline-block;
+}
+.dnb-animated-digits__value::before {
+  content: attr(data-text);
+}
+.dnb-animated-digits__formatted {
+  position: relative;
+  display: inline;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  white-space: normal;
+}
+.dnb-animated-digits__formatted--fluid {
+  display: inline-block;
+  white-space: pre;
+}
+.dnb-animated-digits__formatted-visual {
+  position: absolute;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+}
+@media screen and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .dnb-animated-digits__text, .dnb-animated-digits__formatted-text {
+    color: transparent;
+  }
+  .dnb-animated-digits__visual {
+    display: inline-block;
+  }
+  .dnb-animated-digits__formatted-text {
+    position: absolute;
+    pointer-events: none;
+  }
+  .dnb-animated-digits__formatted--fluid > .dnb-animated-digits__formatted-text {
+    pointer-events: auto;
+  }
+  .dnb-animated-digits__formatted-visual {
+    position: relative;
+    inset: auto;
+    display: inline;
+  }
+  .dnb-animated-digits__formatted--fluid > .dnb-animated-digits__formatted-visual {
+    display: inline-block;
+  }
+  .dnb-animated-digits__removed {
+    display: inline-block;
+    animation: dnb-animated-digits-remove 160ms ease-out both;
+  }
+  .dnb-animated-digits__character--animated .dnb-animated-digits__previous {
+    display: block;
+    animation: dnb-animated-digits-out 160ms ease-out both;
+    animation-delay: inherit;
+  }
+  .dnb-animated-digits__character--animated .dnb-animated-digits__value {
+    animation: dnb-animated-digits-in 160ms ease-out both;
+    animation-delay: inherit;
+  }
+  .dnb-animated-digits--down .dnb-animated-digits__character--animated .dnb-animated-digits__previous {
+    animation-name: dnb-animated-digits-out-down;
+  }
+  .dnb-animated-digits--down .dnb-animated-digits__character--animated .dnb-animated-digits__value {
+    animation-name: dnb-animated-digits-in-down;
+  }
+}
+
+@keyframes dnb-animated-digits-remove {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes dnb-animated-digits-in {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes dnb-animated-digits-out {
+  from {
+    visibility: visible;
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+@keyframes dnb-animated-digits-in-down {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes dnb-animated-digits-out-down {
+  from {
+    visibility: visible;
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+    visibility: hidden;
+  }
+}
 .dnb-number-format {
   display: inline-block;
   position: relative;
@@ -99,6 +291,10 @@ html:not([data-whatinput=touch]) .dnb-number-format.dnb-tab-focus:focus-visible:
 .dnb-number-format__visible {
   position: relative;
   z-index: 2;
+}
+.dnb-number-format__symbol {
+  display: inline-block;
+  white-space: pre;
 }
 .dnb-number-format--selected .dnb-number-format__visible {
   color: var(--token-color-text-neutral);

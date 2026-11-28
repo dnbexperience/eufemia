@@ -78,6 +78,238 @@ describe('NumberFormat component', () => {
     )
   })
 
+  describe('animated updates', () => {
+    it('isolates the complete animated value from the page direction', () => {
+      render(<NumberFormat.Currency value={1234.5} animate dir="rtl" />)
+
+      expect(
+        document.querySelector('.dnb-animated-digits__formatted')
+      ).toHaveAttribute('dir', 'ltr')
+      expect(document.querySelector(displaySelector)).not.toHaveAttribute(
+        'dir'
+      )
+    })
+
+    it('preserves the surrounding direction for prefix and suffix content', () => {
+      render(
+        <NumberFormat.Currency
+          value={1234.5}
+          animate
+          dir="rtl"
+          prefix="الرصيد"
+          suffix="متاح"
+        />
+      )
+
+      const visible = document.querySelector(displaySelector)
+      expect(visible).not.toHaveAttribute('dir')
+      expect(
+        visible.querySelector('.dnb-number-format__prefix')
+      ).toHaveTextContent('الرصيد')
+      expect(
+        visible.querySelector('.dnb-number-format__suffix')
+      ).toHaveTextContent('متاح')
+      expect(
+        visible.querySelector('.dnb-animated-digits__formatted')
+      ).toHaveAttribute('dir', 'ltr')
+    })
+
+    it('keeps Arabic compact text in the native formatted output', () => {
+      const props = { locale: 'ar-EG', compact: 'long' as const }
+      render(<NumberFormat.Number value={1000000} {...props} animate />)
+
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        formatNumber(1000000, props)
+      )
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+    })
+
+    it.each([
+      NumberFormat.Number,
+      NumberFormat.Currency,
+      NumberFormat.Percent,
+    ])(
+      'animates numeric variants and keeps the final accessible and copy values (%#)',
+      async (NumericComponent) => {
+        const { rerender } = render(
+          <NumericComponent value={12} animate cleanCopyValue />
+        )
+        expect(
+          document.querySelectorAll(
+            '.dnb-animated-digits__character--animated'
+          )
+        ).toHaveLength(0)
+
+        rerender(
+          <NumericComponent
+            value={34}
+            animate={{ reserveWidth: '6ch' }}
+            cleanCopyValue
+          />
+        )
+
+        expect(
+          document.querySelector(displaySelector).textContent
+        ).toContain('34')
+        expect(
+          document.querySelectorAll(
+            '.dnb-animated-digits__character--animated'
+          )
+        ).toHaveLength(NumericComponent === NumberFormat.Currency ? 4 : 2)
+        expect(document.querySelector(ariaSelector)).toHaveAttribute(
+          'data-text',
+          expect.stringContaining('34')
+        )
+        expect(
+          document.querySelector<HTMLElement>(
+            '.dnb-number-format__visible .dnb-animated-digits--reserved'
+          ).style.minInlineSize
+        ).toBe('6ch')
+        await userEvent.click(document.querySelector(displaySelector))
+        expect(
+          document.querySelector('.dnb-number-format__selection')
+            .textContent
+        ).toBe(NumericComponent === NumberFormat.Currency ? '34,00' : '34')
+      }
+    )
+
+    it.each([
+      { locale: 'nb-NO', currencyPosition: 'after' as const },
+      { locale: 'en-GB', currencyPosition: 'before' as const },
+      { locale: 'en-US', options: { currencySign: 'accounting' } },
+      { locale: 'nb-NO', compact: 'long' as const },
+    ])(
+      'preserves the formatter output and symbol when animating %j',
+      (props) => {
+        const { rerender } = render(
+          <NumberFormat.Currency {...props} value={-1234.5} animate />
+        )
+        const symbol = document.querySelector('.dnb-number-format__symbol')
+        rerender(
+          <NumberFormat.Currency {...props} value={-9876.5} animate />
+        )
+
+        expect(document.querySelector(displaySelector).textContent).toBe(
+          formatCurrency(-9876.5, props)
+        )
+        expect(document.querySelector('.dnb-number-format__symbol')).toBe(
+          symbol
+        )
+        expect(document.querySelector('.dnb-animated-digits')).toHaveClass(
+          'dnb-animated-digits--down'
+        )
+      }
+    )
+
+    it('keeps Arabic currency and bidi marks in their native text run', () => {
+      const props = { locale: 'ar-EG', currencyPosition: 'after' as const }
+      render(<NumberFormat.Currency {...props} value={-9876.5} animate />)
+
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        formatCurrency(-9876.5, props)
+      )
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+      expect(document.querySelector(displaySelector)).not.toHaveAttribute(
+        'dir'
+      )
+    })
+
+    it.each([
+      { currencyPosition: 'before' as const },
+      { currencyPosition: 'after' as const },
+    ])(
+      'keeps changing signs in an animated symbol region (%j)',
+      (props) => {
+        const { rerender } = render(
+          <NumberFormat.Currency
+            {...props}
+            value={0}
+            signDisplay="exceptZero"
+            animate
+          />
+        )
+        const before = document.querySelector('.dnb-number-format__symbol')
+
+        for (const value of [128, -28, 0]) {
+          rerender(
+            <NumberFormat.Currency
+              {...props}
+              value={value}
+              signDisplay="exceptZero"
+              animate
+            />
+          )
+
+          expect(
+            document.querySelector('.dnb-number-format__symbol')
+          ).toBe(before)
+          expect(
+            before.querySelector('.dnb-animated-digits')
+          ).not.toBeNull()
+          expect(document.querySelector(displaySelector).textContent).toBe(
+            formatCurrency(value, { ...props, signDisplay: 'exceptZero' })
+          )
+        }
+
+        expect(
+          before.querySelector('.dnb-animated-digits__removed > span')
+        ).toHaveAttribute('data-previous', '−')
+      }
+    )
+
+    it('resets animation when formatting and value change together', () => {
+      const { rerender } = render(
+        <NumberFormat.Currency value={12} locale="nb-NO" animate />
+      )
+      rerender(<NumberFormat.Currency value={34} locale="en-GB" animate />)
+      expect(
+        document.querySelectorAll(
+          '.dnb-animated-digits__character--animated'
+        )
+      ).toHaveLength(0)
+    })
+
+    it.each([null, '', 'invalid'])(
+      'starts without motion when data becomes available (%s)',
+      (value) => {
+        const { rerender } = render(
+          <NumberFormat.Number value={value} animate />
+        )
+        rerender(<NumberFormat.Number value={34} animate />)
+        expect(
+          document.querySelectorAll(
+            '.dnb-animated-digits__character--animated'
+          )
+        ).toHaveLength(0)
+      }
+    )
+
+    it('skips animation while loading and when loading finishes', () => {
+      const { rerender } = render(
+        <NumberFormat.Number value={12} animate skeleton />
+      )
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+      rerender(<NumberFormat.Number value={34} animate skeleton={false} />)
+      expect(
+        document.querySelectorAll(
+          '.dnb-animated-digits__character--animated'
+        )
+      ).toHaveLength(0)
+    })
+
+    it('keeps identifiers static when animation is set through context', () => {
+      render(
+        <Provider NumberFormat={{ animate: true }}>
+          <NumberFormat.BankAccountNumber value="12345678901" />
+        </Provider>
+      )
+      expect(document.querySelector('.dnb-animated-digits')).toBeNull()
+      expect(
+        document.querySelector('.dnb-number-format')
+      ).not.toHaveAttribute('animate')
+    })
+  })
+
   it('should hydrate locale="auto" with the server locale and use the browser locale afterwards', () => {
     languageGetter.mockReturnValue('en-US')
 

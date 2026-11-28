@@ -48,6 +48,8 @@ import AriaLive from '../AriaLive'
 import { runIOSSelectionFix, formatNumber, formatCurrency } from './utils'
 import type { NumberFormatOptionParams, NumberFormatValue } from './utils'
 import type { NumberFormatAllProps } from './types'
+import AnimatedNumberFormat from './AnimatedNumberFormat'
+import hasRtlText from '../../fragments/animated-digits/hasRtlText'
 
 export type * from './types'
 
@@ -71,6 +73,7 @@ const numberFormatDefaultProps: Partial<NumberFormatAllProps> = {
   currencyPosition: null,
   compact: null,
   monospace: false,
+  animate: false,
   options: null,
   decimals: null,
   selectAll: true,
@@ -289,6 +292,7 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
     currencyPosition,
     compact,
     monospace,
+    animate,
     tooltip,
     skeleton,
     options,
@@ -375,7 +379,23 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
   const result = formatter(value, formatOptions)
   const { cleanedValue, locale: lang } = result
   let { aria } = result
-  let display: ReactNode = result.number
+  const isSkeleton = skeleton || (skeleton !== false && context?.skeleton)
+  const shouldAnimate =
+    animate &&
+    !isSkeleton &&
+    !hasRtlText(result.number) &&
+    (result.type === 'number' || result.type === 'currency')
+  let display: ReactNode = shouldAnimate ? (
+    <AnimatedNumberFormat
+      key={JSON.stringify([formatOptions, result.locale, result.type])}
+      result={result}
+      reserveWidth={
+        typeof animate === 'object' ? animate.reserveWidth : undefined
+      }
+    />
+  ) : (
+    result.number
+  )
   cleanedValueRef.current = cleanedValue
 
   if (prefix) {
@@ -405,7 +425,6 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
     aria = `${aria}${suffixSpace}${convertJsxToString(suffixElement)}`
   }
 
-  const isSkeleton = skeleton || (skeleton !== false && context?.skeleton)
   const hasTooltip = tooltip && !isSkeleton
 
   if (hasTooltip) {

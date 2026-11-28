@@ -73,6 +73,121 @@ export const HiddenLabel = () => (
   </ComponentBox>
 )
 
+export const AnimatedUpdates = () => (
+  <ComponentBox hideCode>
+    {() => {
+      function Example() {
+        const [step, setStep] = useState(0)
+        const value = [99, 1234567, -28, 0][step]
+
+        return (
+          <Flex.Stack layoutEngine="css">
+            <Button
+              text="Update values"
+              onClick={() => setStep((step + 1) % 4)}
+            />
+            <Flex.Container layoutEngine="css" align="stretch">
+              <Stat.Root
+                style={{
+                  flex: '1 1 calc(50% - 0.5rem)',
+                  minWidth: 'min(100%, 16rem)',
+                  maxInlineSize: '100%',
+                }}
+              >
+                <Stat.Label>Left aligned, currency after</Stat.Label>
+                <Stat.Content>
+                  <Stat.Currency
+                    value={value}
+                    locale="nb-NO"
+                    signDisplay="exceptZero"
+                    animate
+                  />
+                </Stat.Content>
+              </Stat.Root>
+              <Stat.Root
+                style={{
+                  flex: '1 1 calc(50% - 0.5rem)',
+                  minWidth: 'min(100%, 16rem)',
+                  maxInlineSize: '100%',
+                  textAlign: 'right',
+                }}
+              >
+                <Stat.Label>Right aligned, currency after</Stat.Label>
+                <Stat.Content style={{ justifyContent: 'flex-end' }}>
+                  <Stat.Currency
+                    value={value}
+                    locale="nb-NO"
+                    signDisplay="exceptZero"
+                    animate
+                  />
+                </Stat.Content>
+              </Stat.Root>
+              <Stat.Root
+                style={{
+                  flex: '1 1 calc(50% - 0.5rem)',
+                  minWidth: 'min(100%, 16rem)',
+                  maxInlineSize: '100%',
+                }}
+              >
+                <Stat.Label>Left aligned, currency before</Stat.Label>
+                <Stat.Content>
+                  <Stat.Currency
+                    value={value}
+                    locale="en-GB"
+                    currencyDisplay="code"
+                    signDisplay="exceptZero"
+                    animate
+                  />
+                </Stat.Content>
+              </Stat.Root>
+              <Stat.Root
+                style={{
+                  flex: '1 1 calc(50% - 0.5rem)',
+                  minWidth: 'min(100%, 16rem)',
+                  maxInlineSize: '100%',
+                  textAlign: 'right',
+                }}
+              >
+                <Stat.Label>Right aligned, currency before</Stat.Label>
+                <Stat.Content style={{ justifyContent: 'flex-end' }}>
+                  <Stat.Currency
+                    value={value}
+                    locale="en-GB"
+                    currencyDisplay="code"
+                    signDisplay="exceptZero"
+                    animate
+                  />
+                </Stat.Content>
+              </Stat.Root>
+            </Flex.Container>
+            <Flex.Container layoutEngine="css" gap="large">
+              <Stat.Root>
+                <Stat.Label>Orders</Stat.Label>
+                <Stat.Content>
+                  <Stat.Number value={[99, 128, 28, 0][step]} animate />
+                </Stat.Content>
+              </Stat.Root>
+              <Stat.Root>
+                <Stat.Label>Completion</Stat.Label>
+                <Stat.Content>
+                  <Stat.Percent
+                    value={[9.5, 100, -9.5, 0][step]}
+                    decimals={1}
+                    colorizeBySign
+                    animate
+                  />
+                </Stat.Content>
+              </Stat.Root>
+            </Flex.Container>
+          </Flex.Stack>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
 export const CurrencyWithinTrend = () => (
   <ComponentBox data-visual-test="stat-currency-within-trend">
     <Stat.Root>
@@ -391,7 +506,7 @@ export const WithAriaLive = () => (
         const [value, setValue] = useState(1234)
 
         return (
-          <Flex.Stack>
+          <Flex.Stack layoutEngine="css">
             <AriaLive variant="content">
               <Stat.Root>
                 <Stat.Label>Revenue</Stat.Label>
