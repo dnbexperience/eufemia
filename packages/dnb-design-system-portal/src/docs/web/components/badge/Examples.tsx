@@ -194,8 +194,7 @@ export const BadgeIconButton = () => (
         <Button
           title="Open notifications"
           icon={bell}
-          iconSize="medium"
-          size="medium"
+          size="large"
           variant="tertiary"
         />
       </Badge>

@@ -82,6 +82,13 @@ describe.each(['ui', 'sbanken', 'coconut', 'carnegie'])(
       })
     })
     describe('positioning', () => {
+      it('positions counts at icon button corners', async () => {
+        await makeScreenshot({
+          url: '/web/components/badge/visual-tests/icon-buttons/',
+          selector: '[data-visual-test="badge-icon-buttons"]',
+        })
+      })
+
       it('keeps badges clear of wrapped button labels', async () => {
         await makeScreenshot({
           selector: '[data-visual-test="badge-button"] .dnb-badge__root',
