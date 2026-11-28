@@ -42,6 +42,44 @@ test('wraps labels at spaces and explicit hyphens without automatic hyphenation'
   })
 })
 
+// Moving the mouse sets the intent to mouse, while the last input stays
+// keyboard. The focus outline must stay visible under the pointer (#11104).
+test('keeps the keyboard focus outline when the mouse moves onto the focused item', async ({
+  page,
+}) => {
+  const css = compile(
+    'extensions/sidebar-menu/style/dnb-sidebar-menu.scss'
+  )
+
+  await page.setContent(`<style>
+      :root {
+        --token-color-stroke-action-focus: rgb(0, 114, 114);
+        --focus-outline-width: 0.1875rem;
+      }
+      ${css}
+    </style>
+    <button class="dnb-sidebar-menu__item__action">Item</button>`)
+
+  const setIntent = (whatinput: string, whatintent: string) =>
+    page.locator('html').evaluate(
+      (element, { whatinput, whatintent }) => {
+        element.dataset.whatinput = whatinput
+        element.dataset.whatintent = whatintent
+      },
+      { whatinput, whatintent }
+    )
+  const item = page.locator('.dnb-sidebar-menu__item__action')
+
+  await page.keyboard.press('Tab')
+  await setIntent('keyboard', 'keyboard')
+  await expect(item).toBeFocused()
+  await expect(item).toHaveCSS('outline-style', 'solid')
+
+  await item.hover()
+  await setIntent('keyboard', 'mouse')
+  await expect(item).toHaveCSS('outline-style', 'solid')
+})
+
 test('navigates visible items with arrow keys while preserving Tab and section selection', async ({
   page,
 }) => {
