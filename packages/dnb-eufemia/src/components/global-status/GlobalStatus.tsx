@@ -56,6 +56,7 @@ import {
 } from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
+import Provider from '../../shared/Provider'
 import Space from '../space/Space'
 import type { FormStatusState } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
@@ -687,7 +688,9 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             variant={state}
             className="dnb-global-status__content"
           >
-            {renderedContent}
+            <Provider skeleton={skeleton ?? context?.skeleton}>
+              {renderedContent}
+            </Provider>
           </Section>
         </HeightAnimation>
       </section>
