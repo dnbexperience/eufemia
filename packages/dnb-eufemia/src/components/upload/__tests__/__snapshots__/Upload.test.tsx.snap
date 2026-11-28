@@ -1380,12 +1380,6 @@ button.dnb-button::-moz-focus-inner {
   animation-timing-function: var(--progress-indicator-timing);
   animation-iteration-count: infinite;
 }
-@media (prefers-reduced-motion: reduce) {
-  .dnb-progress-indicator__circular__line {
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
-  }
-}
 .dnb-progress-indicator__circular__line.background {
   stroke-dashoffset: var(--progress-indicator-circular-circle-offset--max);
 }
@@ -1401,6 +1395,17 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-progress-indicator__circular__line.paused {
   animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dnb-progress-indicator__circular:not(.dnb-progress-indicator__circular--has-progress-value) .dnb-progress-indicator__circular__line {
+    animation-name: none;
+  }
+  .dnb-progress-indicator__circular:not(.dnb-progress-indicator__circular--has-progress-value) .dnb-progress-indicator__circular__line.dark {
+    stroke-dashoffset: calc(var(--progress-indicator-circular-circle) * 0.75) !important;
+  }
+  .dnb-progress-indicator__circular:not(.dnb-progress-indicator__circular--has-progress-value) .dnb-progress-indicator__circular__line.dark ~ .dnb-progress-indicator__circular__line.light {
+    visibility: hidden;
+  }
 }
 .dnb-progress-indicator__circular--has-progress-value .dnb-progress-indicator__circular__line.dark {
   transition: stroke-dashoffset 600ms var(--progress-indicator-timing);
@@ -1464,9 +1469,9 @@ button.dnb-button::-moz-focus-inner {
 }
 @media (prefers-reduced-motion: reduce) {
   .dnb-progress-indicator__linear__bar1-animation {
-    right: 0;
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
+    left: 30%;
+    right: 30%;
+    animation: none;
   }
 }
 .dnb-progress-indicator__linear__bar2-animation {
@@ -1475,9 +1480,7 @@ button.dnb-button::-moz-focus-inner {
 }
 @media (prefers-reduced-motion: reduce) {
   .dnb-progress-indicator__linear__bar2-animation {
-    right: 0;
-    animation-duration: 0.01ms;
-    animation-iteration-count: 1;
+    display: none;
   }
 }
 html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
