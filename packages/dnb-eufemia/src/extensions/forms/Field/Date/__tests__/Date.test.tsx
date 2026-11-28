@@ -1439,6 +1439,74 @@ describe('Field.Date', () => {
     }
   )
 
+  it('should keep the typed date visible when the return format differs', async () => {
+    const onSubmit = vi.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Date
+          path="/value"
+          dateFormat="dd/MM/yyyy"
+          returnFormat="MM/dd/yyyy"
+        />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    await userEvent.click(day)
+    await userEvent.keyboard('04032028')
+    await userEvent.click(document.querySelector('button[type="submit"]'))
+
+    expect(day).toHaveValue('04')
+    expect(month).toHaveValue('03')
+    expect(year).toHaveValue('2028')
+    expect(onSubmit).toHaveBeenCalledWith(
+      { value: '03/04/2028' },
+      expect.anything()
+    )
+  })
+
+  it('should keep the typed range visible when the return format differs', async () => {
+    const onSubmit = vi.fn()
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.Date
+          path="/value"
+          range
+          dateFormat="dd/MM/yyyy"
+          returnFormat="MM/dd/yyyy"
+        />
+        <Form.SubmitButton />
+      </Form.Handler>
+    )
+
+    const [start, end] = document.querySelectorAll(
+      '.dnb-date-picker__input--day'
+    )
+
+    await userEvent.click(start)
+    await userEvent.keyboard('04032028')
+    await userEvent.click(end)
+    await userEvent.keyboard('05042028')
+    await userEvent.click(document.querySelector('button[type="submit"]'))
+
+    const inputs = Array.from(
+      document.querySelectorAll<HTMLInputElement>(
+        '.dnb-date-picker__input'
+      )
+    ).map((input) => input.value)
+    expect(inputs).toEqual(['04', '03', '2028', '05', '04', '2028'])
+    expect(onSubmit).toHaveBeenCalledWith(
+      { value: '03/04/2028|04/05/2028' },
+      expect.anything()
+    )
+  })
+
   it.each([
     ['2028-2-9', undefined],
     ['29.02.2028', 'dd/MM/yyyy'],

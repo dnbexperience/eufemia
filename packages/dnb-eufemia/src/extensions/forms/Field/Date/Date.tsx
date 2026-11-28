@@ -429,10 +429,17 @@ function DateComponent(props: DateProps): ReactElement {
   )
 
   const { value, startDate, endDate } = useMemo(() => {
+    // The picker reads strings in its date format, so pass the stored
+    // return-format value as an ISO date.
+    const toPickerDate = (value: string) => {
+      const date = parseValue(value)
+      return date ? format(date, 'yyyy-MM-dd') : value
+    }
+
     if (!range || !internalValue) {
       return {
         // Assign to null if falsy value, to properly clear input values
-        value: internalValue ?? null,
+        value: internalValue ? toPickerDate(internalValue) : null,
         startDate: undefined,
         endDate: undefined,
       }
@@ -442,10 +449,10 @@ function DateComponent(props: DateProps): ReactElement {
 
     return {
       value: undefined,
-      startDate,
-      endDate,
+      startDate: toPickerDate(startDate),
+      endDate: toPickerDate(endDate),
     }
-  }, [range, internalValue])
+  }, [range, internalValue, parseValue])
 
   useMemo(() => {
     if ((path || itemPath) && value) {
