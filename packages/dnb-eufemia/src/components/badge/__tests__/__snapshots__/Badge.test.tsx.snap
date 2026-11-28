@@ -34,6 +34,21 @@ exports[`Badge scss > should match style dependencies css 1`] = `
 .dnb-badge__root--button-right > .dnb-button--has-text {
   padding-right: max(var(--button-padding-right), var(--badge-width, 1.5rem) + 0.25rem);
 }
+.dnb-badge__root > .dnb-button--has-icon:not(.dnb-button--has-text) + .dnb-badge--variant-notification:not(.dnb-badge--indicator) {
+  transform: translate(var(--badge-button-offset-x, 0%), var(--badge-button-offset-y, 0%));
+}
+.dnb-badge__root > .dnb-button--has-icon:not(.dnb-button--has-text) + .dnb-badge--variant-notification:not(.dnb-badge--indicator).dnb-badge--horizontal-left {
+  --badge-button-offset-x: calc(-100% + 0.75rem);
+}
+.dnb-badge__root > .dnb-button--has-icon:not(.dnb-button--has-text) + .dnb-badge--variant-notification:not(.dnb-badge--indicator).dnb-badge--horizontal-right {
+  --badge-button-offset-x: calc(100% - 0.75rem);
+}
+.dnb-badge__root > .dnb-button--has-icon:not(.dnb-button--has-text) + .dnb-badge--variant-notification:not(.dnb-badge--indicator).dnb-badge--vertical-top {
+  --badge-button-offset-y: -50%;
+}
+.dnb-badge__root > .dnb-button--has-icon:not(.dnb-button--has-text) + .dnb-badge--variant-notification:not(.dnb-badge--indicator).dnb-badge--vertical-bottom {
+  --badge-button-offset-y: 50%;
+}
 .dnb-badge__root .dnb-badge {
   display: flex;
   overflow: hidden;
