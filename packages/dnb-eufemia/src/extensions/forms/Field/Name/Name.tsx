@@ -22,6 +22,8 @@ export type CompanyNameValidator = ValidatorWithCustomValidators<
 
 export type FieldNameProps = Omit<StringFieldProps, 'onBlurValidator'> & {
   onBlurValidator?: NameValidator | false
+  /** For personal names, `extend` runs your callback after the built-in pattern passes. Use `replace` to run your callback instead. Without a callback, the pattern still applies. */
+  onBlurValidatorMode?: 'extend' | 'replace'
 }
 
 export type FieldNameCompanyProps = Omit<
@@ -44,11 +46,14 @@ export type FieldNameCompanyProps = Omit<
     | false
 }
 
-// Pattern for first and last names: must start and end with a letter (or be a single letter),
-// disallow consecutive hyphens/spaces, allow letters, spaces, and hyphens inside,
-// but do not allow digits, dots, or trailing punctuation (e.g. ending with '-').
+/** Previous personal-name pattern, retained for products that require its exact rules. */
 export const namePattern =
   '^(?!.*[-\\s]{2})[\\p{L}]([\\p{L}\\p{M}\\p{Zs}-]*[\\p{L}])?$'
+
+/** Default personal-name pattern. A separator must precede a letter, not a combining mark. */
+export const personalNamePattern =
+  "^\\p{L}\\p{M}*(?:['’\\p{Zs}-]?\\p{L}\\p{M}*)*$"
+const personalNameRegex = new RegExp(personalNamePattern, 'u')
 
 // Pattern for company names: must start and end with a letter or number.
 // Disallow consecutive hyphens/spaces or dots. Allow letters, numbers, punctuation marks, spaces, and dots in between.
@@ -59,6 +64,7 @@ function Name(props: FieldNameProps) {
   const translations = useTranslation().Name
   const {
     onBlurValidator: onBlurValidatorProp,
+    onBlurValidatorMode = 'extend',
     minLength: minLengthProp = 1,
     ...otherProps
   } = props
@@ -68,7 +74,7 @@ function Name(props: FieldNameProps) {
       if (value === '') {
         return undefined // Allow empty values (required validation handles this)
       }
-      if (!new RegExp(namePattern, 'u').test(value)) {
+      if (!personalNameRegex.test(value)) {
         return new FormError('Field.errorPattern')
       }
     }
@@ -82,7 +88,10 @@ function Name(props: FieldNameProps) {
     }
 
     if (typeof onBlurValidatorProp === 'function') {
-      // Prioritize the internal validator first; only then run the external one
+      if (onBlurValidatorMode === 'replace') {
+        return onBlurValidatorProp
+      }
+
       return (value: string, args) => {
         const coreResult = nameValidator(value)
         if (coreResult instanceof Error) {
@@ -93,7 +102,7 @@ function Name(props: FieldNameProps) {
     }
 
     return nameValidator
-  }, [onBlurValidatorProp, nameValidator])
+  }, [onBlurValidatorProp, onBlurValidatorMode, nameValidator])
 
   const StringFieldProps: StringFieldProps = {
     label: translations.label,

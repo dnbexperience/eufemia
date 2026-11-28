@@ -186,13 +186,13 @@ export default {
       label: 'Förnamn',
       errorRequired: 'Du måste fylla i förnamn.',
       errorPattern:
-        'Du måste ange ett giltigt förnamn. Endast bokstäver, bindestreck och mellanslag är tillåtna. Bindestreck och mellanslag måste stå mellan två bokstäver.',
+        'Skriv förnamnet med bokstäver. Mellan två bokstäver kan du använda en apostrof, ett bindestreck eller ett mellanslag.',
     },
     LastName: {
       label: 'Efternamn',
       errorRequired: 'Du måste fylla i efternamn.',
       errorPattern:
-        'Du måste ange ett giltigt efternamn. Endast bokstäver, bindestreck och mellanslag är tillåtna. Bindestreck och mellanslag måste stå mellan två bokstäver.',
+        'Skriv efternamnet med bokstäver. Mellan två bokstäver kan du använda en apostrof, ett bindestreck eller ett mellanslag.',
     },
     CompanyName: {
       label: 'Företagsnamn',
