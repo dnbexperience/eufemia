@@ -1,0 +1,140 @@
+.dnb-dashboard-summary {
+  container-type: inline-size;
+
+  &__cards {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  @container (min-width: 40rem) {
+    &__cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+}
+
+.dnb-dashboard-chart {
+  container-type: inline-size;
+  font-size: var(--font-size-small);
+
+  &__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    span::before {
+      display: inline-block;
+      width: 0.75rem;
+      height: 0.75rem;
+      margin-right: 0.5rem;
+      background: var(--token-color-text-neutral);
+      content: '';
+    }
+
+    span + span::before {
+      background: var(--token-color-text-neutral-alternative);
+    }
+  }
+
+  &__unit {
+    margin-bottom: 1rem;
+    font-size: var(--font-size-x-small);
+  }
+
+  &__frame {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  &__scale {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 12rem;
+    text-align: right;
+    font-size: var(--font-size-x-small);
+    line-height: 1rem;
+
+    > span {
+      height: 0;
+      line-height: 0;
+      white-space: nowrap;
+    }
+  }
+
+  &__plot {
+    position: relative;
+    display: flex;
+    gap: 0.5rem;
+
+    &::before {
+      position: absolute;
+      top: 6rem;
+      right: 0;
+      left: 0;
+      height: 6rem;
+      border-top: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+      border-bottom: 0.0625rem solid
+        var(--token-color-stroke-neutral-subtle);
+      pointer-events: none;
+      content: '';
+    }
+  }
+
+  &__interval {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    font-size: var(--font-size-x-small);
+    white-space: nowrap;
+  }
+
+  &__bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.125rem;
+    height: 12rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__bar {
+    width: 35%;
+    min-width: 0.125rem;
+    max-width: 1.75rem;
+    background: var(--token-color-text-neutral);
+
+    &--out {
+      background: var(--token-color-text-neutral-alternative);
+    }
+  }
+
+  @container (max-width: 20rem) {
+    &__plot {
+      gap: 0.125rem;
+    }
+
+    &__interval:nth-child(even) > span {
+      visibility: hidden;
+    }
+  }
+
+  @container (max-width: 12rem) {
+    &__bars {
+      gap: 0.0625rem;
+    }
+
+    &__interval > span {
+      visibility: hidden;
+    }
+
+    &__interval:first-child > span,
+    &__interval:last-child > span {
+      visibility: visible;
+    }
+  }
+}
