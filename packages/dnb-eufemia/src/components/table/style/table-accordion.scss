@@ -172,12 +172,6 @@
   &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):not(
       :hover
     ):focus {
-    td::before {
-      @include utilities.whatInput(keyboard) {
-        --border-color: var(--token-color-stroke-action-focus);
-        --border-width: var(--focus-outline-width);
-      }
-    }
     td:first-of-type::before {
       left: 0;
     }
@@ -186,8 +180,8 @@
     }
   }
 
-  // A tapped row can keep :hover after switching to the keyboard.
-  html:where(:not([data-whatintent='mouse']))[data-whatinput='keyboard']
+  // Keep the outline under the mouse, so keyboard focus stays visible.
+  html[data-whatinput='keyboard']
     &__tr--clickable#{&}__tr:not(&__tr--disabled):not(:active):focus {
     td::before {
       --border-color: var(--token-color-stroke-action-focus);
@@ -221,7 +215,8 @@
       )#{&}__tr--hover:not(:active):hover:not(
         :where(
           html[data-whatintent='touch'] *,
-          html[data-whatintent='keyboard'] *
+          html[data-whatintent='keyboard'] *,
+          html[data-whatinput='keyboard'] :focus
         )
       )
       &__td {
