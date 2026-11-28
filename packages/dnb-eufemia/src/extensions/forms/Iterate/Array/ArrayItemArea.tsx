@@ -53,7 +53,6 @@ function ArrayItemArea(
   const { hasError, hasSubmitError } =
     useContext(FieldBoundaryContext) || {}
   localContextRef.current = useContext(IterateItemContext) || {}
-  const nextFocusElementRef = useRef<HTMLElement>(undefined)
   const { isNew } = localContextRef.current
 
   const determineMode = useCallback(() => {
@@ -78,7 +77,7 @@ function ArrayItemArea(
     if (!localContextRef.current.modeOptions) {
       localContextRef.current.modeOptions = {}
     }
-    localContextRef.current.modeOptions.omitFocusManagement = true
+    localContextRef.current.modeOptions.omitFocusOnOpen = true
   }
   if (localContextRef.current.containerMode === 'auto') {
     localContextRef.current.containerMode = 'view'
@@ -90,13 +89,14 @@ function ArrayItemArea(
       if (editMode) {
         const { switchContainerMode } = localContextRef.current
         switchContainerMode?.(editMode, {
-          omitFocusManagement: true,
+          ...localContextRef.current.modeOptions,
+          omitFocusOnOpen: true,
         })
       }
     }
   }, [determineMode, mode])
 
-  const { handleRemove, index, previousContainerMode, containerMode } =
+  const { handleRemove, previousContainerMode, containerMode } =
     localContextRef.current
 
   const openRef = useRef(open ?? (containerMode === mode && !isNew))
@@ -137,15 +137,13 @@ function ArrayItemArea(
       if (
         localContextRef.current.modeOptions?.omitFocusManagement !==
           true &&
+        !localContextRef.current.modeOptions?.omitFocusOnOpen &&
         !hasSubmitError &&
         containerMode === mode && // ensure we match the correct mode
-        containerMode !== previousContainerMode // ensure we have a new mode
+        containerMode !== previousContainerMode && // ensure we have a new mode
+        state === 'opened'
       ) {
-        if (state === 'opened') {
-          localContextRef.current.elementRef?.current?.focus?.()
-        } else if (state === 'closed') {
-          nextFocusElementRef.current?.focus?.()
-        }
+        localContextRef.current.elementRef?.current?.focus?.()
       }
     },
     [containerMode, hasSubmitError, mode, previousContainerMode]
@@ -156,14 +154,9 @@ function ArrayItemArea(
     (state: HeightAnimationOnEndStates) => {
       if (!openRef.current && isRemoving.current) {
         isRemoving.current = false
-        localContextRef.current.fulfillRemove?.()
-
-        const schedule =
-          typeof requestAnimationFrame === 'function'
-            ? requestAnimationFrame
-            : (callback: () => void) => setTimeout(callback)
-        schedule(() => {
-          setFocus(state)
+        localContextRef.current.fulfillRemove?.({
+          focusAfterRemove:
+            !localContextRef.current.modeOptions?.omitFocusManagement,
         })
       } else {
         setFocus(state)
@@ -174,24 +167,10 @@ function ArrayItemArea(
   )
 
   const handleRemoveItem = useCallback(() => {
-    try {
-      const containerElement = localContextRef.current.containerRef.current
-      const elements = Array.from(
-        containerElement.querySelectorAll<HTMLElement>(
-          '.dnb-forms-iterate__element'
-        )
-      ).filter((element) => {
-        return element.closest('.dnb-forms-iterate') === containerElement
-      })
-
-      nextFocusElementRef.current = elements.at(index - 1)
-    } catch (e) {
-      // Gracefully handle missing DOM elements during removal animation
-    }
     isRemoving.current = true
     setOpenState(false)
     handleRemove?.({ keepItems: true })
-  }, [handleRemove, index, setOpenState])
+  }, [handleRemove, setOpenState])
 
   return (
     <ArrayItemAreaContext

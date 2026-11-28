@@ -28,6 +28,7 @@ import type {
   ModeOptions,
 } from '../IterateItemContext'
 import IterateItemContext from '../IterateItemContext'
+import ArrayItemAreaContext from './ArrayItemAreaContext'
 import SummaryListContext from '../../Value/SummaryList/SummaryListContext'
 import ValueBlockContext from '../../ValueBlock/ValueBlockContext'
 import FieldBoundaryProvider from '../../DataContext/FieldBoundary/FieldBoundaryProvider'
@@ -69,7 +70,11 @@ function ArrayComponent(props: IterateArrayProps) {
   const dataContext = useContext(DataContext)
   const summaryListContext = useContext(SummaryListContext)
   const valueBlockContext = useContext(ValueBlockContext)
-  const { absolutePath } = useItemPath(itemPathProp)
+  const { absolutePath, resolvedPath } = useItemPath({
+    path: pathProp,
+    itemPath: itemPathProp,
+    omitSectionPath,
+  })
   const { setLimitProps, error: limitWarning } = useArrayLimit(
     pathProp || absolutePath
   )
@@ -240,6 +245,7 @@ function ArrayComponent(props: IterateArrayProps) {
   const valueCountRef = useRef(arrayValue)
   const arrayValueRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>(undefined)
+  const removedNeighborRef = useRef<{ id?: string }>(undefined)
   const hadPushRef = useRef<boolean>(undefined)
   const elementRefs = useRef<Record<string, RefObject<HTMLDivElement>>>({})
 
@@ -324,16 +330,26 @@ function ArrayComponent(props: IterateArrayProps) {
           hadPushRef.current = true
           handleChange([...(arrayValueRef.current || []), element])
         },
-        handleRemove: ({ keepItems = false } = {}) => {
+        handleRemove: ({ keepItems = false, focusAfterRemove } = {}) => {
           if (keepItems) {
             return // so we don't call fulfillRemove immediately
           }
 
-          itemContext.fulfillRemove()
+          itemContext.fulfillRemove({ focusAfterRemove })
         },
 
         // - Called after animation end
-        fulfillRemove: () => {
+        fulfillRemove: ({ focusAfterRemove } = {}) => {
+          if (focusAfterRemove && containerRef.current) {
+            const step = reverse ? 1 : -1
+            const visibleId = (i: number) =>
+              i >= 0 && i < limitedList.length
+                ? idsRef.current[i]
+                : undefined
+            removedNeighborRef.current = {
+              id: visibleId(index + step) ?? visibleId(index - step),
+            }
+          }
           const newArrayValue = structuredClone(
             arrayValueRef.current || []
           )
@@ -393,6 +409,36 @@ function ArrayComponent(props: IterateArrayProps) {
     reverse,
     handleChange,
   ])
+
+  useEffect(() => {
+    const removed = removedNeighborRef.current
+    if (!removed) {
+      return
+    }
+    removedNeighborRef.current = undefined
+
+    const neighbor =
+      arrayItems.find(({ id }) => id === removed.id) ?? arrayItems[0]
+    if (neighbor) {
+      elementRefs.current[neighbor.id]?.current?.focus()
+      return
+    }
+
+    for (const [button, path] of dataContext.iterateAddButtonsRef
+      ?.current ?? []) {
+      if (
+        path === resolvedPath &&
+        !button.matches(':disabled, [aria-disabled="true"]') &&
+        !button.closest('[hidden], [inert], [aria-hidden="true"]')
+      ) {
+        button.focus()
+        if (button.ownerDocument.activeElement === button) {
+          return
+        }
+      }
+    }
+    containerRef.current?.focus()
+  }, [arrayItems, dataContext.iterateAddButtonsRef, resolvedPath])
 
   const total = arrayItems.length
   useEffect(() => {
@@ -482,12 +528,16 @@ function ArrayComponent(props: IterateArrayProps) {
   const content = omitFlex ? (
     arrayElements
   ) : (
-    <Flex.Stack {...flexProps}>{arrayElements}</Flex.Stack>
+    <Flex.Stack {...flexProps} tabIndex={total === 0 ? -1 : undefined}>
+      {arrayElements}
+    </Flex.Stack>
   )
 
   return (
     <>
-      {animate ? <HeightAnimation>{content}</HeightAnimation> : content}
+      <ArrayItemAreaContext value={null}>
+        {animate ? <HeightAnimation>{content}</HeightAnimation> : content}
+      </ArrayItemAreaContext>
 
       <FormStatus
         show={Boolean(error || limitWarning)}

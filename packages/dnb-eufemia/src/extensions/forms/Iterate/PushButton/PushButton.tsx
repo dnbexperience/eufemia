@@ -13,7 +13,8 @@ import { omitDataValueReadWriteProps } from '../../types'
 import add from '../../../../icons/add'
 import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
-import { usePath } from '../../hooks'
+import useAddButtonRef from '../hooks/useAddButtonRef'
+import useCombinedRef from '../../../../shared/helpers/useCombinedRef'
 import { convertJsxToString } from '../../../../shared/component-helper'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -45,8 +46,12 @@ function PushButton(props: IteratePushButtonProps) {
   } = props
   const buttonProps = omitDataValueReadWriteProps(restProps)
 
-  const { absolutePath } = useItemPath(itemPath)
-  const { path: relativePath } = usePath({ path, itemPath })
+  const { absolutePath, resolvedPath } = useItemPath({ path, itemPath })
+  const targetPath = absolutePath || resolvedPath
+  const addButtonRef = useAddButtonRef(
+    handlePush && !absolutePath ? undefined : targetPath
+  )
+  const ref = useCombinedRef(props.ref, addButtonRef)
 
   const { value: arrayValue } = useDataValue<Array<unknown>>(
     path || absolutePath
@@ -74,7 +79,7 @@ function PushButton(props: IteratePushButtonProps) {
       handlePush(newValue)
     } else {
       // If not inside an iterate, it could still manipulate a source data set through useFieldProps
-      await handlePathChange?.(absolutePath || relativePath, [
+      await handlePathChange?.(targetPath, [
         ...(arrayValue ?? []),
         newValue,
       ])
@@ -91,7 +96,7 @@ function PushButton(props: IteratePushButtonProps) {
     handlePathChange,
     handlePush,
     hasReachedLimit,
-    relativePath,
+    targetPath,
     pushValue,
     setLastItemContainerMode,
     setShowStatus,
@@ -122,6 +127,7 @@ function PushButton(props: IteratePushButtonProps) {
         },
         buttonProps
       )}
+      ref={ref}
     >
       {content}
     </Button>

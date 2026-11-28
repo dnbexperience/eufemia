@@ -1,9 +1,9 @@
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, fireEvent, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
-import { Form, Iterate } from '../../..'
+import { Form, Iterate, Value } from '../../..'
 import ArrayItemAreaContext from '../../Array/ArrayItemAreaContext'
 
 const nb = nbNO['nb-NO'].RemoveButton
@@ -27,7 +27,7 @@ describe('RemoveButton', () => {
     const button = document.querySelector('button')
     fireEvent.click(button)
 
-    expect(handleRemove).toHaveBeenCalledWith()
+    expect(handleRemove).toHaveBeenCalledWith({ focusAfterRemove: true })
   })
 
   it('should throw an error if value is not an array', () => {
@@ -153,33 +153,118 @@ describe('RemoveButton', () => {
     expect(handleRemove).toHaveBeenCalledTimes(0)
   })
 
-  it('should not call "handleRemoveItem" when itemPath was given', async () => {
-    const handleRemoveItem = vi.fn()
-    const handleRemove = vi.fn()
+  it.each([false, true])(
+    'should keep removal focus in the nested array (animated: %s)',
+    async (animated) => {
+      render(
+        <Form.Handler
+          defaultData={{
+            groups: [{ items: ['a'] }, { items: ['b', 'c', 'd'] }],
+          }}
+        >
+          <Iterate.Array path="/groups">
+            <Iterate.ViewContainer>
+              <Iterate.Array itemPath="/items" className="inner" reverse>
+                {animated ? (
+                  <Iterate.ViewContainer>Inner item</Iterate.ViewContainer>
+                ) : (
+                  <RemoveButton />
+                )}
+              </Iterate.Array>
+              <Iterate.PushButton
+                itemPath="/items"
+                pushValue="new"
+                text="Add item"
+              />
+            </Iterate.ViewContainer>
+          </Iterate.Array>
+        </Form.Handler>
+      )
 
-    render(
-      <ArrayItemAreaContext
-        value={{
-          handleRemoveItem,
-        }}
-      >
-        <RemoveButton />
-      </ArrayItemAreaContext>,
-      {
-        wrapper: ({ children }) => (
-          <IterateItemContext
-            value={{ handleRemove, itemPath: '/itemPath' }}
-          >
-            {children}
-          </IterateItemContext>
-        ),
+      const [firstGroup, secondGroup] = document.querySelectorAll('.inner')
+      const rows = secondGroup.querySelectorAll(
+        '.dnb-forms-iterate__element'
+      )
+      const remove = async (row: Element) => {
+        await userEvent.click(
+          row.querySelector('.dnb-forms-iterate-remove-element-button')
+        )
+        await waitFor(() => expect(row).not.toBeInTheDocument())
       }
+      await remove(rows[0])
+      expect(rows[1]).toHaveFocus()
+      await remove(rows[2])
+      expect(rows[1]).toHaveFocus()
+      await remove(rows[1])
+      expect(
+        document.querySelectorAll('.dnb-forms-iterate-push-button')[1]
+      ).toHaveFocus()
+      expect(
+        firstGroup.querySelectorAll('.dnb-forms-iterate__element')
+      ).toHaveLength(1)
+    }
+  )
+
+  it.each([false, true])(
+    'should focus the visible neighbor when "reverse" and "limit" hide items (animated: %s)',
+    async (animated) => {
+      render(
+        <Iterate.Array value={['A', 'B', 'C', 'D']} reverse limit={3}>
+          {animated ? (
+            <Iterate.ViewContainer>
+              <Value.String itemPath="/" />
+            </Iterate.ViewContainer>
+          ) : (
+            <>
+              <Value.String itemPath="/" />
+              <RemoveButton />
+            </>
+          )}
+        </Iterate.Array>
+      )
+
+      const rows = document.querySelectorAll('.dnb-forms-iterate__element')
+      expect(Array.from(rows).map((row) => row.textContent)).toEqual([
+        expect.stringContaining('C'),
+        expect.stringContaining('B'),
+        expect.stringContaining('A'),
+      ])
+
+      await userEvent.click(
+        rows[1].querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await waitFor(() => expect(rows[1]).not.toBeInTheDocument())
+
+      expect(rows[0]).toHaveFocus()
+    }
+  )
+
+  it('should not focus an open button that hides when the list becomes empty', async () => {
+    render(
+      <Form.Handler defaultData={{ accounts: ['a'] }}>
+        <Iterate.Array path="/accounts" animate>
+          <Iterate.ViewContainer>
+            <Value.String itemPath="/" />
+          </Iterate.ViewContainer>
+        </Iterate.Array>
+        <Iterate.PushContainer
+          path="/accounts"
+          openButton={<Iterate.PushContainer.OpenButton text="Add" />}
+          showOpenButtonWhen={(list) => list.length > 0}
+        >
+          New item
+        </Iterate.PushContainer>
+      </Form.Handler>
     )
 
-    await userEvent.click(document.querySelector('button'))
+    const list = document.querySelector('.dnb-forms-iterate')
+    const row = list.querySelector('.dnb-forms-iterate__element')
+    await userEvent.click(
+      row.querySelector('.dnb-forms-iterate-remove-element-button')
+    )
+    await waitFor(() => expect(row).not.toBeInTheDocument())
 
-    expect(handleRemoveItem).toHaveBeenCalledTimes(0)
-    expect(handleRemove).toHaveBeenCalledTimes(1)
+    expect(list).toHaveFocus()
   })
 
   it('should support "itemNo" in text', () => {

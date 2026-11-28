@@ -135,6 +135,12 @@ By default, the container mode is set to `auto`. This means that the container w
 
 When a new item is added via the [Iterate.PushButton](/web/forms/Iterate/PushButton/) component, the item before it will change to `view` mode, if it had no validation errors.
 
+#### Focus after removal
+
+When you remove an item, focus moves to the previous item in display order. If you remove the first item, focus moves to the next item instead. Press Tab to reach that item’s first control.
+
+If you remove the only item, focus moves to the available `Iterate.PushButton` or `Iterate.PushContainer.OpenButton` for the same array. Without an Add button, focus stays at the empty array. Use `placeholder` to explain that the array is empty. These focus targets use the default array wrapper; with `withoutFlex`, you supply your own markup and focus handling.
+
 ### Filter data
 
 You can filter data by paths specific or all paths.
