@@ -1,0 +1,34 @@
+---
+showTabs: true
+---
+
+## Description
+
+AnimatedDigits is a low-level fragment for building components. When the digits change, existing digits slide out and in from left to right, 25 ms apart. New leading digits enter immediately so growing values do not leave a blank gap. Each slide takes 160 ms using CSS, and follows the supplied direction. It does not count through intermediate values. Separators and units stay still, while width changes move surrounding content smoothly.
+
+Use this fragment when building a component that owns the formatted output and update tracking. For application content, prefer [NumberFormat](/web/components/number-format/), [Stat](/web/components/stat/) and [DateFormat](/web/components/date-format/) for formatting and accessibility.
+
+Pass already formatted text as `value` and the previous text as `previousValue`. Omit `previousValue` on the initial render and after a formatting or locale change. Set `direction` to match the change. The fragment does not format values or keep previous values in state.
+
+Reduced motion disables animation. Right-to-left text and bidirectional formatting marks use native text without animation to preserve shaping and reading order. Visual digits are hidden from assistive technology; the complete final text is available immediately. The fragment does not announce updates. Use [AriaLive](/web/components/aria-live/) when an update needs an announcement.
+
+Use motion for selected values that change after a user action. Keep dense tables and frequently refreshing values still.
+
+## Import
+
+```tsx
+import { AnimatedDigits } from '@dnb/eufemia/fragments'
+```
+
+### Styles
+
+The standard Eufemia stylesheets include the animation styles. When importing individual styles, include:
+
+```tsx
+import '@dnb/eufemia/fragments/animated-digits/style/dnb-animated-digits.min.css'
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/fragments/animated-digits)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/fragments/animated-digits)

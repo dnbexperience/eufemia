@@ -41,6 +41,16 @@ export default defineConfig({
       use: { browserName: 'chromium' },
     },
     {
+      name: 'chromium-animated-digits',
+      testMatch: 'AnimatedDigits.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'webkit-animated-digits',
+      testMatch: 'AnimatedDigits.e2e.spec.ts',
+      use: { browserName: 'webkit' },
+    },
+    {
       name: 'webkit-fonts',
       testMatch: [
         '**/style/__tests__/Fonts.e2e.spec.ts',

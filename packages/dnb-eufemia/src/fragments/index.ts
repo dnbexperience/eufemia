@@ -10,9 +10,10 @@
  */
 
 // import all the available components
+import AnimatedDigits from './animated-digits/AnimatedDigits'
 import DrawerList from './drawer-list/DrawerList'
 import ScrollView from './scroll-view/ScrollView'
 import TextCounter from './text-counter/TextCounter'
 
 // define / export all the available components
-export { DrawerList, ScrollView, TextCounter }
+export { AnimatedDigits, DrawerList, ScrollView, TextCounter }
