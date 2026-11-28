@@ -2584,6 +2584,34 @@ describe('Dropdown key handling', () => {
       expect(getFocusedOption()).toBe('Nepal')
     })
 
+    it('should start the cycling from the first match after a search of several characters', () => {
+      vi.useFakeTimers()
+      render(<Dropdown data={countries} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('n')
+      keydown('o')
+
+      expect(getFocusedOption()).toBe('Norge')
+
+      vi.advanceTimersByTime(1100)
+      keydown('n')
+
+      expect(getFocusedOption()).toBe('Nederland')
+    })
+
+    it('should start a new search when the list opens again', () => {
+      render(<Dropdown data={days} noAnimation />)
+
+      keydown('ArrowDown')
+      keydown('2')
+      keydown('Escape')
+      keydown('ArrowDown')
+      keydown('1')
+
+      expect(getFocusedOption()).toBe('1')
+    })
+
     it('should keep the focused item when no item matches', () => {
       render(<Dropdown data={countries} noAnimation />)
 
