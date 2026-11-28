@@ -155,6 +155,53 @@ describe('Pagination bar', () => {
     ).toHaveTextContent('2')
   })
 
+  it.each([
+    { name: 'a newer selection', filter: false },
+    { name: 'a filter and a newer selection', filter: true },
+  ])(
+    'keeps the selection when a late page arrives after $name',
+    ({ filter }) => {
+      const requests: Record<number, () => void> = {}
+      const pagination = (pageCount: number) => (
+        <Pagination pageCount={pageCount}>
+          {({ pageNumber, setContent }) => {
+            requests[pageNumber] = () =>
+              setContent(pageNumber, <p>Page {pageNumber}</p>)
+          }}
+        </Pagination>
+      )
+      const { getByRole, rerender } = render(pagination(5))
+      const pageButton = (page: number) =>
+        getByRole('button', {
+          name: nb.buttonTitle.replace('%s', String(page)),
+        })
+
+      fireEvent.click(pageButton(4))
+      if (filter) {
+        rerender(pagination(2))
+      }
+      fireEvent.click(pageButton(1))
+      act(requests[1])
+      if (filter) {
+        rerender(pagination(5))
+      }
+      act(requests[4])
+
+      expect(
+        document.querySelector('.dnb-pagination__content')
+      ).toHaveTextContent('Page 1')
+      expect(
+        document.querySelector('[aria-current="page"]')
+      ).toHaveTextContent('1')
+
+      fireEvent.click(pageButton(4))
+
+      expect(
+        document.querySelector('.dnb-pagination__content')
+      ).toHaveTextContent('Page 4')
+    }
+  )
+
   it('updates the controlled page without a known count', () => {
     const renderPage = vi.fn(({ pageNumber }) => <p>Page {pageNumber}</p>)
     const { rerender } = render(

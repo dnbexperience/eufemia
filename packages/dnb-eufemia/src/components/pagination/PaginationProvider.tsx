@@ -129,6 +129,8 @@ const PaginationProviderComponent = (props: any) => {
 
   const lastPageRef = useRef(lastPage)
   lastPageRef.current = lastPage
+  const isPaginatedRef = useRef(isPaginated)
+  isPaginatedRef.current = isPaginated
   const pendingPageRef = useRef(
     initialPage > lastPage ? initialPage : undefined
   )
@@ -199,11 +201,14 @@ const PaginationProviderComponent = (props: any) => {
     []
   )
 
-  const setContent = useCallback(
+  const latestRequestRef = useRef(0)
+
+  const applyContent = useCallback(
     (
       newContent: unknown,
       content: ReactNode = null,
-      position: string | null = null
+      position: string | null = null,
+      selectPage = true
     ) => {
       if (!Array.isArray(newContent) && content) {
         newContent = [newContent, content]
@@ -248,13 +253,21 @@ const PaginationProviderComponent = (props: any) => {
 
         const updatedItems = [...(newItems || itemsRef.current)]
         setItemsState(updatedItems)
-        setCurrentPageInternal(pageNumber)
+        if (selectPage) {
+          setCurrentPageInternal(pageNumber)
+        }
 
         // Flag that callOnPageUpdate should run after state commits
         pendingCallOnPageUpdateRef.current = true
       }
     },
     [prefillItems]
+  )
+
+  const setContent = useCallback(
+    (newContent: unknown, content?: ReactNode, position?: string) =>
+      applyContent(newContent, content, position),
+    [applyContent]
   )
 
   const resetContent = useCallback(() => {
@@ -355,11 +368,25 @@ const PaginationProviderComponent = (props: any) => {
           : currentPageInternalRef.current
 
       let potentialElement = propsRef.current.internalContent
+      const request = ++latestRequestRef.current
+
+      // In the bar, only the latest request may change the selected page.
+      const setRequestContent = (
+        newContent: unknown,
+        content?: ReactNode,
+        position?: string
+      ) =>
+        applyContent(
+          newContent,
+          content,
+          position,
+          !isPaginatedRef.current || request === latestRequestRef.current
+        )
 
       if (typeof propsRef.current.internalContent === 'function') {
         potentialElement = propsRef.current.internalContent({
           updatePageContent,
-          setContent,
+          setContent: setRequestContent,
           resetContent,
           resetInfinity,
           endInfinity: endInfinityHandler,
@@ -381,11 +408,11 @@ const PaginationProviderComponent = (props: any) => {
       }
 
       if (potentialElement && isValidElement(potentialElement)) {
-        setContent([pn, potentialElement])
+        setRequestContent([pn, potentialElement])
       }
     },
     [
-      setContent,
+      applyContent,
       resetContent,
       resetInfinity,
       endInfinityHandler,
