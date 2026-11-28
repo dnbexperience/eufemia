@@ -2,7 +2,7 @@
 showTabs: true
 ---
 
-## Description
+## Overview
 
 `Field.InstallmentDay` is a dropdown-based field for selecting which day of the month a recurring monthly payment is made, such as a loan installment or standing order.
 
@@ -12,18 +12,18 @@ The value type is `number | 'last'`.
 
 There is a corresponding [Value.InstallmentDay](/web/forms/Value/InstallmentDay) component.
 
-## Import
+### Import
 
 ```tsx
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.InstallmentDay />)
 ```
 
-## Relevant links
+### Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/InstallmentDay)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/forms/feature-fields/InstallmentDay)
 
-## Available days
+### Available days
 
 By default, `Field.InstallmentDay` shows days 1–28 plus a "Last day of the month" option. Days 29–31 are excluded because they do not exist in every month. The "Last day of the month" option serves customers paid at month end. Use the `days` prop to override the available days, and `showLastDay={false}` to remove the last day option.
