@@ -12,6 +12,8 @@ import {
 } from '../../../../components/date-format/DateFormatUtils'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
+import { isValid, parseISO } from 'date-fns'
 
 export type ValueDateProps = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
@@ -81,22 +83,26 @@ function convertVariantToDateStyle(
 
 function formatCustomDate(value: string, dateFormat: string): string {
   try {
-    // Parse the date value (assuming it's in ISO format or similar)
-    const date = new Date(value)
+    // A value that is not ISO is in the given date format
+    const date = isValid(parseISO(value))
+      ? new Date(value)
+      : convertStringToDate(value, { dateFormat, strictDateFormat: true })
 
-    if (isNaN(date.getTime())) {
-      return value // Return original value if parsing fails
+    if (!date || isNaN(date.getTime())) {
+      return value
     }
 
-    // Convert the custom format to a format that can be used with date formatting
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
+    // JavaScript reads an ISO calendar date as UTC midnight. A timestamp,
+    // in contrast, identifies an instant and should keep its local date.
+    const dateOnly = /^\d{4}-\d{2}-\d{2}$/.test(value)
+    const year = dateOnly ? date.getUTCFullYear() : date.getFullYear()
+    const month = dateOnly ? date.getUTCMonth() : date.getMonth()
+    const day = dateOnly ? date.getUTCDate() : date.getDate()
 
     return dateFormat
       .replace('yyyy', year.toString())
-      .replace('MM', month)
-      .replace('dd', day)
+      .replace('MM', String(month + 1).padStart(2, '0'))
+      .replace('dd', String(day).padStart(2, '0'))
   } catch (error) {
     return value // Return original value if formatting fails
   }

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { Value } from '../../..'
+import { Field, Form, Value } from '../../..'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -81,6 +81,45 @@ describe('Value.DateOfBirth', () => {
         '.dnb-forms-value-block__content'
       )
       expect(contentElement).toBeNull()
+    })
+
+    it('should read the value in the custom format', () => {
+      render(
+        <>
+          <Value.DateOfBirth value="04/03/1990" dateFormat="dd/MM/yyyy" />
+          <Value.DateOfBirth value="04.03.1990" dateFormat="dd.MM.yyyy" />
+          <Value.DateOfBirth value="03/04/1990" dateFormat="MM/dd/yyyy" />
+        </>
+      )
+
+      const contents = Array.from(
+        document.querySelectorAll('.dnb-forms-value-block__content')
+      ).map((element) => element.textContent)
+      expect(contents).toEqual(['04/03/1990', '04.03.1990', '03/04/1990'])
+    })
+
+    it('should show the date stored by Field.DateOfBirth', () => {
+      render(
+        <Form.Handler defaultData={{ birthDate: '04/03/1990' }}>
+          <Field.DateOfBirth path="/birthDate" dateFormat="dd/MM/yyyy" />
+          <Value.DateOfBirth path="/birthDate" dateFormat="dd/MM/yyyy" />
+        </Form.Handler>
+      )
+
+      expect(
+        document.querySelector('.dnb-forms-value-block__content')
+          .textContent
+      ).toBe('04/03/1990')
+    })
+
+    it('should show a non-existent date as it is', () => {
+      render(
+        <Value.DateOfBirth value="2028-02-30" dateFormat="dd/MM/yyyy" />
+      )
+      expect(
+        document.querySelector('.dnb-forms-value-block__content')
+          .textContent
+      ).toBe('2028-02-30')
     })
 
     it('should handle invalid date with custom format', () => {
