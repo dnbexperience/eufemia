@@ -505,6 +505,56 @@ describe('GlobalStatus component', () => {
     })
   })
 
+  it('should scroll to GlobalStatus without animation when reduced motion is preferred', async () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true }))
+    onTestFinished(() => {
+      vi.unstubAllGlobals()
+    })
+
+    const scrollIntoView = vi.fn()
+
+    const ToggleStatus = () => {
+      const [status, setStatus] = useState(null)
+
+      return (
+        <Switch
+          id="switch"
+          status={status}
+          statusNoAnimation={true}
+          globalStatus={{ id: 'scroll-to-test' }}
+          onChange={({ checked }) => {
+            setStatus(checked ? 'error-message' : null)
+          }}
+        />
+      )
+    }
+    render(
+      <>
+        <GlobalStatus id="scroll-to-test" />
+        <ToggleStatus />
+      </>
+    )
+
+    Object.defineProperty(
+      document.querySelector('.dnb-global-status__wrapper') as HTMLElement,
+      'scrollIntoView',
+      {
+        configurable: true,
+        value: scrollIntoView,
+      }
+    )
+
+    fireEvent.click(document.querySelector('input#switch'))
+
+    await waitFor(() => {
+      expect(scrollIntoView).toHaveBeenCalledTimes(1)
+    })
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      block: 'center',
+      behavior: 'instant',
+    })
+  })
+
   it('should not scroll when autoScroll is false', async () => {
     const scrollTo = vi.fn()
     vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)

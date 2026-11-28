@@ -45,6 +45,7 @@ import Button from '../button/Button'
 import Tooltip from '../tooltip/Tooltip'
 import useId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { getSmoothScrollBehavior } from '../../shared/helpers/reducedMotion'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
 import CustomContent from './TabsCustomContent'
 import ContentWrapper from './TabsContentWrapper'
@@ -460,7 +461,7 @@ function TabsComponent(ownProps: TabsProps) {
   const scrollToTab = useCallback(
     ({
       type,
-      behavior = 'smooth',
+      behavior = getSmoothScrollBehavior(),
     }: {
       type: string
       behavior?: ScrollBehavior
@@ -552,7 +553,7 @@ function TabsComponent(ownProps: TabsProps) {
     ) {
       tablistRef.current.scrollIntoView({
         block: 'start',
-        behavior: 'smooth',
+        behavior: getSmoothScrollBehavior(),
       })
     }
   }
@@ -834,7 +835,7 @@ function TabsComponent(ownProps: TabsProps) {
           updateScrollNavigation()
           scrollToTab({
             type: 'selected',
-            behavior: hasLP ? 'smooth' : 'auto',
+            behavior: hasLP ? getSmoothScrollBehavior() : 'auto',
           })
         }
 

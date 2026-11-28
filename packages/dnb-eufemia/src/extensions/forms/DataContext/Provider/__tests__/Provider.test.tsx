@@ -2529,6 +2529,32 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
     })
   })
 
+  it('should scroll on top without animation when "scrollTopOnSubmit" is true and reduced motion is preferred', async () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true }))
+    onTestFinished(() => {
+      vi.unstubAllGlobals()
+    })
+
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    render(
+      <DataContext.Provider onSubmit={vi.fn()} scrollTopOnSubmit>
+        <Form.SubmitButton />
+      </DataContext.Provider>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+
+    await waitFor(() => {
+      expect(scrollTo).toHaveBeenCalledTimes(1)
+    })
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'instant',
+      top: 0,
+    })
+  })
+
   describe('session storage', () => {
     it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
       const setItem = vi.spyOn(

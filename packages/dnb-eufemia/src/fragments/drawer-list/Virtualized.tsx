@@ -14,6 +14,7 @@ import {
 import type { Range } from '@tanstack/react-virtual'
 import type { DrawerListDriver, DrawerListDriverProps } from './DrawerList'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { getSmoothScrollBehavior } from '../../shared/helpers/reducedMotion'
 
 export type DrawerListVirtualizationOptions = {
   /** Estimated row height in pixels before a row has been measured. */
@@ -153,7 +154,7 @@ function VirtualizedRenderer({
       if (typeof index === 'number') {
         virtualizer.scrollToIndex(index, {
           align: 'auto',
-          behavior: smooth ? 'smooth' : 'auto',
+          behavior: smooth ? getSmoothScrollBehavior() : 'auto',
         })
       }
     },

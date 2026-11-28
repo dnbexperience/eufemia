@@ -40,6 +40,7 @@ import FieldPropsProvider from '../../Field/Provider'
 import useUpdateEffect from '../../../../shared/helpers/useUpdateEffect'
 import GlobalStatusProvider from '../../../../components/global-status/GlobalStatusProvider'
 import { isAsync } from '../../../../shared/helpers/isAsync'
+import { getSmoothScrollBehavior } from '../../../../shared/helpers/reducedMotion'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   SharedStateScopeContext,
@@ -1545,7 +1546,7 @@ export default function Provider<Data extends JsonObject>(
   // - Features
   const scrollToTop = useCallback(() => {
     if (typeof window !== 'undefined') {
-      window?.scrollTo?.({ top: 0, behavior: 'smooth' })
+      window?.scrollTo?.({ top: 0, behavior: getSmoothScrollBehavior() })
     }
   }, [])
 

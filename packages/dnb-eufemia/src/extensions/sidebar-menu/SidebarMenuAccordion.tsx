@@ -33,6 +33,7 @@ import useTranslation from '../../shared/useTranslation'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { handleMenuAccordionNavigation } from '../../shared/helpers/menuKeyboardNavigation'
+import { getSmoothScrollBehavior } from '../../shared/helpers/reducedMotion'
 import {
   getSidebarMenuItems,
   sidebarMenuActionSelector,
@@ -530,7 +531,7 @@ function scrollExpandedContentIntoView(
   const scrollElement = scrollView ?? window
   scrollElement.scrollTo({
     top: (scrollView?.scrollTop ?? window.scrollY) + scrollBy,
-    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    behavior: getSmoothScrollBehavior(),
   })
 }
 
@@ -558,10 +559,6 @@ function getScrollContainer(element: HTMLElement | null) {
   }
 
   return null
-}
-
-function prefersReducedMotion() {
-  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 }
 
 withComponentMarkers(SidebarMenuAccordion, {

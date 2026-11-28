@@ -125,6 +125,38 @@ describe('SkipContent', () => {
     )
   })
 
+  it('should scroll to the content element without animation when reduced motion is preferred', () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true }))
+    onTestFinished(() => {
+      vi.unstubAllGlobals()
+    })
+
+    render(
+      <>
+        <SkipContent selector="#unique-id" focusDelay={1}>
+          Aria
+        </SkipContent>
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const scrollIntoView = vi.fn()
+    Object.defineProperty(
+      document.getElementById('unique-id'),
+      'scrollIntoView',
+      { configurable: true, value: scrollIntoView }
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+    fireEvent.click(element.querySelector('.dnb-button'))
+
+    expect(scrollIntoView).toHaveBeenCalledTimes(1)
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: 'instant' })
+  })
+
   it('should focus the shown button when a ref is given', () => {
     const ref = createRef<HTMLButtonElement>()
 

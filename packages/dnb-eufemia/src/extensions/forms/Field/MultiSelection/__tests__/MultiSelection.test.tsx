@@ -1072,6 +1072,43 @@ describe('MultiSelection', () => {
     })
   })
 
+  it('scrolls the focused item into view without animation when reduced motion is preferred', async () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true }))
+    onTestFinished(() => {
+      vi.unstubAllGlobals()
+    })
+
+    const data = [
+      { value: 'option1', title: 'Option 1' },
+      { value: 'option2', title: 'Option 2' },
+    ]
+
+    render(<Field.MultiSelection data={data} />)
+
+    fireEvent.click(document.querySelector('button'))
+
+    await waitFor(
+      () => {
+        expect(screen.getByText('Option 1')).toBeInTheDocument()
+      },
+      { timeout: 3000 }
+    )
+
+    const firstCheckbox = document.querySelector(
+      '.dnb-forms-field-multi-selection__items .dnb-checkbox__input'
+    ) as HTMLElement
+
+    scrollIntoViewMock.mockClear()
+    firstCheckbox.focus()
+    fireEvent.keyDown(firstCheckbox, { key: 'ArrowDown' })
+
+    expect(scrollIntoViewMock).toHaveBeenCalledTimes(1)
+    expect(scrollIntoViewMock).toHaveBeenCalledWith({
+      behavior: 'instant',
+      block: 'nearest',
+    })
+  })
+
   it('navigates nested checkbox items in rendered order with ArrowDown and ArrowUp', async () => {
     const data = [
       {

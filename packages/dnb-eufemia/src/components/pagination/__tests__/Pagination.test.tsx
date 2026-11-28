@@ -959,6 +959,59 @@ describe('Infinity scroller', () => {
     expect(loadButton).toHaveTextContent('The best load button')
     expect(loadButton.tagName).toBe('BUTTON')
   })
+
+  it('should scroll to the new page without animation when reduced motion is preferred', async () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true }))
+    const scrollIntoView = vi.fn()
+    const descriptor = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'scrollIntoView'
+    )
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    })
+    onTestFinished(() => {
+      vi.unstubAllGlobals()
+      if (descriptor) {
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'scrollIntoView',
+          descriptor
+        )
+      } else {
+        delete (HTMLElement.prototype as Partial<HTMLElement>)
+          .scrollIntoView
+      }
+    })
+
+    const action = ({ pageNumber, setContent }) => {
+      setContent(pageNumber, <PageItem>{pageNumber}</PageItem>)
+    }
+
+    render(
+      <Pagination
+        mode="infinity"
+        {...props}
+        onStartup={action}
+        onLoad={action}
+        useLoadButton
+      />
+    )
+
+    await waitForComponent()
+
+    const buttons = document.querySelectorAll('.dnb-button--secondary')
+    fireEvent.click(buttons[buttons.length - 1])
+
+    await waitFor(() => {
+      expect(scrollIntoView).toHaveBeenCalledTimes(1)
+    })
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      block: 'nearest',
+      behavior: 'instant',
+    })
+  })
 })
 
 describe('Pagination ARIA', () => {

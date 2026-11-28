@@ -166,6 +166,30 @@ describe('"scrollToLocationHashId" should', () => {
     })
   })
 
+  it('will call scrollTo without animation when reduced motion is preferred', () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true }))
+    onTestFinished(() => {
+      vi.unstubAllGlobals()
+    })
+    window.history.replaceState({}, '', 'http://localhost/#unique-id')
+
+    const scrollTo = vi.fn()
+    vi.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    render(<div id="unique-id">content</div>)
+
+    const elem = document.getElementById('unique-id')
+    vi.spyOn(elem, 'offsetTop', 'get').mockReturnValue(400)
+
+    scrollToLocationHashId({ offset: 100 })
+
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'instant',
+      top: 300,
+    })
+  })
+
   it('will handle document.readyState with hash', () => {
     window.history.replaceState({}, '', 'http://localhost/#unique-id')
 

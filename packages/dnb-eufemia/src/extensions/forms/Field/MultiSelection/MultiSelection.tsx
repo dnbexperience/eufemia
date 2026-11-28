@@ -34,6 +34,7 @@ import {
 } from '../../../../shared/search'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 import { createSharedState } from '../../../../shared/helpers/useSharedState'
+import { getSmoothScrollBehavior } from '../../../../shared/helpers/reducedMotion'
 import { MultiSelectionTrigger } from './MultiSelectionTrigger'
 import { MultiSelectionSearch } from './MultiSelectionSearch'
 import { MultiSelectionSelectedTags } from './MultiSelectionSelectedTags'
@@ -839,7 +840,10 @@ function MultiSelection(props: FieldMultiSelectionProps) {
       if (next !== searchInput) {
         next
           ?.closest('.dnb-forms-field-multi-selection__item')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+          ?.scrollIntoView({
+            behavior: getSmoothScrollBehavior(),
+            block: 'nearest',
+          })
       }
     },
     [disabled, getCheckboxes, getSearchInput]
