@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test('focus outlines preserve content colors and respect layout hover', async ({
+test('focus outlines preserve content colors and stay visible on hover', async ({
   page,
 }) => {
   await page.goto('/web/accessibility/focus/#keyboard-focus-styling')
@@ -48,7 +48,7 @@ test('focus outlines preserve content colors and respect layout hover', async ({
     await expect(action).toHaveCSS('box-shadow', original.boxShadow)
   })
 
-  await test.step('layout focus has no gap and yields to hover', async () => {
+  await test.step('layout focus has no gap and stays visible on hover', async () => {
     await page.keyboard.press('Tab')
     await expect(layout).toBeFocused()
     await expect(layout).toHaveCSS('outline-width', '3px')
@@ -59,13 +59,17 @@ test('focus outlines preserve content colors and respect layout hover', async ({
     )
     await expect(layout).toHaveCSS('border-top-color', focusColor)
 
+    // Moving the mouse onto the focused example must not hide its
+    // focus (#11104)
     await layout.hover()
     await expect(layout).toBeFocused()
-    await expect(layout).not.toHaveCSS('outline-color', focusColor)
-    const hoverColor = await layout.evaluate(
-      (element) => getComputedStyle(element).borderTopColor
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-whatintent',
+      'mouse'
     )
-    await expect(layout).toHaveCSS('outline-color', hoverColor)
+    await expect(layout).toHaveCSS('outline-color', focusColor)
+    await expect(layout).toHaveCSS('outline-width', '3px')
+    await expect(layout).toHaveCSS('border-top-color', focusColor)
 
     await page.mouse.move(0, 0)
     await expect(layout).toHaveCSS('outline-color', focusColor)
