@@ -224,6 +224,104 @@ describe('whatInput', () => {
   })
 })
 
+describe('whatInput with a focused form field', () => {
+  const dispatchPointer = (pointerType: 'touch' | 'mouse') =>
+    window.dispatchEvent(
+      new PointerEvent('pointerdown', { bubbles: true, pointerType })
+    )
+  const dispatchKey = (key: string) =>
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', { key, bubbles: true })
+    )
+  const intent = () =>
+    document.documentElement.getAttribute('data-whatintent')
+
+  beforeEach(() => {
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-01-01'))
+    document.body.innerHTML =
+      '<input id="field" /><textarea></textarea><select><option /></select>'
+  })
+
+  afterEach(() => {
+    whatInput.specificKeys([])
+    document.body.innerHTML = ''
+    vi.useRealTimers()
+  })
+
+  it('keeps the intent while typing in the field', () => {
+    dispatchPointer('mouse')
+    document.getElementById('field').focus()
+
+    dispatchKey('a')
+    dispatchKey('ArrowLeft')
+
+    expect(intent()).toBe('mouse')
+  })
+
+  it.each(['input', 'textarea', 'select'])(
+    'follows a touch pointer while the %s still has focus',
+    (selector) => {
+      dispatchPointer('mouse')
+      ;(document.querySelector(selector) as HTMLElement).focus()
+      dispatchKey('a')
+
+      dispatchPointer('touch')
+
+      expect(intent()).toBe('touch')
+    }
+  )
+
+  it('follows a mouse pointer while the field still has focus', () => {
+    dispatchPointer('touch')
+    document.getElementById('field').focus()
+    vi.advanceTimersByTime(300)
+
+    dispatchPointer('mouse')
+
+    expect(intent()).toBe('mouse')
+  })
+
+  it('follows Tab from the field to show keyboard focus', () => {
+    dispatchPointer('mouse')
+    document.getElementById('field').focus()
+    dispatchKey('a')
+
+    dispatchKey('Tab')
+
+    expect(intent()).toBe('keyboard')
+  })
+
+  it('follows Shift+Tab from the field to show keyboard focus', () => {
+    dispatchPointer('mouse')
+    document.getElementById('field').focus()
+    dispatchKey('a')
+
+    dispatchKey('Shift')
+    expect(intent()).toBe('mouse')
+
+    window.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        key: 'Tab',
+        shiftKey: true,
+        bubbles: true,
+      })
+    )
+
+    expect(intent()).toBe('keyboard')
+  })
+
+  it('ignores Tab when specificKeys excludes it', () => {
+    whatInput.specificKeys(['Enter'])
+    dispatchPointer('mouse')
+    document.getElementById('field').focus()
+
+    dispatchKey('Tab')
+
+    expect(intent()).toBe('mouse')
+  })
+})
+
 describe('whatInput deferred setup', () => {
   const originalNodeEnv = process.env.NODE_ENV
 
