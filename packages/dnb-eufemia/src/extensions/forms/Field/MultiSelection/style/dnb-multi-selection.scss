@@ -179,14 +179,8 @@
       padding-left: 1rem;
     }
 
+    // Keep the outline under the mouse, so keyboard focus stays visible.
     html[data-whatinput='keyboard']
-      &:not(:hover):not(:active):has(.dnb-checkbox__input:focus) {
-      --item-outline-color: var(--token-color-stroke-action-focus);
-      --item-outline-width: var(--item-outline-width--focus);
-    }
-
-    // A tapped row keeps :hover, so do not exclude it on touch devices
-    html:not([data-whatintent='mouse'])[data-whatinput='keyboard']
       &:not(:active):has(.dnb-checkbox__input:focus) {
       --item-outline-color: var(--token-color-stroke-action-focus);
       --item-outline-width: var(--item-outline-width--focus);
