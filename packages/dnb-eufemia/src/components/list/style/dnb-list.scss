@@ -21,14 +21,9 @@
 // Firefox 115–120 support :focus-visible, so a mouse click shows no
 // outline there. Safari before 15.4 does not, so it uses :focus.
 @mixin focusFallback() {
+  // Keep the outline under the mouse, so keyboard focus stays visible.
   @supports (not (selector(:has(*)))) and (selector(:focus-visible)) {
-    &:focus-visible:where(:not(:hover):not(:active))::before {
-      @include focusFallbackOutline();
-    }
-
-    // Touch browsers keep :hover on the last tapped element
-    html:not([data-whatintent='mouse'])
-      &:focus-visible:where(:not(:active))::before {
+    &:focus-visible:where(:not(:active))::before {
       @include focusFallbackOutline();
     }
   }
@@ -37,7 +32,9 @@
       @include focusFallbackOutline();
     }
 
-    html:not([data-whatintent='mouse']) &:focus:not(:active)::before {
+    // :focus also matches after a click, so check the last input here.
+    html:not([data-whatintent='mouse']) &:focus:not(:active)::before,
+    html[data-whatinput='keyboard'] &:focus:not(:active)::before {
       @include focusFallbackOutline();
     }
   }
