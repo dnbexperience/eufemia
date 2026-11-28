@@ -118,7 +118,11 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
           context.translation.TimelineItem as TimeLineIconAltTranslations
         }
       />
-      <TimelineItemContent subtitle={subtitle} infoMessage={infoMessage} />
+      <TimelineItemContent
+        subtitle={subtitle}
+        infoMessage={infoMessage}
+        skeleton={skeleton}
+      />
     </li>
   )
 }
@@ -200,12 +204,13 @@ const TimelineItemTitle = ({ title }: TimelineItemTitleProps) => {
 
 type TimeLineItemContentProps = Pick<
   TimelineItemProps,
-  'subtitle' | 'infoMessage'
+  'subtitle' | 'infoMessage' | 'skeleton'
 >
 
 const TimelineItemContent = ({
   subtitle,
   infoMessage,
+  skeleton,
 }: TimeLineItemContentProps) => {
   const renderSubtitles = () => {
     if (!subtitle) {
@@ -229,6 +234,7 @@ const TimelineItemContent = ({
           state="information"
           className="dnb-timeline__item__content__info"
           stretch
+          skeleton={skeleton}
         />
       )}
     </div>

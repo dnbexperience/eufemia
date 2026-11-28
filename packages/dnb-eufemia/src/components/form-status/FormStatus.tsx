@@ -78,7 +78,8 @@ function getIcon({
   state,
   icon,
   iconSize,
-}: Pick<FormStatusProps, 'state' | 'icon' | 'iconSize'>) {
+  skeleton,
+}: Pick<FormStatusProps, 'state' | 'icon' | 'iconSize' | 'skeleton'>) {
   if (typeof icon !== 'string') {
     return icon as ReactNode
   }
@@ -90,6 +91,7 @@ function getIcon({
           icon={<InfoIcon title={null} state={state} />}
           size={iconSize}
           inheritColor={false}
+          skeleton={skeleton}
         />
       )
     case 'success':
@@ -98,6 +100,7 @@ function getIcon({
           icon={<SuccessIcon title={null} state={state} />}
           size={iconSize}
           inheritColor={false}
+          skeleton={skeleton}
         />
       )
     case 'warning':
@@ -106,6 +109,7 @@ function getIcon({
           icon={<WarnIcon title={null} state={state} />}
           size={iconSize}
           inheritColor={false}
+          skeleton={skeleton}
         />
       )
     case 'marketing':
@@ -114,6 +118,7 @@ function getIcon({
           icon={<MarketingIcon title={null} state={state} />}
           size={iconSize}
           inheritColor={false}
+          skeleton={skeleton}
         />
       )
     case 'error':
@@ -123,6 +128,7 @@ function getIcon({
           icon={<ErrorIcon title={null} state={state} />}
           size={iconSize}
           inheritColor={false}
+          skeleton={skeleton}
         />
       )
   }
@@ -347,6 +353,7 @@ function FormStatusComponent(
     state,
     icon: restOfProps.icon,
     iconSize: restOfProps.iconSize,
+    skeleton: restOfProps.skeleton,
   })
 
   const contentToRender = getContent(restOwnProps)

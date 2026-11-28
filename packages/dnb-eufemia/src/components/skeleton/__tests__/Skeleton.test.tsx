@@ -134,7 +134,13 @@ describe('skeleton={false} inside a Provider with skeleton', () => {
   it.each([
     [
       'Badge',
-      <Badge key="badge" content="1" label="New" skeleton={false} />,
+      <Badge
+        key="badge"
+        content="1"
+        label="New"
+        icon="bell"
+        skeleton={false}
+      />,
     ],
     [
       'Avatar',
@@ -177,7 +183,7 @@ describe('skeleton={false} inside a Provider with skeleton', () => {
       <Timeline
         key="timeline"
         skeleton={false}
-        data={[{ title: 'Step', state: 'completed' }]}
+        data={[{ title: 'Step', state: 'completed', infoMessage: 'Info' }]}
       />,
     ],
     [
@@ -190,6 +196,37 @@ describe('skeleton={false} inside a Provider with skeleton', () => {
     render(<Provider skeleton>{element}</Provider>)
 
     expect(document.querySelector('.dnb-skeleton')).toBeNull()
+  })
+})
+
+describe('skeleton inherited from a Provider', () => {
+  it.each([
+    [
+      'Badge',
+      <Badge key="badge" content="1" label="New" icon="bell" />,
+      '.dnb-badge__icon',
+    ],
+    [
+      'PaymentCard',
+      <PaymentCard
+        key="payment-card"
+        productCode="NK1"
+        cardNumber="************1337"
+      />,
+      '.dnb-payment-card__card__numbers',
+    ],
+    [
+      'Timeline',
+      <Timeline
+        key="timeline"
+        data={[{ title: 'Step', state: 'completed', infoMessage: 'Info' }]}
+      />,
+      '.dnb-form-status__text',
+    ],
+  ])('shows %s content as a skeleton', (_, element, selector) => {
+    render(<Provider skeleton>{element}</Provider>)
+
+    expect(document.querySelector(selector)).toHaveClass('dnb-skeleton')
   })
 })
 
