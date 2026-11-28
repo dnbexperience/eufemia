@@ -14,7 +14,7 @@ type RevealState = {
   width: number
   dialog: HTMLElement | null
   update?: (offset: number) => void
-  close?: (event: TouchEvent) => void
+  close?: (event?: TouchEvent) => void
 }
 
 const revealTargets = new WeakMap<Element, RevealState>()
@@ -133,7 +133,7 @@ function useDrawerReveal(
       return width > 0 ? Math.min(width, fallback) : fallback
     }
     const getWidth = () => reveal.width || estimate
-    const settle = (opened: boolean, event: TouchEvent) => {
+    const settle = (opened: boolean, event?: TouchEvent) => {
       cancelAnimationFrame(dragFrame)
       dragFrame = undefined
       reveal.update?.(reveal.offset)
@@ -153,6 +153,13 @@ function useDrawerReveal(
           settle(gesture.opened, event)
         }
         return
+      }
+      // A new first touch means the document missed the end of the previous gesture.
+      if (gesture) {
+        if (reveal.dragging) {
+          settle(gesture.opened)
+        }
+        gesture = null
       }
       const touch = event.touches[0]
       const opened = reveal.active

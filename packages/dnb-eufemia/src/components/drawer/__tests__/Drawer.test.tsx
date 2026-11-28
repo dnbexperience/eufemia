@@ -1682,6 +1682,27 @@ describe('Drawer reveal', () => {
     expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
   })
 
+  it('drops a drag whose end never reached the document', () => {
+    renderReveal()
+
+    // Touch events stay on a removed target, so the document misses them.
+    const item = document.createElement('span')
+    document.querySelector('#reveal-page').append(item)
+    fireEvent.touchStart(item, {
+      touches: [{ clientX: 40, clientY: 100 }],
+    })
+    fireEvent.touchMove(item, { touches: [{ clientX: 50, clientY: 100 }] })
+    item.remove()
+    fireEvent.touchEnd(item, { touches: [] })
+
+    swipe(document.querySelector('#reveal-page p'), 220, false, 5)
+    expect(document.querySelector('[role=dialog]')).not.toBeInTheDocument()
+    expect(
+      (document.querySelector('#reveal-page') as HTMLElement).style
+        .transform
+    ).toBe('')
+  })
+
   it('keeps the normal Drawer behavior for other placements', () => {
     renderReveal({ containerPlacement: 'right' })
     swipe(document.querySelector('#reveal-page p'), 220)
