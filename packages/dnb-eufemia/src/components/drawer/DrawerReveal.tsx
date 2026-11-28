@@ -46,7 +46,8 @@ function RevealDrawer({
     (props.containerPlacement ?? 'right') === 'left' && !props.disabled
       ? target
       : undefined,
-    props.open
+    props.open,
+    props.maxWidth
   )
   if (!reveal.enabled) {
     return renderDrawer(props)
@@ -81,7 +82,11 @@ function RevealDrawer({
   )
 }
 
-function useDrawerReveal(target: string, open: boolean) {
+function useDrawerReveal(
+  target: string,
+  open: boolean,
+  maxWidth?: DrawerAllProps['maxWidth']
+) {
   const [swipeOpen, setSwipeOpen] = useState(false)
   const state = useRef<RevealState>({
     active: false,
@@ -107,8 +112,24 @@ function useDrawerReveal(target: string, open: boolean) {
     const reveal = state.current
     const surfaces = Array.from(document.querySelectorAll(target))
     surfaces.forEach((element) => revealTargets.set(element, reveal))
-    // Estimate the width until the Drawer has rendered.
-    const getWidth = () => reveal.width || window.innerWidth * 0.9
+    // Estimate the width until the Drawer has rendered. maxWidth caps it.
+    let estimate: number
+    const estimateWidth = () => {
+      const fallback = window.innerWidth * 0.9
+      if (!maxWidth) {
+        return fallback
+      }
+      const element = document.createElement('div')
+      element.style.position = 'fixed'
+      element.style.visibility = 'hidden'
+      element.style.width =
+        typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth
+      document.body.append(element)
+      const width = element.getBoundingClientRect().width
+      element.remove()
+      return width > 0 ? Math.min(width, fallback) : fallback
+    }
+    const getWidth = () => reveal.width || estimate
     const settle = (opened: boolean, event: TouchEvent) => {
       cancelAnimationFrame(dragFrame)
       dragFrame = undefined
@@ -209,6 +230,9 @@ function useDrawerReveal(target: string, open: boolean) {
         reveal.dragging = true
         gesture.x = event.touches[0].clientX
         dx = 0
+        if (!reveal.width) {
+          estimate = estimateWidth()
+        }
         if (!gesture.opened) {
           setSwipeOpen(true)
         }
@@ -258,7 +282,7 @@ function useDrawerReveal(target: string, open: boolean) {
       document.removeEventListener('touchend', end, true)
       document.removeEventListener('touchcancel', end, true)
     }
-  }, [target])
+  }, [target, maxWidth])
 
   return {
     enabled: Boolean(target),

@@ -1621,6 +1621,34 @@ describe('Drawer reveal', () => {
     }
   )
 
+  it.each([
+    { distance: 40, open: false },
+    { distance: 250, open: true },
+  ])(
+    'uses maxWidth to settle a swipe that ends before the Drawer renders: %j',
+    ({ distance, open }) => {
+      const getBoundingClientRect = vi
+        .mocked(HTMLElement.prototype.getBoundingClientRect)
+        .getMockImplementation()
+      vi.mocked(
+        HTMLElement.prototype.getBoundingClientRect
+      ).mockImplementation(function (this: HTMLElement) {
+        const bounds = getBoundingClientRect.call(this)
+        return this.style.visibility === 'hidden'
+          ? { ...bounds, width: parseFloat(this.style.width) }
+          : bounds
+      })
+      renderReveal({ maxWidth: '300px' })
+
+      // Half of 300 px, not of 90% of the 1024 px window
+      act(() => {
+        swipe(document.querySelector('#reveal-page p'), distance)
+      })
+
+      expect(Boolean(document.querySelector('[role=dialog]'))).toBe(open)
+    }
+  )
+
   it('keeps the normal Drawer behavior for other placements', () => {
     renderReveal({ containerPlacement: 'right' })
     swipe(document.querySelector('#reveal-page p'), 220)
