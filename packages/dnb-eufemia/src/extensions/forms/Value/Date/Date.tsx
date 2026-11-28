@@ -12,6 +12,8 @@ import {
 } from '../../../../components/date-format/DateFormatUtils'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
+import { isValid, parseISO } from 'date-fns'
 
 export type ValueDateProps = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
@@ -81,9 +83,12 @@ function convertVariantToDateStyle(
 
 function formatCustomDate(value: string, dateFormat: string): string {
   try {
-    const date = new Date(value)
+    // A value that is not ISO is in the given date format
+    const date = isValid(parseISO(value))
+      ? new Date(value)
+      : convertStringToDate(value, { dateFormat, strictDateFormat: true })
 
-    if (isNaN(date.getTime())) {
+    if (!date || isNaN(date.getTime())) {
       return value
     }
 
