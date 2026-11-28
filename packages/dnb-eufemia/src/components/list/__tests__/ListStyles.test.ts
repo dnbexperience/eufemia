@@ -45,7 +45,7 @@ const withoutFocusVisible =
   '(not (selector(:has(*)))) and (not (selector(:focus-visible)))'
 
 const cellBoxHeight =
-  'clamp(var(--line-height-basis), calc(var(--list-item-height) - 2 * var(--list-item-padding)), 2rem)'
+  'clamp(var(--line-height-basis), calc(var(--list-item-height) - 2 * var(--list-item-padding-block)), 2rem)'
 
 // Sass keeps the line breaks of a custom property value
 const normalize = (value: string) =>

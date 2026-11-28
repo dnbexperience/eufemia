@@ -123,6 +123,7 @@ function ListScrollView(props: ListScrollViewProps) {
     <ListContext
       value={{
         variant: parentContext?.variant ?? 'basic',
+        size: parentContext?.size,
         separated: parentContext?.separated ?? false,
         skeleton: appliedSkeleton,
         disabled: appliedDisabled,

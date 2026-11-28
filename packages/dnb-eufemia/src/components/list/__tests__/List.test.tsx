@@ -10,6 +10,77 @@ import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fish_medium } from '../../../icons'
 
 describe('List', () => {
+  it.each(['Basic', 'Action', 'Accordion'] as const)(
+    'inherits the container size in Item.%s and allows overrides',
+    (variant) => {
+      const Item = List.Item[variant]
+
+      render(
+        <List.Container size="small">
+          <Item title="Inherited" />
+          <Item title="Regular" size="default" />
+        </List.Container>
+      )
+
+      const items = document.querySelectorAll('.dnb-list__item')
+
+      expect(items[0]).toHaveClass('dnb-list--size-small')
+      expect(items[1]).toHaveClass('dnb-list--size-default')
+      expect(items[1]).not.toHaveClass('dnb-list--size-small')
+      expect(items[0]).not.toHaveAttribute('size')
+    }
+  )
+
+  it('allows a small item inside a regular container', () => {
+    render(
+      <List.Container>
+        <List.Item.Basic title="Regular" />
+        <List.Item.Basic title="Small" size="small" />
+      </List.Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    expect(items[0]).toHaveClass('dnb-list--size-default')
+    expect(items[1]).toHaveClass('dnb-list--size-small')
+  })
+
+  it('resets the size in nested containers', () => {
+    render(
+      <List.Container size="small">
+        <List.Item.Accordion title="Small" open>
+          <List.Item.Accordion.Content>
+            <List.Container>
+              <List.Item.Basic title="Regular" />
+            </List.Container>
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      </List.Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    expect(items[0]).toHaveClass('dnb-list--size-small')
+    expect(items[1]).toHaveClass('dnb-list--size-default')
+    expect(items[1]).not.toHaveClass('dnb-list--size-small')
+  })
+
+  it('preserves the size through ScrollView', () => {
+    render(
+      <List.Container size="small" element="div">
+        <List.ScrollView>
+          <List.Item.Basic title="Small" />
+          <List.Item.Basic title="Regular" size="default" />
+        </List.ScrollView>
+      </List.Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    expect(items[0]).toHaveClass('dnb-list--size-small')
+    expect(items[1]).toHaveClass('dnb-list--size-default')
+  })
+
   it('renders a basic list with Container and Item.Basic and cells', () => {
     render(
       <List.Container>

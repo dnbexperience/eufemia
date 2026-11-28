@@ -181,7 +181,7 @@ withComponentMarkers(ItemAccordion, {
 
 export type AccordionHeaderProps = {
   onClick?: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void
-} & ItemContentProps
+} & Omit<ItemContentProps, 'size'>
 
 function AccordionHeader(props: AccordionHeaderProps) {
   const { className, children, onClick, onKeyDown, ...rest } = props
@@ -269,7 +269,7 @@ withComponentMarkers(AccordionHeader, {
   _supportsSpacingProps: true,
 })
 
-function AccordionContent(props: ItemContentProps) {
+function AccordionContent(props: Omit<ItemContentProps, 'size'>) {
   const { className, children, ...rest } = props
   const context = useContext(Context)
   const accordionContext = useContext(ItemAccordionContext)

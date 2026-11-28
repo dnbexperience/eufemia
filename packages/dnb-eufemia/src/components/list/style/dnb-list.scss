@@ -55,6 +55,7 @@
 .dnb-list {
   &--variant-basic {
     --list-item-padding: 1rem;
+    --list-item-padding-block: var(--list-item-padding);
     --list-item-height: 4rem;
     --list-item-rounded-corner: var(--token-radius-xl);
     --list-item-row-gap: 0.5rem;
@@ -63,7 +64,7 @@
     // --list-item-height still makes the rows lower
     --list-item-cell-height: clamp(
       var(--line-height-basis),
-      calc(var(--list-item-height) - 2 * var(--list-item-padding)),
+      calc(var(--list-item-height) - 2 * var(--list-item-padding-block)),
       2rem
     );
     --list-item-chevron-margin: 1rem;
@@ -88,6 +89,12 @@
     );
 
     border-radius: var(--list-item-rounded-corner);
+  }
+
+  &--size-small {
+    --list-item-padding-block: 0.5rem;
+    --list-item-height: 2.5rem;
+    --list-item-rounded-corner: var(--token-radius-sm);
   }
 
   &__item {
@@ -166,7 +173,7 @@
       align-items: center; // Center vertically
 
       min-height: var(--list-item-height);
-      padding: calc(var(--list-item-padding)) 0;
+      padding: var(--list-item-padding-block) 0;
     }
 
     // Keep rows findable without reserving row height or Flex gaps.
@@ -196,7 +203,7 @@
       // Place the text like a title: its first line is centered in the cell
       // box at the top of the row
       padding-top: calc(
-        var(--list-item-padding) +
+        var(--list-item-padding-block) +
           (var(--list-item-cell-height) - var(--line-height-basis)) / 2
       );
       align-content: start;
@@ -473,17 +480,17 @@
     }
     &__footer-separator {
       grid-area: footer;
-      margin-top: var(--list-item-padding);
+      margin-top: var(--list-item-padding-block);
       place-self: flex-start;
 
       &.dnb-space__top--zero {
-        margin-top: var(--list-item-padding);
+        margin-top: var(--list-item-padding-block);
       }
     }
     &__footer {
       grid-area: footer;
-      margin-top: var(--list-item-padding);
-      padding: var(--list-item-padding);
+      margin-top: var(--list-item-padding-block);
+      padding: var(--list-item-padding-block) var(--list-item-padding);
     }
     &:not([hidden]):has(+ [hidden]):not(#{&}__accordion--open) &__footer,
     &:last-of-type:not([hidden]):not(#{&}__accordion--open) &__footer {
@@ -637,7 +644,7 @@
           position: relative;
           grid-area: action;
           min-height: var(--list-item-height);
-          padding-block: var(--list-item-padding);
+          padding-block: var(--list-item-padding-block);
           cursor: pointer;
         }
 

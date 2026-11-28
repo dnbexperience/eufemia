@@ -49,6 +49,44 @@ describe.each(['ui', 'sbanken', 'coconut'])(`List for %s`, (themeName) => {
     })
   })
 
+  it('keeps horizontal alignment in small rows', async () => {
+    await makeScreenshot({
+      url: '/web/components/list/visual-tests/small-size/',
+      selector: '[data-visual-test="list-small-size"]',
+      executeBeforeSimulate: () => {
+        const lists = ['default', 'small'].map((size) =>
+          document.querySelector(`[data-testid="${size}"]`)
+        )
+        const positions = lists.map((list) =>
+          Array.from(list.querySelectorAll('.dnb-list__item')).map(
+            (row) => {
+              const content =
+                row.querySelector('.dnb-form-label') ??
+                row.querySelector('.dnb-list__item__title') ??
+                row
+              const range = document.createRange()
+              range.selectNodeContents(content)
+              return (
+                range.getBoundingClientRect().left -
+                row.getBoundingClientRect().left
+              )
+            }
+          )
+        )
+
+        if (
+          positions[0].some(
+            (left, index) => Math.abs(left - positions[1][index]) > 0.1
+          )
+        ) {
+          throw new Error(
+            'Small rows must keep the default horizontal alignment'
+          )
+        }
+      },
+    })
+  })
+
   it('have to match striped list', async () => {
     await makeScreenshot({
       style: { width: '30rem' },
