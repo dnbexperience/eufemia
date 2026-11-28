@@ -1,0 +1,27 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { GlobalStatus } from '@dnb/eufemia/src'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+
+<GlobalStatus id="answer-summary" />
+
+<Form.Handler globalStatusId="answer-summary" locale="en-GB">
+  <Field.String path="/title" label="Account title" required />
+  <Field.String path="/reference" label="Reference" required />
+  <Field.Selection path="/method" label="Method" variant="radio" required>
+    <Field.Option value="unavailable" title="Unavailable" disabled />
+    <Field.Option value="transfer" title="Transfer" />
+  </Field.Selection>
+  <Field.Expiry path="/expiry" label="Expiry" required />
+  <Field.Date
+    path="/date"
+    label="Payment date"
+    showInput={false}
+    required
+  />
+  <Form.SubmitButton text="Save" />
+</Form.Handler>

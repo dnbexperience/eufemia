@@ -556,7 +556,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             }`
         )}
       >
-        <FormStatus {...statusContent.error} />
+        <FormStatus {...statusContent.error} focusAnswer={focusAnswer} />
         <FormStatus {...statusContent.warning} />
         <FormStatus {...statusContent.information} />
       </div>
@@ -605,6 +605,52 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     size: labelSize,
     disabled,
   }
+
+  const focusAnswer = useCallback(
+    (messageId: string) => {
+      const contents = contentsRef.current
+      if (!contents) {
+        return undefined
+      }
+
+      const controls = Array.from(
+        contents.querySelectorAll<HTMLElement>(
+          'input:not([type="hidden"], [type="button"], [type="submit"], [type="reset"]), select, textarea, [contenteditable="true"], button'
+        )
+      )
+      // Prefer the controls described by this error. Some fields, such as a
+      // button-only picker, link the label to the control instead.
+      const described = controls.filter((control) =>
+        control
+          .getAttribute('aria-describedby')
+          ?.split(/\s+/)
+          .includes(messageId)
+      )
+      const labeledControl = controls.find(
+        (control) => control.id === labelProps.forId
+      )
+      if (labeledControl && !described.includes(labeledControl)) {
+        described.push(labeledControl)
+      }
+      for (const control of described) {
+        if (
+          control.matches(':disabled, [readonly], [tabindex="-1"]') ||
+          control.closest(
+            '[hidden], [inert], [aria-hidden="true"], [aria-disabled="true"], [aria-readonly="true"]'
+          )
+        ) {
+          continue
+        }
+        control.focus({ preventScroll: true })
+        // CSS can hide a segment. Continue to the next control if focus did not move.
+        if (control.ownerDocument.activeElement === control) {
+          return control
+        }
+      }
+      return undefined
+    },
+    [labelProps.forId]
+  )
 
   const mainStyle = useMemo(() => {
     const style: CSSProperties = {}

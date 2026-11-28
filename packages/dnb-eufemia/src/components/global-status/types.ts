@@ -20,6 +20,8 @@ export type GlobalStatusItem =
       text?: ReactNode
       id?: string | number
       itemId?: string
+      /** @internal Focus the answer for a Forms-generated message. */
+      focusAnswer?: (messageId: string) => HTMLElement | undefined
       statusAnchorLabel?: ReactNode
       statusAnchorText?: string
       statusAnchorUrl?: string | boolean

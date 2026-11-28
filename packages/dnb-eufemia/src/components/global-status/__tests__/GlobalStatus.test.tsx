@@ -21,7 +21,7 @@ import Autocomplete from '../../autocomplete/Autocomplete'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { Provider } from '../../../shared'
 import { P } from '../../../elements'
-import { Icon } from '../../../components'
+import { FormStatus, Icon } from '../../../components'
 import {
   initializeTestSetup,
   simulateAnimationEnd,
@@ -1521,6 +1521,100 @@ describe('GlobalStatus component', () => {
         '.dnb-global-status__message a.dnb-anchor'
       )
     }
+
+    it('should use the inline message for a standalone FormStatus', () => {
+      render(
+        <>
+          <GlobalStatus show noAnimation autoScroll={false} />
+          <input aria-describedby="notice" />
+          <FormStatus id="notice" text="Account not available." />
+        </>
+      )
+
+      const link = document.querySelector('.dnb-global-status a')
+      expect(link).toHaveAttribute('href', '#notice')
+      fireEvent.keyDown(link, { key: 'Enter' })
+      expect(document.getElementById('notice')).toHaveFocus()
+    })
+
+    it('should keep focus on a followed link target when the opening ends', () => {
+      const renderStatus = (show: boolean) => (
+        <>
+          <input id="answer" />
+          <GlobalStatus
+            show={show}
+            autoScroll={false}
+            items={[
+              {
+                itemId: 'message',
+                text: 'Error',
+                statusAnchorUrl: true,
+                statusAnchorLabel: 'answer',
+                focusAnswer: () => {
+                  const answer = document.getElementById('answer')
+                  answer.focus()
+                  return answer
+                },
+              },
+            ]}
+          />
+        </>
+      )
+      const { rerender } = render(renderStatus(false))
+      rerender(renderStatus(true))
+      const answer = document.getElementById('answer')
+
+      fireEvent.click(document.querySelector('.dnb-global-status a'))
+      expect(answer).toHaveFocus()
+      simulateAnimationEnd()
+      expect(answer).toHaveFocus()
+
+      rerender(renderStatus(false))
+      simulateAnimationEnd()
+      rerender(renderStatus(true))
+      simulateAnimationEnd()
+      expect(
+        document.querySelector('.dnb-global-status__wrapper')
+      ).toHaveFocus()
+    })
+
+    it('should return focus to a followed link target when closed', () => {
+      const renderStatus = (show: boolean) => (
+        <>
+          <input id="answer" />
+          <GlobalStatus
+            show={show}
+            autoScroll={false}
+            items={[
+              {
+                itemId: 'message',
+                text: 'Error',
+                statusAnchorUrl: true,
+                statusAnchorLabel: 'answer',
+                focusAnswer: () => {
+                  const answer = document.getElementById('answer')
+                  answer.focus()
+                  return answer
+                },
+              },
+            ]}
+          />
+        </>
+      )
+      const { rerender } = render(renderStatus(false))
+      rerender(renderStatus(true))
+      const answer = document.getElementById('answer')
+
+      fireEvent.click(document.querySelector('.dnb-global-status a'))
+      simulateAnimationEnd()
+
+      const closeButton = document.querySelector<HTMLButtonElement>(
+        'button.dnb-global-status__close-button'
+      )
+      closeButton.focus()
+      fireEvent.click(closeButton)
+      expect(answer).toHaveFocus()
+    })
 
     it('should focus the target and restore it when it loses focus', () => {
       const link = renderWithTarget(<span id="target">Target</span>)

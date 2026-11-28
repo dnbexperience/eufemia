@@ -3262,8 +3262,14 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
             ).toHaveTextContent(nb.Field.errorSummaryTitle)
           })
 
-          // Type in the first field - GlobalStatus should persist
-          await userEvent.type(firstInput, 'foo')
+          // Correct the first answer directly from its summary link.
+          await userEvent.click(
+            document.querySelector('.dnb-global-status a')
+          )
+          expect(firstInput).toHaveFocus()
+          await userEvent.keyboard('foo')
+          expect(firstInput).toHaveValue('foo')
+          expect(secondInput).toHaveValue('')
           fireEvent.blur(firstInput)
 
           expect(
