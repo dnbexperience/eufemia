@@ -245,7 +245,7 @@ function ArrayComponent(props: IterateArrayProps) {
   const valueCountRef = useRef(arrayValue)
   const arrayValueRef = useRef(arrayValue)
   const containerRef = useRef<HTMLDivElement>(undefined)
-  const removedPositionRef = useRef<number>(undefined)
+  const removedNeighborRef = useRef<{ id?: string }>(undefined)
   const hadPushRef = useRef<boolean>(undefined)
   const elementRefs = useRef<Record<string, RefObject<HTMLDivElement>>>({})
 
@@ -341,9 +341,14 @@ function ArrayComponent(props: IterateArrayProps) {
         // - Called after animation end
         fulfillRemove: ({ focusAfterRemove } = {}) => {
           if (focusAfterRemove && containerRef.current) {
-            removedPositionRef.current = reverse
-              ? limitedList.length - 1 - index
-              : index
+            const step = reverse ? 1 : -1
+            const visibleId = (i: number) =>
+              i >= 0 && i < limitedList.length
+                ? idsRef.current[i]
+                : undefined
+            removedNeighborRef.current = {
+              id: visibleId(index + step) ?? visibleId(index - step),
+            }
           }
           const newArrayValue = structuredClone(
             arrayValueRef.current || []
@@ -406,13 +411,14 @@ function ArrayComponent(props: IterateArrayProps) {
   ])
 
   useEffect(() => {
-    const position = removedPositionRef.current
-    if (position === undefined) {
+    const removed = removedNeighborRef.current
+    if (!removed) {
       return
     }
-    removedPositionRef.current = undefined
+    removedNeighborRef.current = undefined
 
-    const neighbor = arrayItems[position - 1] ?? arrayItems[0]
+    const neighbor =
+      arrayItems.find(({ id }) => id === removed.id) ?? arrayItems[0]
     if (neighbor) {
       elementRefs.current[neighbor.id]?.current?.focus()
       return

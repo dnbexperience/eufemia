@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import IterateItemContext from '../../IterateItemContext'
 import RemoveButton from '../RemoveButton'
 import nbNO from '../../../constants/locales/nb-NO'
-import { Form, Iterate } from '../../..'
+import { Form, Iterate, Value } from '../../..'
 import ArrayItemAreaContext from '../../Array/ArrayItemAreaContext'
 
 const nb = nbNO['nb-NO'].RemoveButton
@@ -202,6 +202,40 @@ describe('RemoveButton', () => {
       expect(
         firstGroup.querySelectorAll('.dnb-forms-iterate__element')
       ).toHaveLength(1)
+    }
+  )
+
+  it.each([false, true])(
+    'should focus the visible neighbor when "reverse" and "limit" hide items (animated: %s)',
+    async (animated) => {
+      render(
+        <Iterate.Array value={['A', 'B', 'C', 'D']} reverse limit={3}>
+          {animated ? (
+            <Iterate.ViewContainer>
+              <Value.String itemPath="/" />
+            </Iterate.ViewContainer>
+          ) : (
+            <>
+              <Value.String itemPath="/" />
+              <RemoveButton />
+            </>
+          )}
+        </Iterate.Array>
+      )
+
+      const rows = document.querySelectorAll('.dnb-forms-iterate__element')
+      expect(Array.from(rows).map((row) => row.textContent)).toEqual([
+        expect.stringContaining('C'),
+        expect.stringContaining('B'),
+        expect.stringContaining('A'),
+      ])
+
+      await userEvent.click(
+        rows[1].querySelector('.dnb-forms-iterate-remove-element-button')
+      )
+      await waitFor(() => expect(rows[1]).not.toBeInTheDocument())
+
+      expect(rows[0]).toHaveFocus()
     }
   )
 
