@@ -1,10 +1,16 @@
 import { defineConfig } from '@playwright/test'
 import { isCI } from 'repo-utils'
 
+// CI splits the portal tests into parallel jobs, e.g. E2E_SHARD=2/3
+const [shardCurrent, shardTotal] = (process.env.E2E_SHARD || '')
+  .split('/')
+  .map(Number)
+
 export default defineConfig({
   timeout: 30_000,
   globalTimeout: 1_500_000,
   retries: 3,
+  shard: shardTotal ? { current: shardCurrent, total: shardTotal } : null,
   reporter: [
     ['list'],
     ['json', { outputFile: 'test-results/e2e-results.json' }],
