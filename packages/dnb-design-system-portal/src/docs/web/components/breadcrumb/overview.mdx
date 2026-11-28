@@ -20,6 +20,32 @@ import { Breadcrumb } from '@dnb/eufemia'
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/breadcrumb)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/breadcrumb)
 
+### Animating navigation
+
+Set `animate` to animate changes to the path. Items enter and exit, and the navigation icon crossfades when an item changes between the current page and home. Reduced motion removes item transitions. `noAnimation` also disables them.
+
+Item transitions apply to the horizontal list. The `collapse` variant and the small-screen list of the `responsive` variant keep their existing behavior.
+
+Keep Breadcrumb mounted in a shared application layout and update its items when the route changes. A Breadcrumb that mounts again for every page cannot animate the previous path because it has no previous items.
+
+Give child items stable React keys for their page identity. Change the key when replacing a page. Data items use their `href`, string `to`, or text as identity. Repeated identities are matched by occurrence. Use keyed children when repeated labels or rich text need to keep their identity after reordering.
+
+```tsx
+<Breadcrumb animate variant="multiple">
+  <Breadcrumb.Item
+    key="overview"
+    text="Overview"
+    href="?page=overview"
+    variant={page ? 'home' : 'current'}
+  />
+  {page && (
+    <Breadcrumb.Item key={page.id} text={page.title} variant="current" />
+  )}
+</Breadcrumb>
+```
+
+[Try the animated navigation example](/web/components/breadcrumb/demos/#animated-navigation).
+
 ### Accessibility
 
 When `openOnFind` is enabled, find-in-page support is powered by [HeightAnimation](/web/components/height-animation/#accessibility); see its accessibility notes for behavior details and browser support.

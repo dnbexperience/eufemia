@@ -3,6 +3,9 @@
  *
  */
 
+import { useState } from 'react'
+import Button from '@dnb/eufemia/src/components/Button'
+import Flex from '@dnb/eufemia/src/components/Flex'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Breadcrumb from '@dnb/eufemia/src/components/Breadcrumb'
 
@@ -14,6 +17,58 @@ export const BreadcrumbSingle = () => (
         console.log('Going back!')
       }}
     />
+  </ComponentBox>
+)
+
+export const BreadcrumbAnimated = () => (
+  <ComponentBox>
+    {() => {
+      const InteractiveDemo = () => {
+        const [page, setPage] = useState('Overview')
+        const isOverview = page === 'Overview'
+
+        return (
+          <Flex.Stack>
+            <Breadcrumb
+              animate
+              variant="multiple"
+              navText="Animated example"
+            >
+              <Breadcrumb.Item
+                key="overview"
+                text="Overview"
+                href="#animated-navigation"
+                onClick={(event) => {
+                  event.preventDefault()
+                  setPage('Overview')
+                }}
+                variant={isOverview ? 'current' : 'home'}
+              />
+              {!isOverview && (
+                <Breadcrumb.Item
+                  key={page}
+                  text={page}
+                  variant="current"
+                />
+              )}
+            </Breadcrumb>
+            <Flex.Container>
+              {['Overview', 'Accounts', 'Payments'].map((title) => (
+                <Button
+                  key={title}
+                  variant="secondary"
+                  onClick={() => setPage(title)}
+                >
+                  {title}
+                </Button>
+              ))}
+            </Flex.Container>
+          </Flex.Stack>
+        )
+      }
+
+      return <InteractiveDemo />
+    }}
   </ComponentBox>
 )
 

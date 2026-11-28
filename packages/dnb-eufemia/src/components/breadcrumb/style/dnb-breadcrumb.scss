@@ -60,6 +60,99 @@
     align-items: center;
     padding: 0.5rem 0;
 
+    &--animated {
+      flex-shrink: 0;
+      max-width: 100%;
+
+      > .dnb-icon {
+        flex-shrink: 0;
+        transition: color 180ms var(--easing-default);
+      }
+
+      > .dnb-anchor,
+      > .dnb-p {
+        min-width: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .dnb-breadcrumb__item__home-icon {
+        position: relative;
+        z-index: 1;
+        color: var(
+          --breadcrumb-home-icon-color,
+          var(--token-color-icon-action)
+        );
+        pointer-events: none;
+
+        + .dnb-anchor {
+          margin-left: -1.5rem;
+          padding-left: 1.5rem;
+
+          &::after {
+            transform: none;
+            border: none;
+          }
+        }
+
+        @media (forced-colors: active) {
+          color: LinkText;
+        }
+      }
+
+      @media (forced-colors: none) {
+        @media (any-hover: hover) {
+          &:has(
+              > .dnb-anchor:hover:not(
+                  :where(
+                    html[data-whatintent='touch'] *,
+                    html[data-whatintent='keyboard'] *,
+                    .dnb-anchor--no-hover
+                  )
+                )
+            )
+            .dnb-breadcrumb__item__home-icon {
+            color: var(--token-color-icon-action-hover);
+          }
+        }
+
+        &:has(> .dnb-anchor:active) .dnb-breadcrumb__item__home-icon {
+          color: var(
+            --breadcrumb-home-icon-color--active,
+            var(--token-color-icon-action-pressed)
+          );
+        }
+      }
+
+      .dnb-icon--transition-fallback svg[data-icon-state] {
+        transition: opacity 180ms var(--easing-default);
+        transform: none;
+      }
+
+      &.dnb-breadcrumb__item--enter,
+      &.dnb-breadcrumb__item--exit {
+        overflow: hidden;
+
+        > .dnb-anchor,
+        > .dnb-p {
+          min-width: var(--breadcrumb-text-width, 0);
+          width: var(--breadcrumb-text-width);
+        }
+      }
+
+      &.dnb-breadcrumb__item--exit {
+        pointer-events: none;
+      }
+
+      @include utilities.reducedMotion() {
+        animation: none;
+
+        .dnb-icon,
+        .dnb-icon--transition-fallback svg[data-icon-state] {
+          transition: none;
+        }
+      }
+    }
+
     &__span {
       display: flex;
       align-items: center;

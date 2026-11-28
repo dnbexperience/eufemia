@@ -73,7 +73,12 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     status: 'optional',
   },
   noAnimation: {
-    doc: 'Disables the height animation. Defaults to `false`.',
+    doc: 'Disables height and item animations. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  animate: {
+    doc: 'Animates item changes and navigation icons. Keep Breadcrumb mounted in a shared layout. Respects reduced motion and `noAnimation`. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

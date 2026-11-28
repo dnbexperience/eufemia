@@ -251,16 +251,17 @@ export default function PortalLayout(props: PortalLayoutProps) {
             {fmData.breadcrumb && (
               <Breadcrumb
                 key="breadcrumb"
+                animate
                 top="large"
                 className="dnb-print-hidden"
               >
                 {fmData.breadcrumb.map((item, i, a) => {
                   return (
                     <Breadcrumb.Item
-                      key={item.text}
+                      key={item.href}
                       variant={
-                        (i === 0 && 'home') ||
                         (i === a.length - 1 && 'current') ||
+                        (i === 0 && 'home') ||
                         null
                       }
                       // @ts-expect-error -- strictFunctionTypes
