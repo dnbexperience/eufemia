@@ -202,7 +202,6 @@ function PushContainer(props: IteratePushContainerAllProps) {
 
     return relativePath
   }, [absolutePath, path, relativePath, sectionContext?.path])
-  const addButtonRef = useAddButtonRef(targetPath)
   const rootRelativeTargetPath = useMemo(() => {
     if (!targetPath || targetPath === '/') {
       return targetPath
@@ -230,6 +229,10 @@ function PushContainer(props: IteratePushContainerAllProps) {
   }, [hasReachedLimit, setShowStatus])
 
   const showOpenButton = showOpenButtonWhen?.(entries)
+  // The open button hides when `showOpenButtonWhen` returns false.
+  const addButtonRef = useAddButtonRef(
+    showOpenButton === false ? undefined : targetPath
+  )
   const newItemContextProps: PushContainerContext = {
     path,
     itemPath,

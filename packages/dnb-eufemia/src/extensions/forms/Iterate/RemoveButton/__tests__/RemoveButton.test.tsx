@@ -239,6 +239,34 @@ describe('RemoveButton', () => {
     }
   )
 
+  it('should not focus an open button that hides when the list becomes empty', async () => {
+    render(
+      <Form.Handler defaultData={{ accounts: ['a'] }}>
+        <Iterate.Array path="/accounts" animate>
+          <Iterate.ViewContainer>
+            <Value.String itemPath="/" />
+          </Iterate.ViewContainer>
+        </Iterate.Array>
+        <Iterate.PushContainer
+          path="/accounts"
+          openButton={<Iterate.PushContainer.OpenButton text="Add" />}
+          showOpenButtonWhen={(list) => list.length > 0}
+        >
+          New item
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const list = document.querySelector('.dnb-forms-iterate')
+    const row = list.querySelector('.dnb-forms-iterate__element')
+    await userEvent.click(
+      row.querySelector('.dnb-forms-iterate-remove-element-button')
+    )
+    await waitFor(() => expect(row).not.toBeInTheDocument())
+
+    expect(list).toHaveFocus()
+  })
+
   it('should support "itemNo" in text', () => {
     render(
       <Iterate.Array value={['foo', 'bar']}>
