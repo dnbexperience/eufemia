@@ -41,6 +41,9 @@ const manifest = (version: string, extra: Record<string, unknown> = {}) =>
     ...extra,
   })
 
+const MANIFEST_VERSION_PROBLEM = (from: string, to: string) =>
+  `packages/dnb-eufemia/package.json: flag-icons in devDependencies changes from ${from} to ${to}, not to a newer exact version`
+
 describe('checkFlagIconsUpdate', () => {
   it('accepts an update of the flag-icons version only', () => {
     expect(
@@ -94,8 +97,88 @@ describe('checkFlagIconsUpdate', () => {
         afterManifest: manifest('7.6.0'),
       })
     ).toEqual([
-      'yarn.lock: "flag-icons@npm:7.6.0" does not resolve to flag-icons on npm',
+      'yarn.lock: "flag-icons@npm:7.6.0" is not the flag-icons package on npm at 7.6.0',
     ])
+  })
+
+  it('reports a flag-icons entry that gains a dependency', () => {
+    expect(
+      checkFlagIconsUpdate({
+        beforeLock: lock('7.5.0'),
+        afterLock: lock('7.6.0').replace(
+          'resolution: "flag-icons@npm:7.6.0"',
+          'resolution: "flag-icons@npm:7.6.0"\n  dependencies:\n    react: "npm:19.0.0"'
+        ),
+        beforeManifest: manifest('7.5.0'),
+        afterManifest: manifest('7.6.0'),
+      })
+    ).toEqual([
+      'yarn.lock: "flag-icons@npm:7.6.0" is not the flag-icons package on npm at 7.6.0',
+    ])
+  })
+
+  it('reports flag-icons that moves out of devDependencies', () => {
+    expect(
+      checkFlagIconsUpdate({
+        beforeLock: lock('7.5.0'),
+        afterLock: lock('7.6.0'),
+        beforeManifest: manifest('7.5.0'),
+        afterManifest: JSON.stringify({
+          name: '@dnb/eufemia',
+          scripts: { build: 'babel' },
+          dependencies: { 'flag-icons': '7.6.0' },
+          devDependencies: { react: '19.0.0' },
+        }),
+      })
+    ).toContain(MANIFEST_VERSION_PROBLEM('7.5.0', 'undefined'))
+  })
+
+  it('reports flag-icons that is also added to dependencies', () => {
+    expect(
+      checkFlagIconsUpdate({
+        beforeLock: lock('7.5.0'),
+        afterLock: lock('7.6.0'),
+        beforeManifest: manifest('7.5.0', { dependencies: {} }),
+        afterManifest: manifest('7.6.0', {
+          dependencies: { 'flag-icons': '7.6.0' },
+        }),
+      })
+    ).toEqual([
+      'packages/dnb-eufemia/package.json: changes more than the flag-icons version',
+    ])
+  })
+
+  it('reports a flag-icons version that is not exact', () => {
+    expect(
+      checkFlagIconsUpdate({
+        beforeLock: lock('7.5.0'),
+        afterLock: lock('7.6.0'),
+        beforeManifest: manifest('7.5.0'),
+        afterManifest: manifest('^7.6.0'),
+      })
+    ).toContain(MANIFEST_VERSION_PROBLEM('7.5.0', '^7.6.0'))
+  })
+
+  it('reports a flag-icons version that goes down', () => {
+    expect(
+      checkFlagIconsUpdate({
+        beforeLock: lock('7.5.0'),
+        afterLock: lock('7.4.0'),
+        beforeManifest: manifest('7.5.0'),
+        afterManifest: manifest('7.4.0'),
+      })
+    ).toEqual([MANIFEST_VERSION_PROBLEM('7.5.0', '7.4.0')])
+  })
+
+  it('reports a lockfile version that differs from package.json', () => {
+    expect(
+      checkFlagIconsUpdate({
+        beforeLock: lock('7.5.0'),
+        afterLock: lock('7.6.0'),
+        beforeManifest: manifest('7.5.0'),
+        afterManifest: manifest('7.7.0'),
+      })
+    ).toContain('yarn.lock: has no entry for flag-icons@npm:7.7.0')
   })
 
   it('reports a workspace dependency other than flag-icons that changed', () => {

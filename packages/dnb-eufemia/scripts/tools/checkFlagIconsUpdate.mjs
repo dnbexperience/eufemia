@@ -28,9 +28,18 @@ function readEntries(lock) {
   return entries
 }
 
+// An exact version, such as "7.6.0", as `yarn up flag-icons --exact` writes it
+const EXACT_VERSION = /^\d+\.\d+\.\d+$/
+
+function isNewer(version, than) {
+  const a = version.split('.').map(Number)
+  const b = than.split('.').map(Number)
+  const i = a.findIndex((part, index) => part !== b[index])
+  return i !== -1 && a[i] > b[i]
+}
+
 function withoutFlagIcons(manifest) {
   const json = JSON.parse(manifest)
-  delete json.dependencies?.['flag-icons']
   delete json.devDependencies?.['flag-icons']
   return JSON.stringify(json)
 }
@@ -42,8 +51,41 @@ export function checkFlagIconsUpdate({
   afterManifest,
 }) {
   const problems = []
+
+  // flag-icons stays an exact development dependency and only moves up
+  const from = JSON.parse(beforeManifest).devDependencies?.['flag-icons']
+  const to = JSON.parse(afterManifest).devDependencies?.['flag-icons']
+  if (
+    !EXACT_VERSION.test(from) ||
+    !EXACT_VERSION.test(to) ||
+    !isNewer(to, from)
+  ) {
+    problems.push(
+      `${MANIFEST}: flag-icons in devDependencies changes from ${from} to ${to}, not to a newer exact version`
+    )
+  }
+  if (
+    withoutFlagIcons(beforeManifest) !== withoutFlagIcons(afterManifest)
+  ) {
+    problems.push(`${MANIFEST}: changes more than the flag-icons version`)
+  }
+
   const before = readEntries(beforeLock)
   const after = readEntries(afterLock)
+  const oldKey = `"flag-icons@npm:${from}":`
+  const newKey = `"flag-icons@npm:${to}":`
+
+  // The new entry is the old one with the new version, resolution and checksum
+  const expected = (before.get(oldKey) ?? [])
+    .filter((line) => !line.startsWith('  checksum: '))
+    .map((line) =>
+      line === `  version: ${from}`
+        ? `  version: ${to}`
+        : line === `  resolution: "flag-icons@npm:${from}"`
+          ? `  resolution: "flag-icons@npm:${to}"`
+          : line
+    )
+    .join('\n')
 
   for (const key of new Set([...before.keys(), ...after.keys()])) {
     const oldLines = before.get(key) ?? []
@@ -51,20 +93,23 @@ export function checkFlagIconsUpdate({
     if (oldLines.join('\n') === newLines.join('\n')) {
       continue
     }
-    if (key.startsWith('"flag-icons@npm:')) {
-      // The key stays the same when only the resolution changes, so check
-      // that the entry still resolves to the flag-icons package on npm
-      const version = newLines
-        .find((line) => line.startsWith('  version: '))
-        ?.slice('  version: '.length)
+    if (key === oldKey && !after.has(key)) {
+      continue
+    }
+    if (key === newKey && !before.has(key)) {
+      const actual = newLines.filter(
+        (line) => !line.startsWith('  checksum: ')
+      )
       if (
-        newLines.length > 0 &&
-        !newLines.includes(`  resolution: "flag-icons@npm:${version}"`)
+        expected !== '' &&
+        actual.length === newLines.length - 1 &&
+        actual.join('\n') === expected
       ) {
-        problems.push(
-          `yarn.lock: ${key.replace(/:$/, '')} does not resolve to flag-icons on npm`
-        )
+        continue
       }
+      problems.push(
+        `yarn.lock: ${key.replace(/:$/, '')} is not the flag-icons package on npm at ${to}`
+      )
       continue
     }
 
@@ -77,7 +122,11 @@ export function checkFlagIconsUpdate({
       isWorkspace &&
       before.has(key) &&
       after.has(key) &&
-      changed.every((line) => /^\s+flag-icons: /.test(line))
+      changed.join('\n') ===
+        [
+          `    flag-icons: "npm:${from}"`,
+          `    flag-icons: "npm:${to}"`,
+        ].join('\n')
     ) {
       continue
     }
@@ -85,10 +134,8 @@ export function checkFlagIconsUpdate({
     problems.push(`yarn.lock: ${key.replace(/:$/, '')} changed`)
   }
 
-  if (
-    withoutFlagIcons(beforeManifest) !== withoutFlagIcons(afterManifest)
-  ) {
-    problems.push(`${MANIFEST}: changes more than the flag-icons version`)
+  if (!after.has(newKey)) {
+    problems.push(`yarn.lock: has no entry for flag-icons@npm:${to}`)
   }
 
   return problems
