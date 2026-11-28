@@ -118,7 +118,7 @@ export function getComponentCategoryTitle(
 export function normalizeComponentSlug(slug: string): string {
   return slug
     .replace(/^\/|\/$/g, '')
-    .replace(/\/(overview|demos|properties|events)$/, '')
+    .replace(/\/(overview|demos|properties)$/, '')
 }
 
 export function cleanComponentTitle(title: string): string {

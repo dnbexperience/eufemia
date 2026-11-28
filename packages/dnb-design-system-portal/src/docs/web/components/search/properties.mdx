@@ -1,5 +1,12 @@
 ---
 showTabs: true
+redirect_from:
+  - /web/components/search/events
+  - /uilib/components/search/events
+legacyFragments:
+  searchautocomplete-and-searchpanel: /web/components/search/properties/#searchautocomplete-and-searchpanel-events
+legacyEventsFragments:
+  searchinput: /web/components/search/properties/#searchinput-events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
@@ -8,6 +15,8 @@ import {
   SearchProperties,
   SearchPanelProperties,
 } from '@dnb/eufemia/src/components/search/SearchDocs'
+import { InputEvents } from '@dnb/eufemia/src/components/input/InputDocs'
+import { AutocompleteEvents } from '@dnb/eufemia/src/components/autocomplete/AutocompleteDocs'
 
 ## Properties
 
@@ -19,11 +28,11 @@ These properties apply to `Search.Input`, `Search.Autocomplete`, and `Search.Pan
 
 ### Search.Input
 
-Supports [Input properties](/web/components/input/properties) and [events](/web/components/input/events). It defaults to `type="search"` with a loupe icon. Use `value` to update the query, `ref` to access the input, `onChange` for query changes, and `onSubmit` for submission.
+Supports [Input properties](/web/components/input/properties) and [events](/web/components/input/properties#events). It defaults to `type="search"` with a loupe icon. Use `value` to update the query, `ref` to access the input, `onChange` for query changes, and `onSubmit` for submission.
 
 ### Search.Autocomplete
 
-Supports [Autocomplete properties](/web/components/autocomplete/properties) and [events](/web/components/autocomplete/events). It also defaults to `preventSelection`, `keepValue`, `noScrollAnimation`, and `showAll={false}`, so filtered results do not end with an item that lists every option. With `mode="async"`, it defaults to `search={{ filter: false }}` and shows every result as provided, since the source has already filtered them. Other `search` options are kept. Use `inputValue` to update the query, `inputRef` to access the input, `onType` for query changes, and `onChange` for result selection.
+Supports [Autocomplete properties](/web/components/autocomplete/properties) and [events](/web/components/autocomplete/properties#events). It also defaults to `preventSelection`, `keepValue`, `noScrollAnimation`, and `showAll={false}`, so filtered results do not end with an item that lists every option. With `mode="async"`, it defaults to `search={{ filter: false }}` and shows every result as provided, since the source has already filtered them. Other `search` options are kept. Use `inputValue` to update the query, `inputRef` to access the input, `onType` for query changes, and `onChange` for result selection.
 
 ### Search.Panel
 
@@ -31,7 +40,33 @@ Supports the same Autocomplete properties and events as `Search.Autocomplete`, i
 
 <PropertiesTable props={SearchPanelProperties} />
 
-### Translations
+## Events
+
+Search components use the events of their underlying components. All support `onFocus`, `onBlur`, `onClear`, and `onSubmit`.
+
+### Search.Input events
+
+Use `onChange` to receive query changes and `onSubmit` to handle Enter. Both receive an object containing `value` and `event`.
+
+Inside a form, Enter also submits the form, as in any native search input. Call `event.preventDefault()` in `onSubmit` to handle the query without submitting the form. Search.Autocomplete and Search.Panel do not submit a surrounding form.
+
+<PropertiesTable props={InputEvents} />
+
+See [Input events](/web/components/input/properties#events) for details about changing or preventing an input value.
+
+### Search.Autocomplete and Search.Panel events
+
+Use `onType` to receive query changes and load suggestions. Use `onChange` to handle a confirmed result, and `onSelect` to follow the active result during keyboard navigation.
+
+`onSubmit` handles Enter when no result is active or selected. Selecting a result keeps the query by default.
+
+With `mode="async"`, use `updateData` when results arrive and `showNoOptionsItem` when the search returns no results. `showIndicator` displays loading inside the input without opening an empty panel. Clearing an asynchronous query should clear the data, hide loading, and ignore any pending response.
+
+<PropertiesTable props={AutocompleteEvents} />
+
+The callbacks also provide methods such as `updateData`, `showIndicator`, `hideIndicator`, and `setHidden`. Search.Panel also passes `close` to its children render function for custom actions that close the surface. See [Autocomplete events](/web/components/autocomplete/properties#events) and [dynamically changing data](/web/components/autocomplete/properties#dynamically-change-data).
+
+## Translations
 
 <TranslationsTable localeKey="Search" />
 

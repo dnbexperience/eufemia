@@ -45,6 +45,8 @@ export type KnownFrontmatter = {
   }
   /** Old URL fragments that now belong to other pages. */
   legacyFragments?: Record<string, string>
+  /** Old fragments of the removed Events tab, used by its redirects only. */
+  legacyEventsFragments?: Record<string, string>
   /** Former URL prefixes for all descendant pages, including TSX routes. */
   legacyPrefixes?: string[]
   /**
@@ -245,10 +247,20 @@ export function getPageRedirects(files: PageFileInfo[]) {
       if (previous && previous.to !== to) {
         throw new Error('Conflicting MDX redirect: ' + from)
       }
+      const fragments = file.frontmatter.legacyFragments ?? {}
       redirects.set(from, {
         from,
         to,
-        fragments: file.frontmatter.legacyFragments ?? {},
+        // Events used to be a tab of their own. A link to the old tab
+        // without a fragment opens the Events section of the Properties tab.
+        fragments:
+          file.slug.endsWith('/properties') && from.endsWith('/events')
+            ? {
+                '': to + '#events',
+                ...fragments,
+                ...file.frontmatter.legacyEventsFragments,
+              }
+            : fragments,
       })
     }
   }

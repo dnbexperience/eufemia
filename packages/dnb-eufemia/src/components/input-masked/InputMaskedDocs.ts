@@ -79,7 +79,7 @@ export const InputMaskedEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
-  '[Input](/web/components/input/events)': {
+  '[Input](/web/components/input/properties#events)': {
     doc: 'All `Input` events are supported.',
     type: 'Various',
     status: 'optional',

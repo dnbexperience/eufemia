@@ -230,7 +230,8 @@ async function prerender() {
         url,
         buildRedirectHtml(
           result.redirect,
-          target?.frontmatter?.legacyFragments
+          getInitialRoute(url)?.handle?.fragments ??
+            target?.frontmatter?.legacyFragments
         )
       )
     } else {
@@ -530,7 +531,6 @@ function getPageMeta(url, allMdxNodes) {
           { title: 'Overview', key: '/overview' },
           { title: 'Demos', key: '/demos' },
           { title: 'Properties', key: '/properties' },
-          { title: 'Events', key: '/events' },
         ]
         const tabs = parent.frontmatter.tabs || defaultTabs
         // Keys can be relative (`/demos`) or full paths, like TabBar accepts
@@ -711,6 +711,9 @@ function injectHtml(
 
 function buildRedirectHtml(redirectUrl, fragments = {}) {
   const url = escapeHtml(redirectUrl)
+  // Without scripts, the fragment of the old URL is unknown, so the page
+  // opens at the default section, when the redirect has one.
+  const fallbackUrl = escapeHtml(fragments[''] ?? redirectUrl)
   const target = JSON.stringify(redirectUrl).replaceAll('<', '\\u003c')
   const fragmentMap = JSON.stringify(fragments).replaceAll('<', '\\u003c')
   const script = `<script>var fragments = ${fragmentMap}; var key = location.hash.slice(1); var target = new URL(Object.prototype.hasOwnProperty.call(fragments, key) ? fragments[key] : ${target}, location.href); target.search = target.search || location.search; target.hash = target.hash || location.hash; location.replace(target.href);</script>`
@@ -719,7 +722,7 @@ function buildRedirectHtml(redirectUrl, fragments = {}) {
     '<!DOCTYPE html>',
     '<html><head>',
     script,
-    `<meta http-equiv="refresh" content="0;url=${url}">`,
+    `<meta http-equiv="refresh" content="0;url=${fallbackUrl}">`,
     `<link rel="canonical" href="${url}">`,
     '</head><body></body></html>',
   ].join('')

@@ -2,13 +2,18 @@
 showTabs: true
 redirect_from:
   - /uilib/components/fragments/drawer-list/properties
+  - /web/components/fragments/drawer-list/events
+  - /uilib/components/fragments/drawer-list/events
 legacyFragments:
   drawerlist: /web/components/fragments/drawer-list/properties/#drawer-list
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { DrawerListProperties } from '@dnb/eufemia/src/fragments/drawer-list/DrawerListDocs'
+import {
+  DrawerListProperties,
+  DrawerListEvents,
+} from '@dnb/eufemia/src/fragments/drawer-list/DrawerListDocs'
 import DrawerListDataDoc from './_prop-data.mdx'
 
 ## Properties
@@ -16,6 +21,17 @@ import DrawerListDataDoc from './_prop-data.mdx'
 <PropertiesTable props={DrawerListProperties} />
 
 <DrawerListDataDoc />
+
+## Events
+
+<PropertiesTable props={DrawerListEvents} />
+
+### The `onChange` vs `onSelect` difference
+
+The difference between `onChange` and `onSelect` is:
+
+- `onChange` will be called when the state changes, either with a **click** or **space/enter** keypress confirmation.
+- `onSelect` differs most when the user is navigating by keyboard. Once the user is pressing e.g. the arrow keys, the selection is changing, but not the state.
 
 ## Translations
 

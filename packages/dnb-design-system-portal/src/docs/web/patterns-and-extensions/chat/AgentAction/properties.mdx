@@ -4,14 +4,26 @@ redirect_from:
   - /web/patterns-and-extensions/ai/AgentAction/properties
   - /web/extensions/ai/AgentAction/properties
   - /uilib/extensions/ai/AgentAction/properties
+  - /web/patterns-and-extensions/chat/AgentAction/events
+  - /web/patterns-and-extensions/ai/AgentAction/events
+  - /web/extensions/ai/AgentAction/events
+  - /uilib/extensions/ai/AgentAction/events
+  - /uilib/patterns-and-extensions/chat/AgentAction/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { ChatAgentActionProperties } from '@dnb/eufemia/src/extensions/chat/ChatDocs'
+import {
+  ChatAgentActionProperties,
+  ChatAgentActionEvents,
+} from '@dnb/eufemia/src/extensions/chat/ChatDocs'
 
 ## Properties
 
 <PropertiesTable props={ChatAgentActionProperties} />
+
+## Events
+
+<PropertiesTable props={ChatAgentActionEvents} />
 
 ## Translations
 

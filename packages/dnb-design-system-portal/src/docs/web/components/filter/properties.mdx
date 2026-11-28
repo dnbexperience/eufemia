@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/filter/properties
+  - /web/components/filter/events
+  - /uilib/components/filter/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
@@ -28,6 +30,10 @@ import {
   UseFilterAsyncReturn,
   QuickFiltersProperties,
   SortButtonProperties,
+  RootEvents,
+  SearchEvents,
+  ActiveFiltersEvents,
+  SortButtonEvents,
 } from '@dnb/eufemia/src/components/filter/FilterDocs'
 
 ## Properties
@@ -119,6 +125,24 @@ Parameters:
 Returns an object with:
 
 <PropertiesTable props={UseFilterAsyncReturn} />
+
+## Events
+
+### Filter.Root Events
+
+<PropertiesTable props={RootEvents} />
+
+### Filter.Search Events
+
+<PropertiesTable props={SearchEvents} />
+
+### Filter.ActiveFilters Events
+
+<PropertiesTable props={ActiveFiltersEvents} />
+
+### Filter.SortButton Events
+
+<PropertiesTable props={SortButtonEvents} />
 
 ## Translations
 

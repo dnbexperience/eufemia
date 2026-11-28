@@ -36,7 +36,7 @@ legacyFragments:
   datepicker: /web/components/date-picker/#date-picker
   moved: /guides/other#section`
       )
-      for (const tab of ['overview', 'demos', 'properties', 'events']) {
+      for (const tab of ['overview', 'demos', 'properties']) {
         write(
           'web/components/date-picker/' + tab,
           `showTabs: true
@@ -63,7 +63,7 @@ legacyFragments:
       const files = scanPageFiles(docs)
       const pages = toMdxNodes(files)
       const redirects = getPageRedirects(files)
-      for (const tab of ['demos', 'properties', 'events']) {
+      for (const tab of ['demos', 'properties']) {
         const slug = 'web/components/date-picker/' + tab
         const fragments = { datepicker: '/' + slug + '/#date-picker' }
         expect(
@@ -251,6 +251,72 @@ legacyFragments:
       replace: true,
       to: '/web/ai-tools-and-resources/ai/ai-skills/?from=link#agent-skills',
     })
+
+    const eventsRoutes = generated(
+      React,
+      'Navigate',
+      null,
+      () => ({
+        pathname: '/web/components/button/events',
+        search: '',
+        hash: '',
+      }),
+      resolvePageRedirect,
+      {}
+    )
+    const events = eventsRoutes.find(
+      ({ path }) => path === '/web/components/button/events'
+    )
+    // Prerendering writes the static redirect page from these fragments
+    expect(events.handle.fragments['']).toBe(
+      '/web/components/button/properties/#events'
+    )
+    expect(events.Component()).toMatchObject({
+      replace: true,
+      to: '/web/components/button/properties/#events',
+    })
+
+    // Old Events tab headings that are Properties headings now
+    for (const [from, to] of [
+      [
+        '/uilib/patterns-and-extensions/table-of-content/events#tableofcontentitem',
+        '/web/patterns-and-extensions/table-of-content/properties/#tableofcontentitem-events',
+      ],
+      [
+        '/web/components/search/events#searchinput',
+        '/web/components/search/properties/#searchinput-events',
+      ],
+    ]) {
+      const url = new URL(from, 'https://eufemia.dnb.no')
+      const routes = generated(
+        React,
+        'Navigate',
+        null,
+        () => ({ pathname: url.pathname, search: '', hash: url.hash }),
+        resolvePageRedirect,
+        {}
+      )
+      const route = routes.find(({ path }) => path === url.pathname)
+      expect(route.Component()).toMatchObject({ replace: true, to })
+    }
+
+    // The same fragments still open the Properties headings
+    const pages = toMdxNodes(
+      scanPageFiles(path.resolve(__dirname, '../../../src/docs'))
+    )
+    for (const [slug, key] of [
+      [
+        'web/patterns-and-extensions/table-of-content/properties',
+        'tableofcontentitem',
+      ],
+      ['web/components/search/properties', 'searchinput'],
+    ]) {
+      const page = pages.find(({ fields }) => fields.slug === slug)
+      expect(page).toBeDefined()
+      expect(page.frontmatter.legacyFragments ?? {}).not.toHaveProperty(
+        key
+      )
+    }
   })
   it('keeps TSX routes and first-tab aliases through MDX-defined prefixes', () => {
     const files = scanPageFiles(

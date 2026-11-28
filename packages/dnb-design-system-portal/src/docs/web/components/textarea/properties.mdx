@@ -2,12 +2,17 @@
 showTabs: true
 redirect_from:
   - /uilib/components/textarea/properties
+  - /web/components/textarea/events
+  - /uilib/components/textarea/events
 legacyFragments:
   textarea: /web/components/textarea/properties/#text-area
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { TextareaProperties } from '@dnb/eufemia/src/components/textarea/TextareaDocs'
+import {
+  TextareaProperties,
+  TextareaEvents,
+} from '@dnb/eufemia/src/components/textarea/TextareaDocs'
 
 ## Properties
 
@@ -16,3 +21,7 @@ import { TextareaProperties } from '@dnb/eufemia/src/components/textarea/Textare
 ### Set Textarea height
 
 You can set the height of a Textarea by both CSS styles or the `rows` attribute.
+
+## Events
+
+<PropertiesTable props={TextareaEvents} />

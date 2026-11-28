@@ -11,7 +11,7 @@ vi.mock('prettier', () => ({
 import { createMarkdownCopies } from '../../src/convertHelpers.ts'
 
 describe('createMarkdownCopies', () => {
-  it('marks every generated Chat page once, including appended properties and events', async () => {
+  it('marks every generated Chat page once, including appended properties', async () => {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-ai-notice-'))
     const docsRoot = path.join(root, 'docs')
     const outputRoot = path.join(root, 'out')
@@ -20,7 +20,6 @@ describe('createMarkdownCopies', () => {
       'web/patterns-and-extensions/chat/Message.mdx',
       'web/patterns-and-extensions/chat/Message/overview.mdx',
       'web/patterns-and-extensions/chat/Message/properties.mdx',
-      'web/patterns-and-extensions/chat/Message/events.mdx',
       'web/patterns-and-extensions/chat/Message/demos.mdx',
       'web/patterns-and-extensions/chat/integrations.mdx',
       'uilib/components/button.mdx',
@@ -112,7 +111,7 @@ describe('createMarkdownCopies', () => {
     }
   })
 
-  it('appends properties and events markdown to output', async () => {
+  it('appends the properties markdown, including its events, to output', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-md-'))
     const docsRoot = path.join(tmpRoot, 'docs')
     const outputRoot = path.join(tmpRoot, 'out')
@@ -154,7 +153,7 @@ describe('createMarkdownCopies', () => {
         'showTabs: true',
         '---',
         '',
-        "import { ButtonProperties } from '../ButtonDocs'",
+        "import { ButtonProperties, ButtonEvents } from '../ButtonDocs'",
         '',
         '## Properties',
         '',
@@ -163,13 +162,6 @@ describe('createMarkdownCopies', () => {
         '### Additional properties',
         '',
         '<PropertiesTable props={ButtonProperties} />',
-      ].join('\n')
-    )
-
-    fs.writeFileSync(
-      path.join(extrasDir, 'events.mdx'),
-      [
-        "import { ButtonEvents } from '../ButtonDocs'",
         '',
         '## Events',
         '',

@@ -3,12 +3,19 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/SelectCurrency/properties
   - /web/extensions/forms/feature-fields/SelectCurrency/properties
+  - /web/forms/feature-fields/SelectCurrency/events
+  - /uilib/extensions/forms/feature-fields/SelectCurrency/events
+  - /web/extensions/forms/feature-fields/SelectCurrency/events
+  - /uilib/forms/feature-fields/SelectCurrency/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { SelectCurrencyProperties } from '@dnb/eufemia/src/extensions/forms/Field/SelectCurrency/SelectCurrencyDocs'
+import {
+  SelectCurrencyProperties,
+  SelectCurrencyGeneralEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/SelectCurrency/SelectCurrencyDocs'
 import { AvailableCurrenciesTable } from './assets/AvailableCurrenciesTable'
 
 ## Properties
@@ -20,6 +27,31 @@ import { AvailableCurrenciesTable } from './assets/AvailableCurrenciesTable'
 ### General properties
 
 <PropertiesTable props={FieldProperties} />
+
+## Events
+
+<PropertiesTable props={SelectCurrencyGeneralEvents} />
+
+### Details about argument values
+
+The event handlers has two arguments. The first one is a `string` containing the `ISO` of the selected currency, e.g. `CHF`, and the second argument is an object with the properties `continent`, `i18n`, `decimals` and `iso`.
+
+```jsx
+(
+  value?: string, // e.g. "CHF"
+  additionalArgs?: {
+    i18n: {
+      en: string, // e.g. "Swiss franc"
+      nb: string // e.g. "Sveitsisk franc"
+    },
+    iso: string, // e.g. "CHF"
+    continent: string, // e.g. "Europe"
+    name: string, // e.g. "Swiss franc"
+    decimals: number, // e.g. 2
+    regions?: string[] // e.g ["Scandinavia", "Nordic"]
+  }
+) => void
+```
 
 ## Translations
 

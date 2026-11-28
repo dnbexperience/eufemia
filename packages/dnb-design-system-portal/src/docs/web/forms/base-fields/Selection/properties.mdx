@@ -3,10 +3,17 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/base-fields/Selection/properties
   - /web/extensions/forms/base-fields/Selection/properties
+  - /web/forms/base-fields/Selection/events
+  - /uilib/extensions/forms/base-fields/Selection/events
+  - /web/extensions/forms/base-fields/Selection/events
+  - /uilib/forms/base-fields/Selection/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { SelectionProperties } from '@dnb/eufemia/src/extensions/forms/Field/Selection/SelectionDocs'
 
 ## Properties
@@ -18,3 +25,7 @@ import { SelectionProperties } from '@dnb/eufemia/src/extensions/forms/Field/Sel
 ### General properties
 
 <PropertiesTable props={FieldProperties} omit={['value', 'width']} />
+
+## Events
+
+<PropertiesTable props={FieldEvents} />

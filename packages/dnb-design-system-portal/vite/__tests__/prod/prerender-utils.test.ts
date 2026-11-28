@@ -1091,6 +1091,21 @@ describe('prerender-utils', () => {
       )
     })
 
+    it('opens the default section without scripts', () => {
+      const html = buildRedirectHtml(
+        '/web/components/button/properties/',
+        {
+          '': '/web/components/button/properties/#events',
+        }
+      )
+      expect(html).toContain(
+        '<meta http-equiv="refresh" content="0;url=/web/components/button/properties/#events">'
+      )
+      expect(html).toContain(
+        '<link rel="canonical" href="/web/components/button/properties/">'
+      )
+    })
+
     it('keeps script delimiters inside URLs as data', () => {
       const html = buildRedirectHtml(
         '/target/</script><script>bad()</script>'

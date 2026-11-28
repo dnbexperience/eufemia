@@ -3,11 +3,18 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/OrganizationNumber/properties
   - /web/extensions/forms/feature-fields/OrganizationNumber/properties
+  - /web/forms/feature-fields/OrganizationNumber/events
+  - /uilib/extensions/forms/feature-fields/OrganizationNumber/events
+  - /web/extensions/forms/feature-fields/OrganizationNumber/events
+  - /uilib/forms/feature-fields/OrganizationNumber/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import {
+  FieldProperties,
+  FieldEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { OrganizationNumberProperties } from '@dnb/eufemia/src/extensions/forms/Field/OrganizationNumber/OrganizationNumberDocs'
 
 ## Properties
@@ -22,6 +29,10 @@ import { OrganizationNumberProperties } from '@dnb/eufemia/src/extensions/forms/
   props={FieldProperties}
   omit={['onBlurValidator', 'width']}
 />
+
+## Events
+
+<PropertiesTable props={FieldEvents} />
 
 ## Translations
 

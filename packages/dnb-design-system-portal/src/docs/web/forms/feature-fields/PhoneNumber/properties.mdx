@@ -3,12 +3,20 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/feature-fields/PhoneNumber/properties
   - /web/extensions/forms/feature-fields/PhoneNumber/properties
+  - /web/forms/feature-fields/PhoneNumber/events
+  - /uilib/extensions/forms/feature-fields/PhoneNumber/events
+  - /web/extensions/forms/feature-fields/PhoneNumber/events
+  - /uilib/forms/feature-fields/PhoneNumber/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
-import { PhoneNumberProperties } from '@dnb/eufemia/src/extensions/forms/Field/PhoneNumber/PhoneNumberDocs'
+import {
+  PhoneNumberProperties,
+  PhoneNumberSpecificEvents,
+  PhoneNumberGeneralEvents,
+} from '@dnb/eufemia/src/extensions/forms/Field/PhoneNumber/PhoneNumberDocs'
 import { AvailableCountriesTable } from 'dnb-design-system-portal/src/docs/web/forms/feature-fields/SelectCountry/assets/AvailableCountriesTable'
 
 ## Properties
@@ -32,6 +40,37 @@ import { AvailableCountriesTable } from 'dnb-design-system-portal/src/docs/web/f
     '[Space](/web/layout-and-typography/layout/space/properties)',
   ]}
 />
+
+## Events
+
+### Field-specific events
+
+<PropertiesTable props={PhoneNumberSpecificEvents} />
+
+### General events
+
+<PropertiesTable props={PhoneNumberGeneralEvents} />
+
+#### Details about general events arguments
+
+The first argument value returned by the event handlers is a string in E.164 format, e.g. `+479123457`. If the `omitCountryCodeField` is set to `true`, then only the phone-number will be used, so the argument would be `9123457` without the leading country code.
+
+The PhoneNumber field also has an extra second parameter that includes additional information about the country code and phone number. This is an object with the following properties:
+
+```tsx
+render(
+  <Field.PhoneNumber
+    onChange={(
+      value: string | undefined, // e.g. "+4712345678"
+      additionalArgs?: {
+        phoneNumber: string | undefined // e.g. "12345678"
+        countryCode: string // e.g. "+47"
+        iso: string // e.g. "NO"
+      }
+    ) => {}}
+  />
+)
+```
 
 ## Translations
 

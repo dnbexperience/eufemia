@@ -51,9 +51,10 @@ export const HandlerProperties: PropertiesTableProps = {
 
 export const HandlerEvents: PropertiesTableProps = {
   ...ProviderEvents,
-  '[DataContext.Provider](/web/forms/DataContext/Provider/events)': {
-    doc: 'Events such as `onSubmit`.',
-    type: 'function',
-    status: 'optional',
-  },
+  '[DataContext.Provider](/web/forms/DataContext/Provider/properties#events)':
+    {
+      doc: 'Events such as `onSubmit`.',
+      type: 'function',
+      status: 'optional',
+    },
 }

@@ -2,12 +2,20 @@
 showTabs: true
 redirect_from:
   - /uilib/components/modal/properties
+  - /web/components/modal/events
+  - /uilib/components/modal/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
-import { ModalProperties } from '@dnb/eufemia/src/components/modal/ModalDocs'
-import { ModalExampleTriggerProps } from 'Docs/web/components/modal/Examples'
+import {
+  ModalProperties,
+  ModalEvents,
+} from '@dnb/eufemia/src/components/modal/ModalDocs'
+import {
+  ModalExampleTriggerProps,
+  ModalExampleOnClosePrevent,
+} from 'Docs/web/components/modal/Examples'
 
 ## Properties
 
@@ -18,6 +26,24 @@ import { ModalExampleTriggerProps } from 'Docs/web/components/modal/Examples'
 Properties targeting the trigger component (Button), but they will be set the same way as all the other properties:
 
 <ModalExampleTriggerProps />
+
+## Events
+
+<PropertiesTable props={ModalEvents} />
+
+### `triggeredBy`
+
+The `triggeredBy` property is given when the `onClose` or the `onClosePrevent` event is triggered. It can contain one of the following values:
+
+- `button`: The close button that triggered the event.
+- `handler`: The `close` handler given by the function (as the content/children).
+- `keyboard`: The escape key that triggered the event.
+- `overlay`: The overlay element that triggered the event.
+- `unmount`: The unmount event that triggered the `open` property change.
+
+#### Selective onClosePrevent
+
+<ModalExampleOnClosePrevent />
 
 ## Translations
 

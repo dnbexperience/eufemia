@@ -72,7 +72,7 @@ async function main() {
 
     allowedEntryFiles.push(file)
 
-    const { propsFile, eventsFile, demosFile } = await findDocExtras(file)
+    const { propsFile, demosFile } = await findDocExtras(file)
 
     let props: Record<string, any> = {}
     let events: Record<string, any> = {}
@@ -83,9 +83,6 @@ async function main() {
 
     if (propsFile) {
       props = mergeDocs(props, await extractTableDocs(propsFile))
-    }
-    if (eventsFile) {
-      events = mergeDocs(events, await extractTableDocs(eventsFile))
     }
 
     const { name, description, overviewFile } = await resolveMetaText(file)
@@ -112,7 +109,6 @@ async function main() {
       sourceInfo,
       overviewFile,
       propsFile,
-      eventsFile,
       demosFile,
       version,
     })

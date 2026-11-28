@@ -4,15 +4,28 @@ hideInMenu: true
 redirect_from:
   - /uilib/extensions/forms/Form/Section/properties
   - /web/extensions/forms/Form/Section/properties
+  - /web/forms/Form/Section/events
+  - /uilib/extensions/forms/Form/Section/events
+  - /web/extensions/forms/Form/Section/events
+  - /uilib/forms/Form/Section/events
 ---
 
 import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { SectionProperties } from '@dnb/eufemia/src/extensions/forms/Form/Section/SectionDocs'
+import {
+  SectionProperties,
+  SectionEvents,
+} from '@dnb/eufemia/src/extensions/forms/Form/Section/SectionDocs'
 
 ## Properties
 
 <PropertiesTable props={SectionProperties} />
+
+## Events
+
+### Section-specific events
+
+<PropertiesTable props={SectionEvents} />
 
 ## Translations
 

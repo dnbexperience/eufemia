@@ -443,7 +443,7 @@ const redirectRoutes = ${redirectData}.flatMap(({ from, to, fragments }) =>
     id: 'redirect:' + path,
     path,
     Component: () => React.createElement(PageRedirect, { target: to, fragments }),
-    handle: { redirectTo: to },
+    handle: { redirectTo: to, fragments },
     loader: typeof window === 'undefined' ? ({ request }) => redirect(resolvePageRedirect(to, request.url)) : undefined,
   }))
 );

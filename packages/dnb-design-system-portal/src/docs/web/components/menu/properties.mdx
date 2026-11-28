@@ -2,6 +2,8 @@
 showTabs: true
 redirect_from:
   - /uilib/components/menu/properties
+  - /web/components/menu/events
+  - /uilib/components/menu/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
@@ -12,6 +14,9 @@ import {
   MenuActionProperties,
   MenuAccordionProperties,
   MenuHeaderProperties,
+  MenuRootEvents,
+  MenuActionEvents,
+  MenuAccordionEvents,
 } from '@dnb/eufemia/src/components/menu/MenuDocs'
 
 ## Properties
@@ -43,3 +48,17 @@ import {
 ### Menu.Divider
 
 No properties.
+
+## Events
+
+### Menu.Root Events
+
+<PropertiesTable props={MenuRootEvents} />
+
+### Menu.Action Events
+
+<PropertiesTable props={MenuActionEvents} />
+
+### Menu.Accordion Events
+
+<PropertiesTable props={MenuAccordionEvents} />

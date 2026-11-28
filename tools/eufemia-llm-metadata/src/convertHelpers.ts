@@ -223,16 +223,12 @@ export async function findDocExtras(file: string) {
     path.join(extrasDir, 'properties.mdx'),
     path.join(path.dirname(file), 'properties.mdx'),
   ])
-  const eventsFile = await findExisting([
-    path.join(extrasDir, 'events.mdx'),
-    path.join(path.dirname(file), 'events.mdx'),
-  ])
   const demosFile = await findExisting([
     path.join(extrasDir, 'demos.mdx'),
     path.join(path.dirname(file), 'demos.mdx'),
   ])
 
-  return { propsFile, eventsFile, demosFile }
+  return { propsFile, demosFile }
 }
 
 export async function loadTsDocs(rel: string) {
@@ -384,7 +380,6 @@ export function buildMetadata({
   sourceInfo,
   overviewFile,
   propsFile,
-  eventsFile,
   demosFile,
   version,
   publicUrlBase = DEFAULT_PUBLIC_URL,
@@ -401,7 +396,6 @@ export function buildMetadata({
   sourceInfo: SourceInfo
   overviewFile: string | null
   propsFile: string | null
-  eventsFile: string | null
   demosFile: string | null
   version: string
   publicUrlBase?: string
@@ -456,12 +450,6 @@ export function buildMetadata({
               joinSlug(slug, 'properties/'),
               publicUrlBase
             ),
-          }
-        : null,
-      events: eventsFile
-        ? {
-            local: toWorkspacePath(eventsFile, siteDir),
-            public: toPublicUrl(joinSlug(slug, 'events/'), publicUrlBase),
           }
         : null,
     },
@@ -589,7 +577,7 @@ export async function findEntryMdxFiles(docsRoot: string) {
     }
     const base = path.basename(f)
 
-    if (/^(demos|properties|events)\.mdx$/i.test(base)) {
+    if (/^(demos|properties)\.mdx$/i.test(base)) {
       return false
     }
     const rel = path.relative(docsRoot, f)
@@ -1458,7 +1446,7 @@ export async function createMarkdownCopies({
       skipFormat,
       frontmatterLinks: entryLinks,
     })
-    const { propsFile, eventsFile } = await findDocExtras(file)
+    const { propsFile } = await findDocExtras(file)
     const extras: string[] = []
 
     if (propsFile) {
@@ -1474,21 +1462,6 @@ export async function createMarkdownCopies({
         frontmatterLinks: entryLinks,
       })
       extras.push(propsMd)
-    }
-
-    if (eventsFile) {
-      const eventsMd = await convertMdxToMd({
-        inputPath: eventsFile,
-        docsRoot,
-        docsBaseRoot,
-        prettierConfig,
-        includeFrontmatter: false,
-        publicUrlBase,
-        state,
-        skipFormat,
-        frontmatterLinks: entryLinks,
-      })
-      extras.push(eventsMd)
     }
     const combinedMd = [
       md.trimEnd(),

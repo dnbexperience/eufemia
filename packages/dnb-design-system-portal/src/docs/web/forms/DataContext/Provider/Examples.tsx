@@ -96,7 +96,7 @@ export const Default = () => {
         onSubmit={(data, { resetForm, clearData }) => {
           console.log('onSubmit', data)
 
-          // Docs: https://eufemia.dnb.no/web/forms/DataContext/Provider/events/#onsubmit-parameters
+          // Docs: https://eufemia.dnb.no/web/forms/DataContext/Provider/properties/#onsubmit-parameters
           resetForm()
           clearData()
         }}

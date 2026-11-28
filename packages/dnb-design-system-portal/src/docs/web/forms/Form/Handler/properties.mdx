@@ -3,11 +3,22 @@ showTabs: true
 redirect_from:
   - /uilib/extensions/forms/Form/Handler/properties
   - /web/extensions/forms/Form/Handler/properties
+  - /web/forms/Form/Handler/events
+  - /uilib/extensions/forms/Form/Handler/events
+  - /web/extensions/forms/Form/Handler/events
+  - /uilib/forms/Form/Handler/events
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
-import { HandlerProperties } from '@dnb/eufemia/src/extensions/forms/Form/Handler/HandlerDocs'
+import {
+  HandlerProperties,
+  HandlerEvents,
+} from '@dnb/eufemia/src/extensions/forms/Form/Handler/HandlerDocs'
 
 ## Properties
 
 <PropertiesTable props={HandlerProperties} />
+
+## Events
+
+<PropertiesTable props={HandlerEvents} />
